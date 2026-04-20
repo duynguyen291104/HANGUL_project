@@ -1,0 +1,105 @@
+{
+  "topic": "Tháng",
+  "level": "NEWBIE",
+  "description": "Months of the year",
+  "vocabulary": [
+    {
+      "korean": "1월",
+      "english": "January",
+      "vietnamese": "Tháng một",
+      "type": "noun",
+      "romanization": "il-wol"
+    },
+    {
+      "korean": "2월",
+      "english": "February",
+      "vietnamese": "Tháng hai",
+      "type": "noun",
+      "romanization": "i-wol"
+    },
+    {
+      "korean": "3월",
+      "english": "March",
+      "vietnamese": "Tháng ba",
+      "type": "noun",
+      "romanization": "sam-wol"
+    },
+    {
+      "korean": "4월",
+      "english": "April",
+      "vietnamese": "Tháng tư",
+      "type": "noun",
+      "romanization": "sa-wol"
+    },
+    {
+      "korean": "5월",
+      "english": "May",
+      "vietnamese": "Tháng năm",
+      "type": "noun",
+      "romanization": "o-wol"
+    },
+    {
+      "korean": "6월",
+      "english": "June",
+      "vietnamese": "Tháng sáu",
+      "type": "noun",
+      "romanization": "yuk-wol"
+    },
+    {
+      "korean": "7월",
+      "english": "July",
+      "vietnamese": "Tháng bảy",
+      "type": "noun",
+      "romanization": "chil-wol"
+    },
+    {
+      "korean": "8월",
+      "english": "August",
+      "vietnamese": "Tháng tám",
+      "type": "noun",
+      "romanization": "pal-wol"
+    },
+    {
+      "korean": "9월",
+      "english": "September",
+      "vietnamese": "Tháng chín",
+      "type": "noun",
+      "romanization": "gu-wol"
+    },
+    {
+      "korean": "10월",
+      "english": "October",
+      "vietnamese": "Tháng mười",
+      "type": "noun",
+      "romanization": "sip-wol"
+    },
+    {
+      "korean": "11월",
+      "english": "November",
+      "vietnamese": "Tháng mười một",
+      "type": "noun",
+      "romanization": "sip-il-wol"
+    },
+    {
+      "korean": "12월",
+      "english": "December",
+      "vietnamese": "Tháng mười hai",
+      "type": "noun",
+      "romanization": "sip-i-wol"
+    },
+    {
+      "korean": "년",
+      "english": "Year",
+      "vietnamese": "Năm",
+      "type": "noun",
+      "romanization": "nyeon"
+    },
+    {
+      "korean": "달",
+      "english": "Month",
+      "vietnamese": "Tháng",
+      "type": "noun",
+      "romanization": "dal"
+    }
+  ]
+}

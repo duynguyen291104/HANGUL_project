@@ -1,0 +1,112 @@
+{
+  "topic": "Pháp luật",
+  "level": "UPPER",
+  "description": "Law and legal system",
+  "vocabulary": [
+    {
+      "korean": "법칙",
+      "english": "Law",
+      "vietnamese": "Luật",
+      "type": "noun",
+      "romanization": "beobchik"
+    },
+    {
+      "korean": "법원",
+      "english": "Court",
+      "vietnamese": "Tòa án",
+      "type": "noun",
+      "romanization": "beobwon"
+    },
+    {
+      "korean": "판사",
+      "english": "Judge",
+      "vietnamese": "Thẩm phán",
+      "type": "noun",
+      "romanization": "pansa"
+    },
+    {
+      "korean": "변호사",
+      "english": "Lawyer",
+      "vietnamese": "Luật sư",
+      "type": "noun",
+      "romanization": "byeonhosa"
+    },
+    {
+      "korean": "계약",
+      "english": "Contract",
+      "vietnamese": "Hợp đồng",
+      "type": "noun",
+      "romanization": "gyeyak"
+    },
+    {
+      "korean": "권리",
+      "english": "Rights",
+      "vietnamese": "Quyền",
+      "type": "noun",
+      "romanization": "gwonli"
+    },
+    {
+      "korean": "피고",
+      "english": "Defendant",
+      "vietnamese": "Be can toi",
+      "type": "noun",
+      "romanization": "pigo"
+    },
+    {
+      "korean": "원고",
+      "english": "Plaintiff",
+      "vietnamese": "Nguoi kien hon",
+      "type": "noun",
+      "romanization": "wongo"
+    },
+    {
+      "korean": "증거",
+      "english": "Evidence",
+      "vietnamese": "Bang chung",
+      "type": "noun",
+      "romanization": "jeungeo"
+    },
+    {
+      "korean": "판결",
+      "english": "Verdict",
+      "vietnamese": "Phạn quyet",
+      "type": "noun",
+      "romanization": "pangyeol"
+    },
+    {
+      "korean": "항소",
+      "english": "Appeal",
+      "vietnamese": "Phuc thuong",
+      "type": "noun",
+      "romanization": "hangso"
+    },
+    {
+      "korean": "보석",
+      "english": "Bail",
+      "vietnamese": "Tam tha",
+      "type": "noun",
+      "romanization": "boseok"
+    },
+    {
+      "korean": "무죄",
+      "english": "Innocent",
+      "vietnamese": "Vo toi",
+      "type": "noun",
+      "romanization": "mujoe"
+    },
+    {
+      "korean": "유죄",
+      "english": "Guilty",
+      "vietnamese": "Co toi",
+      "type": "noun",
+      "romanization": "yujoe"
+    },
+    {
+      "korean": "법정",
+      "english": "Courtroom",
+      "vietnamese": "Toa an",
+      "type": "noun",
+      "romanization": "beopjyeong"
+    }
+  ]
+}

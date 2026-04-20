@@ -1,0 +1,112 @@
+{
+  "topic": "Thần học",
+  "level": "ADVANCED",
+  "description": "Theology",
+  "vocabulary": [
+    {
+      "korean": "신학",
+      "english": "Theology",
+      "vietnamese": "Thần học",
+      "type": "noun",
+      "romanization": "sinhak"
+    },
+    {
+      "korean": "신앙",
+      "english": "Faith",
+      "vietnamese": "Đức tin",
+      "type": "noun",
+      "romanization": "sinang"
+    },
+    {
+      "korean": "종교",
+      "english": "Religion",
+      "vietnamese": "Tôn giáo",
+      "type": "noun",
+      "romanization": "jonggyo"
+    },
+    {
+      "korean": "신성함",
+      "english": "Sacredness",
+      "vietnamese": "Thánh",
+      "type": "noun",
+      "romanization": "sinseongham"
+    },
+    {
+      "korean": "영혼",
+      "english": "Soul",
+      "vietnamese": "Linh hồn",
+      "type": "noun",
+      "romanization": "yeonghon"
+    },
+    {
+      "korean": "초월",
+      "english": "Transcendence",
+      "vietnamese": "Vượt qua",
+      "type": "noun",
+      "romanization": "chowol"
+    },
+    {
+      "korean": "창조론",
+      "english": "Creationism",
+      "vietnamese": "Thuyết sáng tạo",
+      "type": "noun",
+      "romanization": "changjo ron"
+    },
+    {
+      "korean": "구속",
+      "english": "Redemption",
+      "vietnamese": "Cứu chuộc",
+      "type": "noun",
+      "romanization": "gusok"
+    },
+    {
+      "korean": "계시",
+      "english": "Revelation",
+      "vietnamese": "Khải thị",
+      "type": "noun",
+      "romanization": "gyesi"
+    },
+    {
+      "korean": "삼위일체",
+      "english": "Trinity",
+      "vietnamese": "Tam vị nhất thể",
+      "type": "noun",
+      "romanization": "samui ilche"
+    },
+    {
+      "korean": "죄",
+      "english": "Sin",
+      "vietnamese": "Tội lỗi",
+      "type": "noun",
+      "romanization": "joe"
+    },
+    {
+      "korean": "은혜",
+      "english": "Grace",
+      "vietnamese": "Ân tứ",
+      "type": "noun",
+      "romanization": "eunhye"
+    },
+    {
+      "korean": "내세",
+      "english": "Afterlife",
+      "vietnamese": "Cõi sau này",
+      "type": "noun",
+      "romanization": "naese"
+    },
+    {
+      "korean": "천국",
+      "english": "Heaven",
+      "vietnamese": "Thiên đàng",
+      "type": "noun",
+      "romanization": "cheongug"
+    },
+    {
+      "korean": "지옥",
+      "english": "Hell",
+      "vietnamese": "Địa ngục",
+      "type": "noun",
+      "romanization": "jiogg"
+    }
+  ]
+}

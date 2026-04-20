@@ -1,0 +1,112 @@
+{
+  "topic": "Tâm lý học",
+  "level": "UPPER",
+  "description": "Psychology",
+  "vocabulary": [
+    {
+      "korean": "심리학",
+      "english": "Psychology",
+      "vietnamese": "Tâm lý học",
+      "type": "noun",
+      "romanization": "simni hak"
+    },
+    {
+      "korean": "행동",
+      "english": "Behavior",
+      "vietnamese": "Hành vi",
+      "type": "noun",
+      "romanization": "haengdong"
+    },
+    {
+      "korean": "의식",
+      "english": "Consciousness",
+      "vietnamese": "Ý thức",
+      "type": "noun",
+      "romanization": "uisik"
+    },
+    {
+      "korean": "무의식",
+      "english": "Unconscious",
+      "vietnamese": "Vô thức",
+      "type": "noun",
+      "romanization": "muuisik"
+    },
+    {
+      "korean": "정신",
+      "english": "Mind/Spirit",
+      "vietnamese": "Tinh thần",
+      "type": "noun",
+      "romanization": "jeongsin"
+    },
+    {
+      "korean": "스트레스",
+      "english": "Stress",
+      "vietnamese": "Căng thẳng",
+      "type": "noun",
+      "romanization": "seutoureseu"
+    },
+    {
+      "korean": "감정",
+      "english": "Emotion",
+      "vietnamese": "Cam xuc",
+      "type": "noun",
+      "romanization": "gamjeong"
+    },
+    {
+      "korean": "성격",
+      "english": "Personality",
+      "vietnamese": "Tinh cach",
+      "type": "noun",
+      "romanization": "seonggyeok"
+    },
+    {
+      "korean": "심리",
+      "english": "Psyche",
+      "vietnamese": "Tam ly",
+      "type": "noun",
+      "romanization": "simni"
+    },
+    {
+      "korean": "동기",
+      "english": "Motivation",
+      "vietnamese": "Dong luc",
+      "type": "noun",
+      "romanization": "donggi"
+    },
+    {
+      "korean": "반응",
+      "english": "Reaction",
+      "vietnamese": "Phan ung",
+      "type": "noun",
+      "romanization": "baneung"
+    },
+    {
+      "korean": "학습",
+      "english": "Learning",
+      "vietnamese": "Hoc tap",
+      "type": "noun",
+      "romanization": "haksup"
+    },
+    {
+      "korean": "기억",
+      "english": "Memory",
+      "vietnamese": "Ky uc",
+      "type": "noun",
+      "romanization": "gieok"
+    },
+    {
+      "korean": "자아",
+      "english": "Self",
+      "vietnamese": "Chinh minh",
+      "type": "noun",
+      "romanization": "jaa"
+    },
+    {
+      "korean": "상담",
+      "english": "Counseling",
+      "vietnamese": "Trao doi",
+      "type": "noun",
+      "romanization": "sangdam"
+    }
+  ]
+}

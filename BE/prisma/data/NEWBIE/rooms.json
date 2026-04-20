@@ -1,0 +1,119 @@
+{
+  "topic": "Các phòng trong nhà",
+  "level": "NEWBIE",
+  "description": "Rooms in a house",
+  "vocabulary": [
+    {
+      "korean": "침실",
+      "english": "Bedroom",
+      "vietnamese": "Phòng ngủ",
+      "type": "noun",
+      "romanization": "chimsil"
+    },
+    {
+      "korean": "거실",
+      "english": "Living room",
+      "vietnamese": "Phòng khách",
+      "type": "noun",
+      "romanization": "geosil"
+    },
+    {
+      "korean": "주방",
+      "english": "Kitchen",
+      "vietnamese": "Nhà bếp",
+      "type": "noun",
+      "romanization": "jubang"
+    },
+    {
+      "korean": "화장실",
+      "english": "Bathroom",
+      "vietnamese": "Phòng tắm",
+      "type": "noun",
+      "romanization": "hwajangshil"
+    },
+    {
+      "korean": "식당",
+      "english": "Dining room",
+      "vietnamese": "Phòng ăn",
+      "type": "noun",
+      "romanization": "sikdang"
+    },
+    {
+      "korean": "문",
+      "english": "Door",
+      "vietnamese": "Cửa",
+      "type": "noun",
+      "romanization": "mun"
+    },
+    {
+      "korean": "로비",
+      "english": "Lobby",
+      "vietnamese": "Hành lang",
+      "type": "noun",
+      "romanization": "robi"
+    },
+    {
+      "korean": "복도",
+      "english": "Hallway",
+      "vietnamese": "Lối đi",
+      "type": "noun",
+      "romanization": "bokdo"
+    },
+    {
+      "korean": "계단",
+      "english": "Stairs",
+      "vietnamese": "Cầu thang",
+      "type": "noun",
+      "romanization": "gyedan"
+    },
+    {
+      "korean": "엘리베이터",
+      "english": "Elevator",
+      "vietnamese": "Thang máy",
+      "type": "noun",
+      "romanization": "ellibeiteeo"
+    },
+    {
+      "korean": "다락방",
+      "english": "Attic",
+      "vietnamese": "Gác xép",
+      "type": "noun",
+      "romanization": "darakbang"
+    },
+    {
+      "korean": "지하실",
+      "english": "Basement",
+      "vietnamese": "Hầm",
+      "type": "noun",
+      "romanization": "jihashil"
+    },
+    {
+      "korean": "발코니",
+      "english": "Balcony",
+      "vietnamese": "Ban công",
+      "type": "noun",
+      "romanization": "balkhoni"
+    },
+    {
+      "korean": "테라스",
+      "english": "Terrace",
+      "vietnamese": "Hiên",
+      "type": "noun",
+      "romanization": "terasu"
+    },
+    {
+      "korean": "마당",
+      "english": "Yard",
+      "vietnamese": "Sân",
+      "type": "noun",
+      "romanization": "madang"
+    },
+    {
+      "korean": "차고",
+      "english": "Garage",
+      "vietnamese": "Nhà để xe",
+      "type": "noun",
+      "romanization": "chago"
+    }
+  ]
+}

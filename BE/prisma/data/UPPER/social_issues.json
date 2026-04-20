@@ -1,0 +1,112 @@
+{
+  "topic": "Vấn đề xã hội",
+  "level": "UPPER",
+  "description": "Social issues",
+  "vocabulary": [
+    {
+      "korean": "인권",
+      "english": "Human rights",
+      "vietnamese": "Nhân quyền",
+      "type": "noun",
+      "romanization": "inkkwon"
+    },
+    {
+      "korean": "차별",
+      "english": "Discrimination",
+      "vietnamese": "Phân biệt",
+      "type": "noun",
+      "romanization": "chabyeol"
+    },
+    {
+      "korean": "평등",
+      "english": "Equality",
+      "vietnamese": "Bình đẳng",
+      "type": "noun",
+      "romanization": "pyeongdeung"
+    },
+    {
+      "korean": "빈곤",
+      "english": "Poverty",
+      "vietnamese": "Nghèo đói",
+      "type": "noun",
+      "romanization": "bingon"
+    },
+    {
+      "korean": "부의",
+      "english": "Wealth",
+      "vietnamese": "Giàu có",
+      "type": "noun",
+      "romanization": "buui"
+    },
+    {
+      "korean": "정의",
+      "english": "Justice",
+      "vietnamese": "Công lý",
+      "type": "noun",
+      "romanization": "jeongui"
+    },
+    {
+      "korean": "구조",
+      "english": "Structure",
+      "vietnamese": "Cau truc",
+      "type": "noun",
+      "romanization": "gujo"
+    },
+    {
+      "korean": "부정",
+      "english": "Injustice",
+      "vietnamese": "Bat cong",
+      "type": "noun",
+      "romanization": "bujung"
+    },
+    {
+      "korean": "혐오",
+      "english": "Hate",
+      "vietnamese": "Ghet bom",
+      "type": "noun",
+      "romanization": "hyeomno"
+    },
+    {
+      "korean": "편견",
+      "english": "Bias",
+      "vietnamese": "Kien sai",
+      "type": "noun",
+      "romanization": "pyeongyeon"
+    },
+    {
+      "korean": "포용",
+      "english": "Inclusion",
+      "vietnamese": "De cap",
+      "type": "noun",
+      "romanization": "poyong"
+    },
+    {
+      "korean": "연대",
+      "english": "Solidarity",
+      "vietnamese": "Danh tam",
+      "type": "noun",
+      "romanization": "yeonday"
+    },
+    {
+      "korean": "활동가",
+      "english": "Activist",
+      "vietnamese": "Nhan si hoat dong",
+      "type": "noun",
+      "romanization": "hwardonggka"
+    },
+    {
+      "korean": "목소리",
+      "english": "Voice",
+      "vietnamese": "Tieng noi",
+      "type": "noun",
+      "romanization": "moksori"
+    },
+    {
+      "korean": "변화",
+      "english": "Change",
+      "vietnamese": "Thay doi",
+      "type": "noun",
+      "romanization": "byeonhwa"
+    }
+  ]
+}

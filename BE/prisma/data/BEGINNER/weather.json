@@ -1,0 +1,105 @@
+{
+  "topic": "Thời tiết",
+  "level": "BEGINNER",
+  "description": "Weather and seasons",
+  "vocabulary": [
+    {
+      "korean": "날씨",
+      "english": "Weather",
+      "vietnamese": "Thời tiết",
+      "type": "noun",
+      "romanization": "nalsssi"
+    },
+    {
+      "korean": "맑음",
+      "english": "Clear",
+      "vietnamese": "Quang mây",
+      "type": "adjective",
+      "romanization": "malgeum"
+    },
+    {
+      "korean": "흐림",
+      "english": "Cloudy",
+      "vietnamese": "Có mây",
+      "type": "adjective",
+      "romanization": "heurim"
+    },
+    {
+      "korean": "비",
+      "english": "Rain",
+      "vietnamese": "Mưa",
+      "type": "noun",
+      "romanization": "bi"
+    },
+    {
+      "korean": "눈",
+      "english": "Snow",
+      "vietnamese": "Tuyết",
+      "type": "noun",
+      "romanization": "nun"
+    },
+    {
+      "korean": "봄",
+      "english": "Spring",
+      "vietnamese": "Mùa xuân",
+      "type": "noun",
+      "romanization": "bom"
+    },
+    {
+      "korean": "여름",
+      "english": "Summer",
+      "vietnamese": "Mùa hè",
+      "type": "noun",
+      "romanization": "yeoreum"
+    },
+    {
+      "korean": "가을",
+      "english": "Fall/Autumn",
+      "vietnamese": "Mùa thu",
+      "type": "noun",
+      "romanization": "gaul"
+    },
+    {
+      "korean": "겨울",
+      "english": "Winter",
+      "vietnamese": "Mùa đông",
+      "type": "noun",
+      "romanization": "gyeoul"
+    },
+    {
+      "korean": "바람",
+      "english": "Wind",
+      "vietnamese": "Gió",
+      "type": "noun",
+      "romanization": "baram"
+    },
+    {
+      "korean": "바람상",
+      "english": "Windy",
+      "vietnamese": "Thời gió",
+      "type": "adjective",
+      "romanization": "baramsang"
+    },
+    {
+      "korean": "따뜻함",
+      "english": "Warm",
+      "vietnamese": "Nắng",
+      "type": "adjective",
+      "romanization": "ttattauhan"
+    },
+    {
+      "korean": "초불",
+      "english": "Frost",
+      "vietnamese": "Đông vía",
+      "type": "noun",
+      "romanization": "chobul"
+    },
+    {
+      "korean": "번뻬",
+      "english": "Lightning",
+      "vietnamese": "Sét",
+      "type": "noun",
+      "romanization": "nunbbi"
+    }
+  ]
+}

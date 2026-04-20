@@ -1,0 +1,112 @@
+{
+  "topic": "Sự nghiệp",
+  "level": "UPPER",
+  "description": "Career and employment",
+  "vocabulary": [
+    {
+      "korean": "직업",
+      "english": "Job",
+      "vietnamese": "Công việc",
+      "type": "noun",
+      "romanization": "jigup"
+    },
+    {
+      "korean": "회사",
+      "english": "Company",
+      "vietnamese": "Công ty",
+      "type": "noun",
+      "romanization": "hoesa"
+    },
+    {
+      "korean": "사원",
+      "english": "Employee",
+      "vietnamese": "Nhân viên",
+      "type": "noun",
+      "romanization": "sawon"
+    },
+    {
+      "korean": "경력",
+      "english": "Experience",
+      "vietnamese": "Kinh nghiệm",
+      "type": "noun",
+      "romanization": "gyeongryeok"
+    },
+    {
+      "korean": "승진",
+      "english": "Promotion",
+      "vietnamese": "Được thăng chức",
+      "type": "noun",
+      "romanization": "seungjin"
+    },
+    {
+      "korean": "급여",
+      "english": "Salary",
+      "vietnamese": "Lương",
+      "type": "noun",
+      "romanization": "geubyeo"
+    },
+    {
+      "korean": "면접",
+      "english": "Interview",
+      "vietnamese": "Phong van",
+      "type": "noun",
+      "romanization": "myeonjeop"
+    },
+    {
+      "korean": "이력서",
+      "english": "Resume",
+      "vietnamese": "So yeu ly lich",
+      "type": "noun",
+      "romanization": "iryeokseol"
+    },
+    {
+      "korean": "연봉",
+      "english": "Annual salary",
+      "vietnamese": "Luong hang nam",
+      "type": "noun",
+      "romanization": "yeonnobong"
+    },
+    {
+      "korean": "보너스",
+      "english": "Bonus",
+      "vietnamese": "Tien thuong",
+      "type": "noun",
+      "romanization": "boneoseu"
+    },
+    {
+      "korean": "휴가",
+      "english": "Vacation",
+      "vietnamese": "Ky nghi",
+      "type": "noun",
+      "romanization": "hyuga"
+    },
+    {
+      "korean": "설명회",
+      "english": "Information session",
+      "vietnamese": "Buoi trao doi",
+      "type": "noun",
+      "romanization": "seolmyunghoe"
+    },
+    {
+      "korean": "채용",
+      "english": "Recruitment",
+      "vietnamese": "Tuyen dung",
+      "type": "noun",
+      "romanization": "chaeyong"
+    },
+    {
+      "korean": "퇴직",
+      "english": "Retirement",
+      "vietnamese": "Nghi huu",
+      "type": "noun",
+      "romanization": "toejik"
+    },
+    {
+      "korean": "업무",
+      "english": "Task",
+      "vietnamese": "Cong viec",
+      "type": "noun",
+      "romanization": "eobmu"
+    }
+  ]
+}

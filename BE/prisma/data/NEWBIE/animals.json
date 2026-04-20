@@ -1,0 +1,112 @@
+{
+  "topic": "Động vật",
+  "level": "NEWBIE",
+  "description": "Common animals",
+  "vocabulary": [
+    {
+      "korean": "개",
+      "english": "Dog",
+      "vietnamese": "Chó",
+      "type": "noun",
+      "romanization": "gae"
+    },
+    {
+      "korean": "고양이",
+      "english": "Cat",
+      "vietnamese": "Mèo",
+      "type": "noun",
+      "romanization": "goyang-i"
+    },
+    {
+      "korean": "새",
+      "english": "Bird",
+      "vietnamese": "Chim",
+      "type": "noun",
+      "romanization": "sae"
+    },
+    {
+      "korean": "생선",
+      "english": "Fish",
+      "vietnamese": "Cá",
+      "type": "noun",
+      "romanization": "saengseon"
+    },
+    {
+      "korean": "소",
+      "english": "Cow",
+      "vietnamese": "Bò",
+      "type": "noun",
+      "romanization": "so"
+    },
+    {
+      "korean": "돼지",
+      "english": "Pig",
+      "vietnamese": "Lợn",
+      "type": "noun",
+      "romanization": "dwae-ji"
+    },
+    {
+      "korean": "말",
+      "english": "Horse",
+      "vietnamese": "Ngựa",
+      "type": "noun",
+      "romanization": "mal"
+    },
+    {
+      "korean": "닭",
+      "english": "Chicken",
+      "vietnamese": "Gà",
+      "type": "noun",
+      "romanization": "dak"
+    },
+    {
+      "korean": "오리",
+      "english": "Duck",
+      "vietnamese": "Vịt",
+      "type": "noun",
+      "romanization": "ori"
+    },
+    {
+      "korean": "토끼",
+      "english": "Rabbit",
+      "vietnamese": "Thỏ",
+      "type": "noun",
+      "romanization": "tokki"
+    },
+    {
+      "korean": "쥐",
+      "english": "Mouse/Rat",
+      "vietnamese": "Chuột",
+      "type": "noun",
+      "romanization": "jwi"
+    },
+    {
+      "korean": "호랑이",
+      "english": "Tiger",
+      "vietnamese": "Hổ",
+      "type": "noun",
+      "romanization": "horangyi"
+    },
+    {
+      "korean": "사자",
+      "english": "Lion",
+      "vietnamese": "Sư tử",
+      "type": "noun",
+      "romanization": "saja"
+    },
+    {
+      "korean": "곰",
+      "english": "Bear",
+      "vietnamese": "Gấu",
+      "type": "noun",
+      "romanization": "gom"
+    },
+    {
+      "korean": "원숭이",
+      "english": "Monkey",
+      "vietnamese": "Khỉ",
+      "type": "noun",
+      "romanization": "wonsung-i"
+    }
+  ]
+}

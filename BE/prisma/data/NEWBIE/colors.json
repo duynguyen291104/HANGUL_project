@@ -1,0 +1,119 @@
+{
+  "topic": "Màu sắc",
+  "level": "NEWBIE",
+  "description": "Basic colors",
+  "vocabulary": [
+    {
+      "korean": "빨강",
+      "english": "Red",
+      "vietnamese": "Đỏ",
+      "type": "noun",
+      "romanization": "ppalgap"
+    },
+    {
+      "korean": "파랑",
+      "english": "Blue",
+      "vietnamese": "Xanh lam",
+      "type": "noun",
+      "romanization": "parang"
+    },
+    {
+      "korean": "노랑",
+      "english": "Yellow",
+      "vietnamese": "Vàng",
+      "type": "noun",
+      "romanization": "norang"
+    },
+    {
+      "korean": "검정",
+      "english": "Black",
+      "vietnamese": "Đen",
+      "type": "noun",
+      "romanization": "geomjeong"
+    },
+    {
+      "korean": "하얀",
+      "english": "White",
+      "vietnamese": "Trắng",
+      "type": "noun",
+      "romanization": "hayan"
+    },
+    {
+      "korean": "초록",
+      "english": "Green",
+      "vietnamese": "Xanh lá",
+      "type": "noun",
+      "romanization": "chorok"
+    },
+    {
+      "korean": "주황",
+      "english": "Orange",
+      "vietnamese": "Cam",
+      "type": "noun",
+      "romanization": "juhwang"
+    },
+    {
+      "korean": "보라",
+      "english": "Purple",
+      "vietnamese": "Tím",
+      "type": "noun",
+      "romanization": "bora"
+    },
+    {
+      "korean": "분홍",
+      "english": "Pink",
+      "vietnamese": "Hồng",
+      "type": "noun",
+      "romanization": "bunhong"
+    },
+    {
+      "korean": "회색",
+      "english": "Gray",
+      "vietnamese": "Xám",
+      "type": "noun",
+      "romanization": "hoesaek"
+    },
+    {
+      "korean": "갈색",
+      "english": "Brown",
+      "vietnamese": "Nâu",
+      "type": "noun",
+      "romanization": "galsaek"
+    },
+    {
+      "korean": "은색",
+      "english": "Silver",
+      "vietnamese": "Bạc",
+      "type": "noun",
+      "romanization": "eunsaek"
+    },
+    {
+      "korean": "금색",
+      "english": "Gold",
+      "vietnamese": "Vàng kim",
+      "type": "noun",
+      "romanization": "gumsaek"
+    },
+    {
+      "korean": "청록",
+      "english": "Cyan",
+      "vietnamese": "Xanh ngọc",
+      "type": "noun",
+      "romanization": "cheongrok"
+    },
+    {
+      "korean": "흰색",
+      "english": "Off-white",
+      "vietnamese": "Trắng ngà",
+      "type": "noun",
+      "romanization": "huinsaek"
+    },
+    {
+      "korean": "검은색",
+      "english": "Blackish",
+      "vietnamese": "Đen xì",
+      "type": "noun",
+      "romanization": "geomeunsaek"
+    }
+  ]
+}

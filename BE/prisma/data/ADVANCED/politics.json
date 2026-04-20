@@ -1,0 +1,112 @@
+{
+  "topic": "Chính trị",
+  "level": "ADVANCED",
+  "description": "Politics and government",
+  "vocabulary": [
+    {
+      "korean": "정치",
+      "english": "Politics",
+      "vietnamese": "Chính trị",
+      "type": "noun",
+      "romanization": "jeongchi"
+    },
+    {
+      "korean": "정부",
+      "english": "Government",
+      "vietnamese": "Chính phủ",
+      "type": "noun",
+      "romanization": "jeongbu"
+    },
+    {
+      "korean": "법률",
+      "english": "Law",
+      "vietnamese": "Luật",
+      "type": "noun",
+      "romanization": "beobryul"
+    },
+    {
+      "korean": "투표",
+      "english": "Vote",
+      "vietnamese": "Bỏ phiếu",
+      "type": "noun",
+      "romanization": "tuhyo"
+    },
+    {
+      "korean": "의회",
+      "english": "Congress",
+      "vietnamese": "Quốc hội",
+      "type": "noun",
+      "romanization": "uihoe"
+    },
+    {
+      "korean": "민주주의",
+      "english": "Democracy",
+      "vietnamese": "Dân chủ",
+      "type": "noun",
+      "romanization": "minjujuui"
+    },
+    {
+      "korean": "국회의원",
+      "english": "Congressman",
+      "vietnamese": "Đại biểu quốc hội",
+      "type": "noun",
+      "romanization": "gughoe uiwon"
+    },
+    {
+      "korean": "정당",
+      "english": "Political party",
+      "vietnamese": "Đảng chính trị",
+      "type": "noun",
+      "romanization": "jeongdang"
+    },
+    {
+      "korean": "선거운동",
+      "english": "Campaign",
+      "vietnamese": "Chiến dịch bầu cử",
+      "type": "noun",
+      "romanization": "seongeoundong"
+    },
+    {
+      "korean": "입법",
+      "english": "Legislation",
+      "vietnamese": "Lập pháp",
+      "type": "noun",
+      "romanization": "ipbeop"
+    },
+    {
+      "korean": "사법",
+      "english": "Judiciary",
+      "vietnamese": "Tư pháp",
+      "type": "noun",
+      "romanization": "sabeop"
+    },
+    {
+      "korean": "행정",
+      "english": "Executive",
+      "vietnamese": "Hành pháp",
+      "type": "noun",
+      "romanization": "hangjeong"
+    },
+    {
+      "korean": "여론",
+      "english": "Public opinion",
+      "vietnamese": "Dư luận",
+      "type": "noun",
+      "romanization": "yeollon"
+    },
+    {
+      "korean": "시정연설",
+      "english": "State of the union",
+      "vietnamese": "Phát biểu chính sách",
+      "type": "noun",
+      "romanization": "sijeong yeonsul"
+    },
+    {
+      "korean": "정책",
+      "english": "Policy",
+      "vietnamese": "Chính sách",
+      "type": "noun",
+      "romanization": "jeongchaek"
+    }
+  ]
+}

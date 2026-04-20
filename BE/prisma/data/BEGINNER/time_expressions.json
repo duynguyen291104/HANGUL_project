@@ -1,0 +1,105 @@
+{
+  "topic": "Biểu thức thời gian",
+  "level": "BEGINNER",
+  "description": "Time expressions",
+  "vocabulary": [
+    {
+      "korean": "아침",
+      "english": "Morning",
+      "vietnamese": "Sáng",
+      "type": "noun",
+      "romanization": "achim"
+    },
+    {
+      "korean": "오전",
+      "english": "AM",
+      "vietnamese": "Sáng",
+      "type": "noun",
+      "romanization": "ojeon"
+    },
+    {
+      "korean": "오후",
+      "english": "PM",
+      "vietnamese": "Chiều",
+      "type": "noun",
+      "romanization": "ohu"
+    },
+    {
+      "korean": "저녁",
+      "english": "Evening",
+      "vietnamese": "Tối",
+      "type": "noun",
+      "romanization": "jeonyeok"
+    },
+    {
+      "korean": "밤",
+      "english": "Night",
+      "vietnamese": "Đêm",
+      "type": "noun",
+      "romanization": "bam"
+    },
+    {
+      "korean": "자정",
+      "english": "Midnight",
+      "vietnamese": "Nửa đêm",
+      "type": "noun",
+      "romanization": "jajeong"
+    },
+    {
+      "korean": "방상",
+      "english": "Just now/A moment ago",
+      "vietnamese": "Lúc nãy",
+      "type": "adverb",
+      "romanization": "bangsang"
+    },
+    {
+      "korean": "곧",
+      "english": "Soon",
+      "vietnamese": "Sắp",
+      "type": "adverb",
+      "romanization": "kot"
+    },
+    {
+      "korean": "나중",
+      "english": "Later",
+      "vietnamese": "Sau",
+      "type": "adverb",
+      "romanization": "najoong"
+    },
+    {
+      "korean": "마비마",
+      "english": "All day",
+      "vietnamese": "Cả ngày",
+      "type": "adverb",
+      "romanization": "mabam"
+    },
+    {
+      "korean": "매벽",
+      "english": "Every day",
+      "vietnamese": "Mỗi ngày",
+      "type": "noun",
+      "romanization": "maebyeok"
+    },
+    {
+      "korean": "차나마",
+      "english": "Step by step/Gradually",
+      "vietnamese": "Từng bước",
+      "type": "adverb",
+      "romanization": "chanamda"
+    },
+    {
+      "korean": "띳스",
+      "english": "Sharp/Exactly",
+      "vietnamese": "Chính xác",
+      "type": "adverb",
+      "romanization": "ttits"
+    },
+    {
+      "korean": "다상",
+      "english": "Time/Moment",
+      "vietnamese": "Lúc",
+      "type": "noun",
+      "romanization": "dasaing"
+    }
+  ]
+}

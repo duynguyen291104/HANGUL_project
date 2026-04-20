@@ -1,0 +1,112 @@
+{
+  "topic": "Giải trí",
+  "level": "INTERMEDIATE",
+  "description": "Entertainment",
+  "vocabulary": [
+    {
+      "korean": "영화",
+      "english": "Movie",
+      "vietnamese": "Phim",
+      "type": "noun",
+      "romanization": "yeonghwa"
+    },
+    {
+      "korean": "연극",
+      "english": "Theater",
+      "vietnamese": "Sân khấu",
+      "type": "noun",
+      "romanization": "yeonggeuk"
+    },
+    {
+      "korean": "전시회",
+      "english": "Exhibition",
+      "vietnamese": "Triển lãm",
+      "type": "noun",
+      "romanization": "jeonshihoe"
+    },
+    {
+      "korean": "콘서트",
+      "english": "Concert",
+      "vietnamese": "Hòa nhạc",
+      "type": "noun",
+      "romanization": "konseoteu"
+    },
+    {
+      "korean": "박물관",
+      "english": "Museum",
+      "vietnamese": "Bảo tàng",
+      "type": "noun",
+      "romanization": "bangmulgwan"
+    },
+    {
+      "korean": "공원",
+      "english": "Park",
+      "vietnamese": "Công viên",
+      "type": "noun",
+      "romanization": "gongwon"
+    },
+    {
+      "korean": "공연",
+      "english": "Performance",
+      "vietnamese": "Buổi biểu diễn",
+      "type": "noun",
+      "romanization": "gongyon"
+    },
+    {
+      "korean": "드라마",
+      "english": "Drama",
+      "vietnamese": "Phim tình cảm",
+      "type": "noun",
+      "romanization": "derama"
+    },
+    {
+      "korean": "액션",
+      "english": "Action",
+      "vietnamese": "Hành động",
+      "type": "noun",
+      "romanization": "aeksyeon"
+    },
+    {
+      "korean": "배우",
+      "english": "Actor",
+      "vietnamese": "Diễn viên",
+      "type": "noun",
+      "romanization": "baeu"
+    },
+    {
+      "korean": "개봉",
+      "english": "Release",
+      "vietnamese": "Công chiếu",
+      "type": "noun",
+      "romanization": "gaebong"
+    },
+    {
+      "korean": "스릴",
+      "english": "Thriller",
+      "vietnamese": "Phim rùng rợn",
+      "type": "noun",
+      "romanization": "seuril"
+    },
+    {
+      "korean": "줄거리",
+      "english": "Plot",
+      "vietnamese": "Cốt truyện",
+      "type": "noun",
+      "romanization": "julgeolli"
+    },
+    {
+      "korean": "감정",
+      "english": "Emotion",
+      "vietnamese": "Cảm xúc",
+      "type": "noun",
+      "romanization": "gamjeong"
+    },
+    {
+      "korean": "재미있다",
+      "english": "Entertaining",
+      "vietnamese": "Thú vị",
+      "type": "adjective",
+      "romanization": "jaemiitda"
+    }
+  ]
+}

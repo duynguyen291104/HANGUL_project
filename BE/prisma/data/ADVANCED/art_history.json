@@ -1,0 +1,112 @@
+{
+  "topic": "Lịch sử nghệ thuật",
+  "level": "ADVANCED",
+  "description": "Art history",
+  "vocabulary": [
+    {
+      "korean": "미술사",
+      "english": "Art history",
+      "vietnamese": "Lịch sử nghệ thuật",
+      "type": "noun",
+      "romanization": "misulsa"
+    },
+    {
+      "korean": "르네상스",
+      "english": "Renaissance",
+      "vietnamese": "Phục hưng",
+      "type": "noun",
+      "romanization": "renesangseu"
+    },
+    {
+      "korean": "고전주의",
+      "english": "Classicism",
+      "vietnamese": "Cổ điển",
+      "type": "noun",
+      "romanization": "gojeoljuui"
+    },
+    {
+      "korean": "낭만주의",
+      "english": "Romanticism",
+      "vietnamese": "Lãng mạn",
+      "type": "noun",
+      "romanization": "nangmanjuui"
+    },
+    {
+      "korean": "인상주의",
+      "english": "Impressionism",
+      "vietnamese": "Ấn tượng",
+      "type": "noun",
+      "romanization": "insangjuui"
+    },
+    {
+      "korean": "현대미술",
+      "english": "Contemporary art",
+      "vietnamese": "Nghệ thuật hiện đại",
+      "type": "noun",
+      "romanization": "hyeondaemisul"
+    },
+    {
+      "korean": "바로크",
+      "english": "Baroque",
+      "vietnamese": "Baroque",
+      "type": "noun",
+      "romanization": "baroke"
+    },
+    {
+      "korean": "초현실주의",
+      "english": "Surrealism",
+      "vietnamese": "Sieu thuc",
+      "type": "noun",
+      "romanization": "chohyeonsilljuui"
+    },
+    {
+      "korean": "입체주의",
+      "english": "Cubism",
+      "vietnamese": "Lap the",
+      "type": "noun",
+      "romanization": "iptaejuui"
+    },
+    {
+      "korean": "미니멀리즘",
+      "english": "Minimalism",
+      "vietnamese": "Toi gian",
+      "type": "noun",
+      "romanization": "minimeolrijeum"
+    },
+    {
+      "korean": "포스트모더니즘",
+      "english": "Postmodernism",
+      "vietnamese": "Hau hien dai",
+      "type": "noun",
+      "romanization": "poseutumodeonjeum"
+    },
+    {
+      "korean": "생성미술",
+      "english": "Generative art",
+      "vietnamese": "Nghe thuat sinh",
+      "type": "noun",
+      "romanization": "saongsaeng misul"
+    },
+    {
+      "korean": "추상미술",
+      "english": "Abstract art",
+      "vietnamese": "Tien phong",
+      "type": "noun",
+      "romanization": "chuosang misul"
+    },
+    {
+      "korean": "미술관",
+      "english": "Art gallery",
+      "vietnamese": "Phong trung bay",
+      "type": "noun",
+      "romanization": "misulgwan"
+    },
+    {
+      "korean": "미술품",
+      "english": "Artwork",
+      "vietnamese": "Tac pham nghe thuat",
+      "type": "noun",
+      "romanization": "misulpoom"
+    }
+  ]
+}

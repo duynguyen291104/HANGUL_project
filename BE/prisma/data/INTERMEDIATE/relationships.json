@@ -1,0 +1,119 @@
+{
+  "topic": "Quan hệ",
+  "level": "INTERMEDIATE",
+  "description": "Relationships",
+  "vocabulary": [
+    {
+      "korean": "친구",
+      "english": "Friend",
+      "vietnamese": "Bạn",
+      "type": "noun",
+      "romanization": "chingu"
+    },
+    {
+      "korean": "사랑",
+      "english": "Love",
+      "vietnamese": "Tình yêu",
+      "type": "noun",
+      "romanization": "sarang"
+    },
+    {
+      "korean": "결혼",
+      "english": "Marriage",
+      "vietnamese": "Hôn nhân",
+      "type": "noun",
+      "romanization": "gyeolhon"
+    },
+    {
+      "korean": "이혼",
+      "english": "Divorce",
+      "vietnamese": "Ly hôn",
+      "type": "noun",
+      "romanization": "ihon"
+    },
+    {
+      "korean": "약속",
+      "english": "Promise/Appointment",
+      "vietnamese": "Hẹn",
+      "type": "noun",
+      "romanization": "yaksok"
+    },
+    {
+      "korean": "신뢰",
+      "english": "Trust",
+      "vietnamese": "Tin tưởng",
+      "type": "noun",
+      "romanization": "sinroi"
+    },
+    {
+      "korean": "가족",
+      "english": "Family",
+      "vietnamese": "Gia dinh",
+      "type": "noun",
+      "romanization": "gajok"
+    },
+    {
+      "korean": "부모",
+      "english": "Parents",
+      "vietnamese": "Bo me",
+      "type": "noun",
+      "romanization": "bumo"
+    },
+    {
+      "korean": "형제",
+      "english": "Siblings",
+      "vietnamese": "Anh chi em trai",
+      "type": "noun",
+      "romanization": "hyungje"
+    },
+    {
+      "korean": "남자친구",
+      "english": "Boyfriend",
+      "vietnamese": "Ban trai",
+      "type": "noun",
+      "romanization": "namjachingu"
+    },
+    {
+      "korean": "여자친구",
+      "english": "Girlfriend",
+      "vietnamese": "Ban gai",
+      "type": "noun",
+      "romanization": "yeojachingu"
+    },
+    {
+      "korean": "모임",
+      "english": "Gathering",
+      "vietnamese": "Bo gap",
+      "type": "noun",
+      "romanization": "moim"
+    },
+    {
+      "korean": "싸우다",
+      "english": "Quarrel",
+      "vietnamese": "Chon chap",
+      "type": "verb",
+      "romanization": "ssauda"
+    },
+    {
+      "korean": "갈등",
+      "english": "Conflict",
+      "vietnamese": "Xung dot",
+      "type": "noun",
+      "romanization": "galdung"
+    },
+    {
+      "korean": "헤어지다",
+      "english": "Break up",
+      "vietnamese": "Chia tay",
+      "type": "verb",
+      "romanization": "heoeojida"
+    },
+    {
+      "korean": "사랑노래",
+      "english": "Love song",
+      "vietnamese": "Bai hat tinh yeu",
+      "type": "noun",
+      "romanization": "sarang norae"
+    }
+  ]
+}

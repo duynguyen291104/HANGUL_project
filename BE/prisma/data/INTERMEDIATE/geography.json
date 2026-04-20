@@ -1,0 +1,112 @@
+{
+  "topic": "Địa lý",
+  "level": "INTERMEDIATE",
+  "description": "Geography",
+  "vocabulary": [
+    {
+      "korean": "산",
+      "english": "Mountain",
+      "vietnamese": "Núi",
+      "type": "noun",
+      "romanization": "san"
+    },
+    {
+      "korean": "강",
+      "english": "River",
+      "vietnamese": "Sông",
+      "type": "noun",
+      "romanization": "gang"
+    },
+    {
+      "korean": "바다",
+      "english": "Sea",
+      "vietnamese": "Biển",
+      "type": "noun",
+      "romanization": "bada"
+    },
+    {
+      "korean": "호수",
+      "english": "Lake",
+      "vietnamese": "Hồ",
+      "type": "noun",
+      "romanization": "hosu"
+    },
+    {
+      "korean": "섬",
+      "english": "Island",
+      "vietnamese": "Đảo",
+      "type": "noun",
+      "romanization": "seom"
+    },
+    {
+      "korean": "대륙",
+      "english": "Continent",
+      "vietnamese": "Lục địa",
+      "type": "noun",
+      "romanization": "daelyuk"
+    },
+    {
+      "korean": "길",
+      "english": "Road",
+      "vietnamese": "Con đường",
+      "type": "noun",
+      "romanization": "gil"
+    },
+    {
+      "korean": "도시",
+      "english": "City",
+      "vietnamese": "Thành phố",
+      "type": "noun",
+      "romanization": "dosi"
+    },
+    {
+      "korean": "들",
+      "english": "Plains",
+      "vietnamese": "Đồng bằng",
+      "type": "noun",
+      "romanization": "deul"
+    },
+    {
+      "korean": "모래",
+      "english": "Sand",
+      "vietnamese": "Cát",
+      "type": "noun",
+      "romanization": "morae"
+    },
+    {
+      "korean": "계곡",
+      "english": "Valley",
+      "vietnamese": "Thung lũng",
+      "type": "noun",
+      "romanization": "gyegok"
+    },
+    {
+      "korean": "숲",
+      "english": "Forest",
+      "vietnamese": "Rừng",
+      "type": "noun",
+      "romanization": "sup"
+    },
+    {
+      "korean": "동쪽과 서쪽",
+      "english": "East and West",
+      "vietnamese": "Đông và Tây",
+      "type": "noun",
+      "romanization": "dongcjukkwa seojjuk"
+    },
+    {
+      "korean": "기후",
+      "english": "Climate",
+      "vietnamese": "Khí hậu",
+      "type": "noun",
+      "romanization": "gihu"
+    },
+    {
+      "korean": "지형 변화",
+      "english": "Terrain variation",
+      "vietnamese": "Địa hình thay đổi",
+      "type": "noun",
+      "romanization": "jihyeong byeonhwa"
+    }
+  ]
+}

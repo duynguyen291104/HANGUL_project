@@ -1,0 +1,105 @@
+{
+  "topic": "Phương tiện giao thông",
+  "level": "BEGINNER",
+  "description": "Transportation",
+  "vocabulary": [
+    {
+      "korean": "자동차",
+      "english": "Car",
+      "vietnamese": "Ô tô",
+      "type": "noun",
+      "romanization": "jadongcha"
+    },
+    {
+      "korean": "버스",
+      "english": "Bus",
+      "vietnamese": "Xe buýt",
+      "type": "noun",
+      "romanization": "beoseu"
+    },
+    {
+      "korean": "기차",
+      "english": "Train",
+      "vietnamese": "Tàu hỏa",
+      "type": "noun",
+      "romanization": "gicha"
+    },
+    {
+      "korean": "비행기",
+      "english": "Airplane",
+      "vietnamese": "Máy bay",
+      "type": "noun",
+      "romanization": "bihaenggi"
+    },
+    {
+      "korean": "배",
+      "english": "Boat",
+      "vietnamese": "Thuyền/Tàu",
+      "type": "noun",
+      "romanization": "bae"
+    },
+    {
+      "korean": "자전거",
+      "english": "Bicycle",
+      "vietnamese": "Xe đạp",
+      "type": "noun",
+      "romanization": "jajeongeyo"
+    },
+    {
+      "korean": "날개단다",
+      "english": "Fly",
+      "vietnamese": "Bay",
+      "type": "verb",
+      "romanization": "nalgaedanda"
+    },
+    {
+      "korean": "메트로",
+      "english": "Subway/Metro",
+      "vietnamese": "Tàu điện",
+      "type": "noun",
+      "romanization": "metro"
+    },
+    {
+      "korean": "택시",
+      "english": "Taxi",
+      "vietnamese": "Xe Taxi",
+      "type": "noun",
+      "romanization": "taeksi"
+    },
+    {
+      "korean": "그림",
+      "english": "Horse",
+      "vietnamese": "Ngựa",
+      "type": "noun",
+      "romanization": "geurim"
+    },
+    {
+      "korean": "첫짓",
+      "english": "Tram/Streetcar",
+      "vietnamese": "Tram",
+      "type": "noun",
+      "romanization": "cheotjjing"
+    },
+    {
+      "korean": "거럼",
+      "english": "Motorcycle",
+      "vietnamese": "Xe mô tô",
+      "type": "noun",
+      "romanization": "georeom"
+    },
+    {
+      "korean": "스쿠터",
+      "english": "Scooter",
+      "vietnamese": "Xe scooter",
+      "type": "noun",
+      "romanization": "sikutin"
+    },
+    {
+      "korean": "너비",
+      "english": "Ferry",
+      "vietnamese": "Tàu hoàng phiên",
+      "type": "noun",
+      "romanization": "nebi"
+    }
+  ]
+}

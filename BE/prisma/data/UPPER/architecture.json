@@ -1,0 +1,112 @@
+{
+  "topic": "Kiến trúc",
+  "level": "UPPER",
+  "description": "Architecture",
+  "vocabulary": [
+    {
+      "korean": "건축",
+      "english": "Architecture",
+      "vietnamese": "Kiến trúc",
+      "type": "noun",
+      "romanization": "geonchuk"
+    },
+    {
+      "korean": "설계",
+      "english": "Design",
+      "vietnamese": "Thiết kế",
+      "type": "noun",
+      "romanization": "seolgye"
+    },
+    {
+      "korean": "건물",
+      "english": "Building",
+      "vietnamese": "Tòa nhà",
+      "type": "noun",
+      "romanization": "geonmul"
+    },
+    {
+      "korean": "구조",
+      "english": "Structure",
+      "vietnamese": "Cấu trúc",
+      "type": "noun",
+      "romanization": "gujo"
+    },
+    {
+      "korean": "재료",
+      "english": "Material",
+      "vietnamese": "Vật liệu",
+      "type": "noun",
+      "romanization": "jaeyo"
+    },
+    {
+      "korean": "미학",
+      "english": "Aesthetics",
+      "vietnamese": "Thẩm mỹ",
+      "type": "noun",
+      "romanization": "mihak"
+    },
+    {
+      "korean": "기둥",
+      "english": "Column",
+      "vietnamese": "Cot",
+      "type": "noun",
+      "romanization": "gidul"
+    },
+    {
+      "korean": "아치",
+      "english": "Arch",
+      "vietnamese": "Cong khoa",
+      "type": "noun",
+      "romanization": "achi"
+    },
+    {
+      "korean": "지붕",
+      "english": "Roof",
+      "vietnamese": "Mai nha",
+      "type": "noun",
+      "romanization": "jibung"
+    },
+    {
+      "korean": "기반",
+      "english": "Foundation",
+      "vietnamese": "Nen tang",
+      "type": "noun",
+      "romanization": "giban"
+    },
+    {
+      "korean": "내장",
+      "english": "Interior",
+      "vietnamese": "Noi that",
+      "type": "noun",
+      "romanization": "naejang"
+    },
+    {
+      "korean": "외관",
+      "english": "Facade",
+      "vietnamese": "Mat ngoai",
+      "type": "noun",
+      "romanization": "oegwan"
+    },
+    {
+      "korean": "공간",
+      "english": "Space",
+      "vietnamese": "Khong gian",
+      "type": "noun",
+      "romanization": "gonggan"
+    },
+    {
+      "korean": "청사진",
+      "english": "Blueprint",
+      "vietnamese": "Ban ve",
+      "type": "noun",
+      "romanization": "cheongsajin"
+    },
+    {
+      "korean": "시공자",
+      "english": "Constructor",
+      "vietnamese": "Nha thau",
+      "type": "noun",
+      "romanization": "sigongjia"
+    }
+  ]
+}

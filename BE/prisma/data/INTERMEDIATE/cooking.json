@@ -1,0 +1,112 @@
+{
+  "topic": "Nấu ăn",
+  "level": "INTERMEDIATE",
+  "description": "Cooking",
+  "vocabulary": [
+    {
+      "korean": "조리",
+      "english": "Cooking",
+      "vietnamese": "Nấu ăn",
+      "type": "noun",
+      "romanization": "jori"
+    },
+    {
+      "korean": "식재료",
+      "english": "Ingredient",
+      "vietnamese": "Nguyên liệu",
+      "type": "noun",
+      "romanization": "sikjaeyo"
+    },
+    {
+      "korean": "향신료",
+      "english": "Spice",
+      "vietnamese": "Gia vị",
+      "type": "noun",
+      "romanization": "hyangsinyao"
+    },
+    {
+      "korean": "요리사",
+      "english": "Chef",
+      "vietnamese": "Đầu bếp",
+      "type": "noun",
+      "romanization": "yorisa"
+    },
+    {
+      "korean": "맛",
+      "english": "Taste",
+      "vietnamese": "Vị",
+      "type": "noun",
+      "romanization": "mat"
+    },
+    {
+      "korean": "레시피",
+      "english": "Recipe",
+      "vietnamese": "Công thức nấu ăn",
+      "type": "noun",
+      "romanization": "resipe"
+    },
+    {
+      "korean": "끓이다",
+      "english": "Boil",
+      "vietnamese": "Đun sôi",
+      "type": "verb",
+      "romanization": "kkeulida"
+    },
+    {
+      "korean": "튀기다",
+      "english": "Fry",
+      "vietnamese": "Chiên",
+      "type": "verb",
+      "romanization": "twigida"
+    },
+    {
+      "korean": "굽다",
+      "english": "Bake",
+      "vietnamese": "Nướng",
+      "type": "verb",
+      "romanization": "gubda"
+    },
+    {
+      "korean": "절임",
+      "english": "Pickling",
+      "vietnamese": "Tây",
+      "type": "noun",
+      "romanization": "jeolim"
+    },
+    {
+      "korean": "국물",
+      "english": "Broth",
+      "vietnamese": "Nước dùng",
+      "type": "noun",
+      "romanization": "gugmul"
+    },
+    {
+      "korean": "양념",
+      "english": "Seasoning",
+      "vietnamese": "Ướp gia vị",
+      "type": "noun",
+      "romanization": "yangnyeom"
+    },
+    {
+      "korean": "온도",
+      "english": "Temperature",
+      "vietnamese": "Nhiệt độ",
+      "type": "noun",
+      "romanization": "ondo"
+    },
+    {
+      "korean": "재료비",
+      "english": "Cost of ingredients",
+      "vietnamese": "Chi phí nguyên liệu",
+      "type": "noun",
+      "romanization": "jaeoryobi"
+    },
+    {
+      "korean": "식기",
+      "english": "Dishware",
+      "vietnamese": "Đồ dùng ăn cơm",
+      "type": "noun",
+      "romanization": "sikgi"
+    }
+  ]
+}

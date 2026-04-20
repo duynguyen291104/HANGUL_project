@@ -1,0 +1,119 @@
+{
+  "topic": "Tính từ cơ bản",
+  "level": "NEWBIE",
+  "description": "Basic adjectives",
+  "vocabulary": [
+    {
+      "korean": "크다",
+      "english": "Big",
+      "vietnamese": "Lớn",
+      "type": "adjective",
+      "romanization": "keuda"
+    },
+    {
+      "korean": "작다",
+      "english": "Small",
+      "vietnamese": "Nhỏ",
+      "type": "adjective",
+      "romanization": "jakda"
+    },
+    {
+      "korean": "길다",
+      "english": "Long",
+      "vietnamese": "Dài",
+      "type": "adjective",
+      "romanization": "gilta"
+    },
+    {
+      "korean": "짧다",
+      "english": "Short",
+      "vietnamese": "Ngắn",
+      "type": "adjective",
+      "romanization": "jjalbeuta"
+    },
+    {
+      "korean": "뜨겁다",
+      "english": "Hot",
+      "vietnamese": "Nóng",
+      "type": "adjective",
+      "romanization": "tteugeopda"
+    },
+    {
+      "korean": "차갑다",
+      "english": "Cold",
+      "vietnamese": "Lạnh",
+      "type": "adjective",
+      "romanization": "chagapda"
+    },
+    {
+      "korean": "따뜻하다",
+      "english": "Warm",
+      "vietnamese": "Ấm",
+      "type": "adjective",
+      "romanization": "ttatteuththada"
+    },
+    {
+      "korean": "시원하다",
+      "english": "Cool",
+      "vietnamese": "Mát",
+      "type": "adjective",
+      "romanization": "siwonhada"
+    },
+    {
+      "korean": "깨끗하다",
+      "english": "Clean",
+      "vietnamese": "Sạch",
+      "type": "adjective",
+      "romanization": "kkaekkeuthada"
+    },
+    {
+      "korean": "더럽다",
+      "english": "Dirty",
+      "vietnamese": "Bẩn",
+      "type": "adjective",
+      "romanization": "deoreobda"
+    },
+    {
+      "korean": "새하얀",
+      "english": "Very white",
+      "vietnamese": "Trắng toít",
+      "type": "adjective",
+      "romanization": "saehayan"
+    },
+    {
+      "korean": "단단하다",
+      "english": "Solid/Hard",
+      "vietnamese": "Cứng",
+      "type": "adjective",
+      "romanization": "tandanhada"
+    },
+    {
+      "korean": "부드럽다",
+      "english": "Soft",
+      "vietnamese": "Mềm",
+      "type": "adjective",
+      "romanization": "budeureobda"
+    },
+    {
+      "korean": "두껍다",
+      "english": "Thick",
+      "vietnamese": "Dày",
+      "type": "adjective",
+      "romanization": "dukkeopda"
+    },
+    {
+      "korean": "얇다",
+      "english": "Thin",
+      "vietnamese": "Mỏng",
+      "type": "adjective",
+      "romanization": "almta"
+    },
+    {
+      "korean": "예쁘다",
+      "english": "Pretty",
+      "vietnamese": "Đẹp",
+      "type": "adjective",
+      "romanization": "yeppeuda"
+    }
+  ]
+}

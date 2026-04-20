@@ -1,0 +1,105 @@
+{
+  "topic": "Thể thao",
+  "level": "BEGINNER",
+  "description": "Sports and games",
+  "vocabulary": [
+    {
+      "korean": "축구",
+      "english": "Football/Soccer",
+      "vietnamese": "Bóng đá",
+      "type": "noun",
+      "romanization": "chukgu"
+    },
+    {
+      "korean": "농구",
+      "english": "Basketball",
+      "vietnamese": "Bóng rổ",
+      "type": "noun",
+      "romanization": "nonggu"
+    },
+    {
+      "korean": "야구",
+      "english": "Baseball",
+      "vietnamese": "Bóng chày",
+      "type": "noun",
+      "romanization": "yagu"
+    },
+    {
+      "korean": "테니스",
+      "english": "Tennis",
+      "vietnamese": "Quần vợt",
+      "type": "noun",
+      "romanization": "tennis"
+    },
+    {
+      "korean": "수영",
+      "english": "Swimming",
+      "vietnamese": "Bơi lội",
+      "type": "noun",
+      "romanization": "suyeong"
+    },
+    {
+      "korean": "달리기",
+      "english": "Running",
+      "vietnamese": "Chạy",
+      "type": "noun",
+      "romanization": "dalligi"
+    },
+    {
+      "korean": "탁구",
+      "english": "Ping pong",
+      "vietnamese": "Bóng bàn",
+      "type": "noun",
+      "romanization": "takgu"
+    },
+    {
+      "korean": "배구",
+      "english": "Volleyball",
+      "vietnamese": "Bóng chuyền",
+      "type": "noun",
+      "romanization": "baegu"
+    },
+    {
+      "korean": "체조",
+      "english": "Gymnastics",
+      "vietnamese": "Thể dục dụng cụ",
+      "type": "noun",
+      "romanization": "chejo"
+    },
+    {
+      "korean": "스키",
+      "english": "Skiing",
+      "vietnamese": "Trượt tuyết",
+      "type": "noun",
+      "romanization": "seuki"
+    },
+    {
+      "korean": "서핑",
+      "english": "Surfing",
+      "vietnamese": "Lướt sóng",
+      "type": "noun",
+      "romanization": "seohping"
+    },
+    {
+      "korean": "하키",
+      "english": "Hockey",
+      "vietnamese": "Khúc côn cầu",
+      "type": "noun",
+      "romanization": "haki"
+    },
+    {
+      "korean": "권투",
+      "english": "Boxing",
+      "vietnamese": "Quyền Anh",
+      "type": "noun",
+      "romanization": "gwontu"
+    },
+    {
+      "korean": "레슬링",
+      "english": "Wrestling",
+      "vietnamese": "Đấu vật",
+      "type": "noun",
+      "romanization": "reseulling"
+    }
+  ]
+}

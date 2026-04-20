@@ -1,0 +1,105 @@
+{
+  "topic": "Nhà hàng",
+  "level": "BEGINNER",
+  "description": "Restaurant vocabulary",
+  "vocabulary": [
+    {
+      "korean": "메뉴",
+      "english": "Menu",
+      "vietnamese": "Thực đơn",
+      "type": "noun",
+      "romanization": "menyue"
+    },
+    {
+      "korean": "주문",
+      "english": "Order",
+      "vietnamese": "Đặt hàng",
+      "type": "noun",
+      "romanization": "jumun"
+    },
+    {
+      "korean": "주인",
+      "english": "Owner",
+      "vietnamese": "Chủ",
+      "type": "noun",
+      "romanization": "juin"
+    },
+    {
+      "korean": "웨이터",
+      "english": "Waiter",
+      "vietnamese": "Bồi bàn",
+      "type": "noun",
+      "romanization": "weteo"
+    },
+    {
+      "korean": "수표",
+      "english": "Bill",
+      "vietnamese": "Hóa đơn",
+      "type": "noun",
+      "romanization": "suhyo"
+    },
+    {
+      "korean": "팁",
+      "english": "Tip",
+      "vietnamese": "Tiền boa",
+      "type": "noun",
+      "romanization": "tip"
+    },
+    {
+      "korean": "집",
+      "english": "Restaurant",
+      "vietnamese": "Nhà hàng",
+      "type": "noun",
+      "romanization": "jip"
+    },
+    {
+      "korean": "먹다",
+      "english": "Eat",
+      "vietnamese": "Ăn",
+      "type": "verb",
+      "romanization": "meokda"
+    },
+    {
+      "korean": "나이프",
+      "english": "Knife",
+      "vietnamese": "Dao",
+      "type": "noun",
+      "romanization": "naipu"
+    },
+    {
+      "korean": "숟가락",
+      "english": "Spoon",
+      "vietnamese": "Thìa",
+      "type": "noun",
+      "romanization": "sukkarak"
+    },
+    {
+      "korean": "포크",
+      "english": "Fork",
+      "vietnamese": "Nĩa",
+      "type": "noun",
+      "romanization": "pokeu"
+    },
+    {
+      "korean": "식기",
+      "english": "Dish/Plate",
+      "vietnamese": "Đĩa",
+      "type": "noun",
+      "romanization": "sikgi"
+    },
+    {
+      "korean": "카운터",
+      "english": "Counter",
+      "vietnamese": "Quầy",
+      "type": "noun",
+      "romanization": "kaunteo"
+    },
+    {
+      "korean": "에스프레소",
+      "english": "Espresso",
+      "vietnamese": "Cà phê đông",
+      "type": "noun",
+      "romanization": "esupurueseo"
+    }
+  ]
+}

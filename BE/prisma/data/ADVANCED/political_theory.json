@@ -1,0 +1,112 @@
+{
+  "topic": "Lý thuyết chính trị",
+  "level": "ADVANCED",
+  "description": "Political theory",
+  "vocabulary": [
+    {
+      "korean": "정치 이론",
+      "english": "Political theory",
+      "vietnamese": "Lý thuyết chính trị",
+      "type": "noun",
+      "romanization": "jeongchi iron"
+    },
+    {
+      "korean": "사회계약론",
+      "english": "Social contract theory",
+      "vietnamese": "Thuyết hợp đồng xã hội",
+      "type": "noun",
+      "romanization": "sahoeggeyakaeron"
+    },
+    {
+      "korean": "권력",
+      "english": "Power",
+      "vietnamese": "Quyền lực",
+      "type": "noun",
+      "romanization": "gwonryeok"
+    },
+    {
+      "korean": "자유주의",
+      "english": "Liberalism",
+      "vietnamese": "Tự do chủ nghĩa",
+      "type": "noun",
+      "romanization": "jayujuui"
+    },
+    {
+      "korean": "공산주의",
+      "english": "Communism",
+      "vietnamese": "Cộng sản chủ nghĩa",
+      "type": "noun",
+      "romanization": "gongsanjuui"
+    },
+    {
+      "korean": "국가",
+      "english": "State",
+      "vietnamese": "Nhà nước",
+      "type": "noun",
+      "romanization": "guggga"
+    },
+    {
+      "korean": "민족주의",
+      "english": "Nationalism",
+      "vietnamese": "Chủ nghĩa dân tộc",
+      "type": "noun",
+      "romanization": "minjogjuui"
+    },
+    {
+      "korean": "사회주의",
+      "english": "Socialism",
+      "vietnamese": "Chủ nghĩa xã hội",
+      "type": "noun",
+      "romanization": "sahoejuui"
+    },
+    {
+      "korean": "평등주의",
+      "english": "Egalitarianism",
+      "vietnamese": "Chu nghia bang dang",
+      "type": "noun",
+      "romanization": "pyeongdeungjuui"
+    },
+    {
+      "korean": "보수주의",
+      "english": "Conservatism",
+      "vietnamese": "Bảo thủ",
+      "type": "noun",
+      "romanization": "bosujuui"
+    },
+    {
+      "korean": "무정부주의",
+      "english": "Anarchism",
+      "vietnamese": "Vô chính phủ",
+      "type": "noun",
+      "romanization": "mujeongbu juui"
+    },
+    {
+      "korean": "독재",
+      "english": "Dictatorship",
+      "vietnamese": "Độc tài",
+      "type": "noun",
+      "romanization": "dokjae"
+    },
+    {
+      "korean": "통치",
+      "english": "Governance",
+      "vietnamese": "Cai trị",
+      "type": "noun",
+      "romanization": "tongchi"
+    },
+    {
+      "korean": "시민참여",
+      "english": "Civic participation",
+      "vietnamese": "Tham gia xã hội",
+      "type": "noun",
+      "romanization": "simin chamyeo"
+    },
+    {
+      "korean": "정치이론가",
+      "english": "Political theorist",
+      "vietnamese": "Nhà lý thuyết chính trị",
+      "type": "noun",
+      "romanization": "jeongchi ironga"
+    }
+  ]
+}

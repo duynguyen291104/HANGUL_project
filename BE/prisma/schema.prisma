@@ -1,0 +1,623 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int                    @id @default(autoincrement())
+  email                 String                 @unique
+  name                  String
+  password              String
+  role                  Role                   @default(USER)
+  avatar                String?
+  level                 String                 @default("CỰC_CƠ_BẢN")
+  totalXP               Int                    @default(0)
+  currentStreak         Int                    @default(0)
+  lastCheckinDate       DateTime?
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  levelLocked           Boolean                @default(false)
+  totalTrophy           Int                    @default(0)
+  isBanned              Boolean                @default(false)
+  levelUnlockedAt       DateTime?
+  dateOfBirth           DateTime?
+  gender                String?
+  lastActiveAt          DateTime?
+  streakStartDate       DateTime?
+  batchJobs             BatchJob[]             @relation("batchJobs")
+  detectionStats        DetectionStats?        @relation("detectionStats")
+  handwritingAttempts   HandwritingAttempt[]
+  learningHistory       LearningHistory[]
+  levelTestProgress     LevelTestProgress[]
+  pronunciationAttempts PronunciationAttempt[]
+  quizAnswers           QuizAnswer[]
+  quizHistory           QuizHistory[]
+  quizSessions          QuizSession[]
+  savedVocabularies     SavedVocabulary[]
+  achievements          UserAchievement[]
+  userAnswerHistory     UserAnswerHistory[]
+  nodeProgress          UserNodeProgress[]
+  userProgress          UserProgress[]
+  rank                  UserRank?
+  userSavedVocabulary   UserSavedVocabulary[]
+  stats                 UserStats?
+  writingPractices      WritingPractice[]
+  cameraDetections      YOLODetection[]        @relation("cameraDetections")
+  vocabularyLearned     Vocabulary[]           @relation("UserToVocabulary")
+  activities            UserActivity[]
+
+  @@index([email])
+  @@index([level])
+  @@index([totalXP])
+  @@index([totalTrophy])
+}
+
+model Topic {
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  slug                 String?               @unique
+  description          String?
+  type                 String?               @default("vocabulary")
+  level                String
+  order                Int                   @default(0)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  handwritingExercises HandwritingExercise[]
+  learningHistories    LearningHistory[]
+  learningNodes        LearningNode[]
+  pronunciationWords   PronunciationWord[]
+  questions            Question[]
+  quizHistory          QuizHistory[]
+  quizQuestions        QuizQuestion[]
+  quizSessions         QuizSession[]
+  userAnswerHistory    UserAnswerHistory[]
+  userProgress         UserProgress[]
+  vocabulary           Vocabulary[]
+  writingPractices     WritingPractice[]
+}
+
+model Vocabulary {
+  id                 Int                   @id @default(autoincrement())
+  korean             String
+  english            String
+  romanization       String?
+  audioUrl           String?
+  imageUrl           String?
+  level              String                @default("NEWBIE")
+  topicId            Int
+  isActive           Boolean               @default(true)
+  version            Int                   @default(1)
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  tags               String[]              @default([])
+  type               String                @default("noun")
+  vietnamese         String
+  pronunciationWords PronunciationWord[]
+  quizHistory        QuizHistory[]
+  quizQuestions      QuizQuestion[]
+  savedInCollections SavedVocabulary[]
+  savedByUsers       UserSavedVocabulary[]
+  examples           VocabExample[]
+  topic              Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  usersLearned       User[]                @relation("UserToVocabulary")
+
+  @@index([topicId])
+  @@index([level])
+  @@index([isActive])
+}
+
+model UserSavedVocabulary {
+  id         Int        @id @default(autoincrement())
+  userId     Int
+  vocabId    Int
+  source     String
+  sourceId   String?
+  isLearned  Boolean    @default(false)
+  attempts   Int        @default(0)
+  score      Float      @default(0.0)
+  notes      String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabulary Vocabulary @relation(fields: [vocabId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, vocabId])
+  @@index([userId])
+  @@index([source])
+}
+
+model SavedVocabulary {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  vocabularyId Int?       // nullable for learning-path saves
+  koreanWord   String?    // For learning-path save (not from Vocabulary table)
+  meaning      String?    // For learning-path save (not from Vocabulary table)
+  source       String     // "quiz", "writing", "pronunciation", "collection"
+  sourceId     String?
+  type         String     // "quiz" | "writing" | "pronunciation" (for filtering)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabulary   Vocabulary? @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, koreanWord, type])  // Unique on user + word + type
+  @@index([userId])
+  @@index([source])
+  @@index([type])
+}
+
+model VocabExample {
+  id         Int        @id @default(autoincrement())
+  korean     String
+  vietnamese String
+  english    String?
+  vocabId    Int
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  vocabulary Vocabulary @relation(fields: [vocabId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id                Int               @id @default(autoincrement())
+  questionText      String
+  correctAnswer     String
+  options           String[]
+  language_from     String
+  language_to       String
+  difficulty        String            @default("easy")
+  topicId           Int
+  isActive          Boolean           @default(true)
+  version           Int               @default(1)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  explanation       String?
+  explanation_vi    String?
+  learningHistories LearningHistory[] @relation("learningHistoryQuestions")
+  topic             Topic             @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  quizAnswers       QuizAnswer[]
+
+  @@index([topicId])
+  @@index([isActive])
+}
+
+model QuizQuestion {
+  id                Int        @id @default(autoincrement())
+  vocabularyId      Int
+  topicId           Int
+  questionType      String     @default("vocabulary")
+  questionText      String
+  correctAnswerText String
+  isActive          Boolean    @default(true)
+  usageCount        Int        @default(0)
+  correctRate       Float      @default(0)
+  level             String
+  wrongAnswerIds    Int[]      @default([])
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  topic             Topic      @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  vocabulary        Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+
+  @@index([vocabularyId])
+  @@index([topicId])
+  @@index([level])
+  @@index([isActive])
+}
+
+model QuizSession {
+  id             Int          @id @default(autoincrement())
+  userId         Int
+  score          Int          @default(0)
+  totalQuestions Int
+  correctAnswers Int          @default(0)
+  createdAt      DateTime     @default(now())
+  endedAt        DateTime?
+  topicId        Int?
+  answers        QuizAnswer[]
+  topic          Topic?       @relation(fields: [topicId], references: [id])
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topicId])
+}
+
+model QuizAnswer {
+  id             Int         @id @default(autoincrement())
+  sessionId      Int
+  userId         Int
+  questionId     Int
+  selectedAnswer String
+  isCorrect      Boolean
+  createdAt      DateTime    @default(now())
+  question       Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  session        QuizSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([questionId])
+}
+
+model LearningHistory {
+  id             String   @id @default(cuid())
+  userId         Int
+  topicId        Int
+  questionId     Int?
+  korean         String?         // Vocabulary Korean (for writing/pronunciation)
+  vietnamese     String?         // Vocabulary Vietnamese meaning (for writing/pronunciation)
+  accuracy       Int?            // Accuracy percentage for writing/pronunciation
+  questionText   String?         // Full question (for quiz)
+  correctAnswer  String?         // Full correct answer (for quiz)
+  selectedAnswer String?         // User's selected answer (for quiz)
+  isCorrect      Boolean?        // Is correct (for quiz)
+  skillType      String   @default("QUIZ") // QUIZ | WRITING | PRONUNCIATION
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  question       Question? @relation("learningHistoryQuestions", fields: [questionId], references: [id], onDelete: Cascade)
+  topic          Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Multiple records allowed per user+topic+skillType (from single session)
+  @@index([userId, topicId, skillType])
+  @@index([userId])
+  @@index([topicId])
+  @@index([questionId])
+}
+
+model WritingPractice {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  topicId   Int
+  level     String
+  userText  String
+  score     Int
+  corrected String?
+  feedback  String?
+  createdAt DateTime @default(now())
+  topic     Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topicId])
+}
+
+model HandwritingExercise {
+  id         Int                  @id @default(autoincrement())
+  hangulChar String
+  strokes    Int
+  level      String
+  topicId    Int
+  isActive   Boolean              @default(true)
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+  attempts   HandwritingAttempt[]
+  topic      Topic                @relation(fields: [topicId], references: [id], onDelete: Cascade)
+}
+
+model HandwritingAttempt {
+  id          Int                 @id @default(autoincrement())
+  userId      Int
+  exerciseId  Int
+  drawingData String
+  score       Int
+  feedback    String?
+  createdAt   DateTime            @default(now())
+  exercise    HandwritingExercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([exerciseId])
+}
+
+model PronunciationWord {
+  id             Int                    @id @default(autoincrement())
+  vocabId        Int
+  nativeAudioUrl String
+  level          String
+  topicId        Int
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+  attempts       PronunciationAttempt[]
+  topic          Topic                  @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  vocabulary     Vocabulary             @relation(fields: [vocabId], references: [id], onDelete: Cascade)
+}
+
+model PronunciationAttempt {
+  id                Int               @id @default(autoincrement())
+  userId            Int
+  transcript        String?
+  feedback          String?
+  createdAt         DateTime          @default(now())
+  accuracyScore     Int?
+  audioUrl          String
+  completenessScore Int?
+  fluencyScore      Int?
+  overallScore      Int?
+  phoneticErrors    String?
+  wordId            Int
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  word              PronunciationWord @relation(fields: [wordId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([wordId])
+}
+
+model Achievement {
+  id          Int               @id @default(autoincrement())
+  name        String
+  description String
+  badge       String?
+  criteria    String
+  createdAt   DateTime          @default(now())
+  condition   String?
+  target      Int?
+  users       UserAchievement[]
+}
+
+model UserAchievement {
+  id            Int         @id @default(autoincrement())
+  userId        Int
+  achievementId Int
+  unlockedAt    DateTime    @default(now())
+  completed     Boolean     @default(false)
+  completedAt   DateTime?
+  progress      Int         @default(0)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+}
+
+model MonthlyTask {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  criteria    String
+  reward      Int
+  level       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UserStats {
+  id         String   @id @default(uuid())
+  userId     Int      @unique
+  xp         Int      @default(0)
+  trophy     Int      @default(0)
+  quizCount  Int      @default(0)
+  writeCount Int      @default(0)
+  speakCount Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Rank {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  minXp     Int
+  maxXp     Int
+  order     Int
+  createdAt DateTime   @default(now())
+  userRanks UserRank[]
+}
+
+model UserRank {
+  id        String   @id @default(uuid())
+  userId    Int      @unique
+  rankId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  rank      Rank     @relation(fields: [rankId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LearningPath {
+  id        String         @id @default(uuid())
+  name      String
+  level     String
+  createdAt DateTime       @default(now())
+  nodes     LearningNode[]
+}
+
+model LearningNode {
+  id           String             @id @default(uuid())
+  title        String
+  description  String?
+  pathId       String
+  topicId      Int?
+  order        Int
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  path         LearningPath       @relation(fields: [pathId], references: [id], onDelete: Cascade)
+  topic        Topic?             @relation(fields: [topicId], references: [id])
+  userProgress UserNodeProgress[]
+}
+
+model UserNodeProgress {
+  id          String       @id @default(uuid())
+  userId      Int
+  nodeId      String
+  completed   Boolean      @default(false)
+  completedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  node        LearningNode @relation(fields: [nodeId], references: [id], onDelete: Cascade)
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, nodeId])
+}
+
+model YOLODetection {
+  id          Int      @id @default(autoincrement())
+  userId      Int?
+  label       String
+  confidence  Float
+  bbox        String
+  sessionId   String?
+  frameNumber Int?
+  videoUrl    String?
+  source      String   @default("webcam")
+  status      String   @default("processed")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        User?    @relation("cameraDetections", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([createdAt])
+}
+
+model DetectionSession {
+  id              String    @id @default(cuid())
+  userId          Int?
+  startTime       DateTime  @default(now())
+  endTime         DateTime?
+  duration        Int?
+  totalFrames     Int       @default(0)
+  totalDetections Int       @default(0)
+  videoUrl        String?
+  deviceInfo      String?
+  settings        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model DetectionStats {
+  id              Int       @id @default(autoincrement())
+  userId          Int       @unique
+  totalDetections Int       @default(0)
+  uniqueLabels    Int       @default(0)
+  sessionsCount   Int       @default(0)
+  topLabel        String?
+  topLabelCount   Int       @default(0)
+  lastDetectionAt DateTime?
+  totalTime       Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  user            User      @relation("detectionStats", fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model BatchJob {
+  id           String    @id @default(cuid())
+  userId       Int?
+  name         String
+  status       String    @default("pending")
+  progress     Int       @default(0)
+  inputPath    String
+  inputType    String
+  fileCount    Int       @default(0)
+  resultCount  Int       @default(0)
+  outputPath   String?
+  logPath      String?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  errorMessage String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  user         User?     @relation("batchJobs", fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
+
+model UserProgress {
+  id          String    @id @default(cuid())
+  userId      Int
+  topicId     Int
+  skillType   String
+  completed   Boolean   @default(false)
+  score       Int?
+  attempts    Int       @default(0)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  topic       Topic     @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, topicId, skillType])
+  @@index([userId])
+  @@index([topicId])
+}
+
+model QuizHistory {
+  id            String     @id @default(cuid())
+  userId        Int
+  topicId       Int
+  vocabularyId  Int
+  userAnswer    String
+  correctAnswer String
+  isCorrect     Boolean
+  createdAt     DateTime   @default(now())
+  topic         Topic      @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vocabulary    Vocabulary @relation(fields: [vocabularyId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topicId])
+  @@index([vocabularyId])
+}
+
+model LevelTestProgress {
+  id             String    @id @default(cuid())
+  userId         Int
+  targetLevel    String
+  requiredXP     Int
+  requiredTrophy Int
+  isTestUnlocked Boolean   @default(false)
+  testStartedAt  DateTime?
+  testPassed     Boolean?
+  passedAt       DateTime?
+  score          Int?
+  attempts       Int       @default(0)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, targetLevel])
+  @@index([userId])
+}
+
+model UserAnswerHistory {
+  id            String   @id @default(cuid())
+  userId        Int
+  topicId       Int
+  skillType     String
+  question      String
+  correctAnswer String
+  userAnswer    String
+  isCorrect     Boolean
+  createdAt     DateTime @default(now())
+  topic         Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topicId])
+  @@index([skillType])
+  @@index([createdAt])
+}
+
+model UserActivity {
+  id           String   @id @default(cuid())
+  userId       Int
+  date         DateTime @db.Date
+  skillType    String   @default("mixed") // "writing", "pronunciation", "quiz", "mixed"
+  totalSeconds Int      @default(0) // Total time in seconds
+  sessionCount Int      @default(0) // Number of completed sessions (topics/games)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, skillType])
+  @@index([userId])
+  @@index([date])
+}
+
+enum Role {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}

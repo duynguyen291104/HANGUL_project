@@ -1,0 +1,119 @@
+{
+  "topic": "Quần áo",
+  "level": "NEWBIE",
+  "description": "Clothing items",
+  "vocabulary": [
+    {
+      "korean": "셔츠",
+      "english": "Shirt",
+      "vietnamese": "Áo sơ mi",
+      "type": "noun",
+      "romanization": "syeocheu"
+    },
+    {
+      "korean": "바지",
+      "english": "Pants",
+      "vietnamese": "Quần",
+      "type": "noun",
+      "romanization": "baji"
+    },
+    {
+      "korean": "치마",
+      "english": "Skirt",
+      "vietnamese": "Váy",
+      "type": "noun",
+      "romanization": "chima"
+    },
+    {
+      "korean": "신발",
+      "english": "Shoes",
+      "vietnamese": "Giày",
+      "type": "noun",
+      "romanization": "sinbal"
+    },
+    {
+      "korean": "모자",
+      "english": "Hat",
+      "vietnamese": "Mũ",
+      "type": "noun",
+      "romanization": "moja"
+    },
+    {
+      "korean": "양말",
+      "english": "Socks",
+      "vietnamese": "Tất",
+      "type": "noun",
+      "romanization": "yangmal"
+    },
+    {
+      "korean": "자켓",
+      "english": "Jacket",
+      "vietnamese": "Áo khoác",
+      "type": "noun",
+      "romanization": "jaket"
+    },
+    {
+      "korean": "코트",
+      "english": "Coat",
+      "vietnamese": "Áo khoác dài",
+      "type": "noun",
+      "romanization": "koteu"
+    },
+    {
+      "korean": "드레스",
+      "english": "Dress",
+      "vietnamese": "Váy dạ",
+      "type": "noun",
+      "romanization": "deurese"
+    },
+    {
+      "korean": "넥타이",
+      "english": "Necktie",
+      "vietnamese": "Cà vạt",
+      "type": "noun",
+      "romanization": "nektai"
+    },
+    {
+      "korean": "장갑",
+      "english": "Gloves",
+      "vietnamese": "Găng tay",
+      "type": "noun",
+      "romanization": "janggap"
+    },
+    {
+      "korean": "스카프",
+      "english": "Scarf",
+      "vietnamese": "Khăn quàng",
+      "type": "noun",
+      "romanization": "seukapu"
+    },
+    {
+      "korean": "벨트",
+      "english": "Belt",
+      "vietnamese": "Dây lưng",
+      "type": "noun",
+      "romanization": "belteu"
+    },
+    {
+      "korean": "속옷",
+      "english": "Underwear",
+      "vietnamese": "Đồ lót",
+      "type": "noun",
+      "romanization": "sogoct"
+    },
+    {
+      "korean": "양복",
+      "english": "Suit",
+      "vietnamese": "Bộ đồ lịch sự",
+      "type": "noun",
+      "romanization": "yangbog"
+    },
+    {
+      "korean": "운동화",
+      "english": "Sneakers",
+      "vietnamese": "Giày thể thao",
+      "type": "noun",
+      "romanization": "udeonghwa"
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "topic": "Số đếm",
+  "level": "NEWBIE",
+  "description": "Numbers 1-10",
+  "vocabulary": [
+    {
+      "korean": "하나",
+      "english": "One",
+      "vietnamese": "Một",
+      "type": "noun",
+      "romanization": "hana"
+    },
+    {
+      "korean": "둘",
+      "english": "Two",
+      "vietnamese": "Hai",
+      "type": "noun",
+      "romanization": "dul"
+    },
+    {
+      "korean": "셋",
+      "english": "Three",
+      "vietnamese": "Ba",
+      "type": "noun",
+      "romanization": "set"
+    },
+    {
+      "korean": "넷",
+      "english": "Four",
+      "vietnamese": "Bốn",
+      "type": "noun",
+      "romanization": "net"
+    },
+    {
+      "korean": "다섯",
+      "english": "Five",
+      "vietnamese": "Năm",
+      "type": "noun",
+      "romanization": "daseot"
+    },
+    {
+      "korean": "여섯",
+      "english": "Six",
+      "vietnamese": "Sáu",
+      "type": "noun",
+      "romanization": "yeoseot"
+    },
+    {
+      "korean": "일곱",
+      "english": "Seven",
+      "vietnamese": "Bảy",
+      "type": "noun",
+      "romanization": "ilgop"
+    },
+    {
+      "korean": "여덟",
+      "english": "Eight",
+      "vietnamese": "Tám",
+      "type": "noun",
+      "romanization": "yeodeol"
+    },
+    {
+      "korean": "아홉",
+      "english": "Nine",
+      "vietnamese": "Chín",
+      "type": "noun",
+      "romanization": "ahop"
+    },
+    {
+      "korean": "열",
+      "english": "Ten",
+      "vietnamese": "Mười",
+      "type": "noun",
+      "romanization": "yeol"
+    },
+    {
+      "korean": "열하나",
+      "english": "Eleven",
+      "vietnamese": "Mười một",
+      "type": "noun",
+      "romanization": "yeolhana"
+    },
+    {
+      "korean": "열둘",
+      "english": "Twelve",
+      "vietnamese": "Mười hai",
+      "type": "noun",
+      "romanization": "yeoldul"
+    },
+    {
+      "korean": "열셋",
+      "english": "Thirteen",
+      "vietnamese": "Mười ba",
+      "type": "noun",
+      "romanization": "yeolset"
+    },
+    {
+      "korean": "열넷",
+      "english": "Fourteen",
+      "vietnamese": "Mười bốn",
+      "type": "noun",
+      "romanization": "yeolnet"
+    },
+    {
+      "korean": "열다섯",
+      "english": "Fifteen",
+      "vietnamese": "Mười năm",
+      "type": "noun",
+      "romanization": "yeoldaseot"
+    },
+    {
+      "korean": "열여섯",
+      "english": "Sixteen",
+      "vietnamese": "Mười sáu",
+      "type": "noun",
+      "romanization": "yeol-yeoseot"
+    },
+    {
+      "korean": "영",
+      "english": "Zero",
+      "vietnamese": "Không",
+      "type": "noun",
+      "romanization": "yeong"
+    }
+  ]
+}

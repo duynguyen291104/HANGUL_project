@@ -1,0 +1,119 @@
+{
+  "topic": "Du lịch",
+  "level": "INTERMEDIATE",
+  "description": "Travel and tourism",
+  "vocabulary": [
+    {
+      "korean": "여행",
+      "english": "Travel",
+      "vietnamese": "Du lịch",
+      "type": "noun",
+      "romanization": "yeohaeng"
+    },
+    {
+      "korean": "비행기",
+      "english": "Airplane",
+      "vietnamese": "Máy bay",
+      "type": "noun",
+      "romanization": "bihaenggi"
+    },
+    {
+      "korean": "호텔",
+      "english": "Hotel",
+      "vietnamese": "Khách sạn",
+      "type": "noun",
+      "romanization": "hotel"
+    },
+    {
+      "korean": "짐",
+      "english": "Luggage",
+      "vietnamese": "Hành lý",
+      "type": "noun",
+      "romanization": "jjim"
+    },
+    {
+      "korean": "지도",
+      "english": "Map",
+      "vietnamese": "Bản đồ",
+      "type": "noun",
+      "romanization": "jido"
+    },
+    {
+      "korean": "관광",
+      "english": "Sightseeing",
+      "vietnamese": "Tham quan",
+      "type": "noun",
+      "romanization": "gwangwang"
+    },
+    {
+      "korean": "기차",
+      "english": "Train",
+      "vietnamese": "Tau hoa",
+      "type": "noun",
+      "romanization": "gicha"
+    },
+    {
+      "korean": "모래해변",
+      "english": "Sandy beach",
+      "vietnamese": "Bai canh cat",
+      "type": "noun",
+      "romanization": "morae baebyon"
+    },
+    {
+      "korean": "마을",
+      "english": "Village",
+      "vietnamese": "Lang",
+      "type": "noun",
+      "romanization": "maul"
+    },
+    {
+      "korean": "첫날",
+      "english": "First day",
+      "vietnamese": "Ngay dau",
+      "type": "noun",
+      "romanization": "cheolnal"
+    },
+    {
+      "korean": "마지막날",
+      "english": "Last day",
+      "vietnamese": "Ngay cuoi",
+      "type": "noun",
+      "romanization": "majimak nal"
+    },
+    {
+      "korean": "카메라",
+      "english": "Camera",
+      "vietnamese": "May anh",
+      "type": "noun",
+      "romanization": "kamera"
+    },
+    {
+      "korean": "기록",
+      "english": "Record",
+      "vietnamese": "Ky uc",
+      "type": "noun",
+      "romanization": "girok"
+    },
+    {
+      "korean": "상큼하다",
+      "english": "Refreshing",
+      "vietnamese": "Soc vai",
+      "type": "adjective",
+      "romanization": "sangkkeumhada"
+    },
+    {
+      "korean": "돌아가다",
+      "english": "Return",
+      "vietnamese": "Tro lai",
+      "type": "verb",
+      "romanization": "doragada"
+    },
+    {
+      "korean": "추억",
+      "english": "Memory",
+      "vietnamese": "Ky uc",
+      "type": "noun",
+      "romanization": "chuuk"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "topic": "Giao tiếp",
+  "level": "INTERMEDIATE",
+  "description": "Communication",
+  "vocabulary": [
+    {
+      "korean": "전화",
+      "english": "Phone",
+      "vietnamese": "Điện thoại",
+      "type": "noun",
+      "romanization": "jeonhwa"
+    },
+    {
+      "korean": "이메일",
+      "english": "Email",
+      "vietnamese": "Email",
+      "type": "noun",
+      "romanization": "imeil"
+    },
+    {
+      "korean": "메시지",
+      "english": "Message",
+      "vietnamese": "Tin nhắn",
+      "type": "noun",
+      "romanization": "mesiji"
+    },
+    {
+      "korean": "대화",
+      "english": "Conversation",
+      "vietnamese": "Cuộc trò chuyện",
+      "type": "noun",
+      "romanization": "daehwa"
+    },
+    {
+      "korean": "말하다",
+      "english": "Speak",
+      "vietnamese": "Nói",
+      "type": "verb",
+      "romanization": "malhada"
+    },
+    {
+      "korean": "듣다",
+      "english": "Listen",
+      "vietnamese": "Nghe",
+      "type": "verb",
+      "romanization": "deutda"
+    },
+    {
+      "korean": "읽다",
+      "english": "Read",
+      "vietnamese": "Đọc",
+      "type": "verb",
+      "romanization": "ilkda"
+    },
+    {
+      "korean": "쓰다",
+      "english": "Write",
+      "vietnamese": "Viết",
+      "type": "verb",
+      "romanization": "sseuda"
+    },
+    {
+      "korean": "청중",
+      "english": "Audience",
+      "vietnamese": "Khán giả",
+      "type": "noun",
+      "romanization": "cheongjoong"
+    },
+    {
+      "korean": "피드백",
+      "english": "Feedback",
+      "vietnamese": "Phản hồi",
+      "type": "noun",
+      "romanization": "pideubaek"
+    },
+    {
+      "korean": "이해",
+      "english": "Understanding",
+      "vietnamese": "Hiểu biết",
+      "type": "noun",
+      "romanization": "ihae"
+    },
+    {
+      "korean": "표현",
+      "english": "Expression",
+      "vietnamese": "Biểu đạt",
+      "type": "noun",
+      "romanization": "pyohyeon"
+    },
+    {
+      "korean": "어조",
+      "english": "Tone",
+      "vietnamese": "Giọng điệu",
+      "type": "noun",
+      "romanization": "eojo"
+    },
+    {
+      "korean": "주의",
+      "english": "Attention",
+      "vietnamese": "Sự chú ý",
+      "type": "noun",
+      "romanization": "juui"
+    },
+    {
+      "korean": "효율",
+      "english": "Efficiency",
+      "vietnamese": "Hiệu quả",
+      "type": "noun",
+      "romanization": "hyoyul"
+    }
+  ]
+}

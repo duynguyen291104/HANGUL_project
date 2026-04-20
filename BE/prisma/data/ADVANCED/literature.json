@@ -1,0 +1,112 @@
+{
+  "topic": "Văn học",
+  "level": "ADVANCED",
+  "description": "Literature and writing",
+  "vocabulary": [
+    {
+      "korean": "문학",
+      "english": "Literature",
+      "vietnamese": "Văn học",
+      "type": "noun",
+      "romanization": "munhak"
+    },
+    {
+      "korean": "시",
+      "english": "Poetry",
+      "vietnamese": "Thơ",
+      "type": "noun",
+      "romanization": "si"
+    },
+    {
+      "korean": "소설",
+      "english": "Novel",
+      "vietnamese": "Tiểu thuyết",
+      "type": "noun",
+      "romanization": "soseol"
+    },
+    {
+      "korean": "작가",
+      "english": "Author",
+      "vietnamese": "Tác giả",
+      "type": "noun",
+      "romanization": "jakga"
+    },
+    {
+      "korean": "표현",
+      "english": "Expression",
+      "vietnamese": "Biểu đạt",
+      "type": "noun",
+      "romanization": "pyohyeon"
+    },
+    {
+      "korean": "주제",
+      "english": "Theme",
+      "vietnamese": "Chủ đề",
+      "type": "noun",
+      "romanization": "juje"
+    },
+    {
+      "korean": "서사",
+      "english": "Narrative",
+      "vietnamese": "Tự sự",
+      "type": "noun",
+      "romanization": "seosa"
+    },
+    {
+      "korean": "운율",
+      "english": "Prosody",
+      "vietnamese": "Vần điệu",
+      "type": "noun",
+      "romanization": "unryul"
+    },
+    {
+      "korean": "비유",
+      "english": "Metaphor",
+      "vietnamese": "Ẩn dụ",
+      "type": "noun",
+      "romanization": "biyu"
+    },
+    {
+      "korean": "상징",
+      "english": "Symbolism",
+      "vietnamese": "Ký hiệu",
+      "type": "noun",
+      "romanization": "sangjing"
+    },
+    {
+      "korean": "풍자",
+      "english": "Satire",
+      "vietnamese": "Châm chọc",
+      "type": "noun",
+      "romanization": "pungja"
+    },
+    {
+      "korean": "낭만",
+      "english": "Romanticism",
+      "vietnamese": "Lãng mạn",
+      "type": "noun",
+      "romanization": "nangman"
+    },
+    {
+      "korean": "사실주의",
+      "english": "Realism",
+      "vietnamese": "Chủ nghĩa hiện thực",
+      "type": "noun",
+      "romanization": "sasilljuui"
+    },
+    {
+      "korean": "등장인물",
+      "english": "Character",
+      "vietnamese": "Nhân vật",
+      "type": "noun",
+      "romanization": "deungjang inmul"
+    },
+    {
+      "korean": "서사적 긴장",
+      "english": "Narrative tension",
+      "vietnamese": "Căng thẳng tự sự",
+      "type": "noun",
+      "romanization": "seosajung geunttang"
+    }
+  ]
+}

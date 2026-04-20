@@ -1,0 +1,112 @@
+{
+  "topic": "Lịch sử",
+  "level": "INTERMEDIATE",
+  "description": "History",
+  "vocabulary": [
+    {
+      "korean": "역사",
+      "english": "History",
+      "vietnamese": "Lịch sử",
+      "type": "noun",
+      "romanization": "yeoksa"
+    },
+    {
+      "korean": "시대",
+      "english": "Era",
+      "vietnamese": "Thời đại",
+      "type": "noun",
+      "romanization": "sidea"
+    },
+    {
+      "korean": "전쟁",
+      "english": "War",
+      "vietnamese": "Chiến tranh",
+      "type": "noun",
+      "romanization": "jeonjaeng"
+    },
+    {
+      "korean": "평화",
+      "english": "Peace",
+      "vietnamese": "Hòa bình",
+      "type": "noun",
+      "romanization": "pyeonghwa"
+    },
+    {
+      "korean": "왕",
+      "english": "King",
+      "vietnamese": "Vua",
+      "type": "noun",
+      "romanization": "wang"
+    },
+    {
+      "korean": "문화",
+      "english": "Culture",
+      "vietnamese": "Văn hóa",
+      "type": "noun",
+      "romanization": "munhwa"
+    },
+    {
+      "korean": "기록",
+      "english": "Record",
+      "vietnamese": "Tài liệu ghi chép",
+      "type": "noun",
+      "romanization": "girok"
+    },
+    {
+      "korean": "귀족",
+      "english": "Aristocracy",
+      "vietnamese": "Tầng lớp quý tộc",
+      "type": "noun",
+      "romanization": "gwijok"
+    },
+    {
+      "korean": "동맹",
+      "english": "Alliance",
+      "vietnamese": "Đồng minh",
+      "type": "noun",
+      "romanization": "dongmaeng"
+    },
+    {
+      "korean": "유물",
+      "english": "Relic",
+      "vietnamese": "Tàn tích",
+      "type": "noun",
+      "romanization": "yumul"
+    },
+    {
+      "korean": "내란",
+      "english": "Internal turmoil",
+      "vietnamese": "Loạn nội bộ",
+      "type": "noun",
+      "romanization": "nairan"
+    },
+    {
+      "korean": "전염병",
+      "english": "Plague",
+      "vietnamese": "Dịch bệnh",
+      "type": "noun",
+      "romanization": "jeonyeombyeong"
+    },
+    {
+      "korean": "민간 전설",
+      "english": "Folklore",
+      "vietnamese": "Truyền thuyết dân gian",
+      "type": "noun",
+      "romanization": "mingan jeonseol"
+    },
+    {
+      "korean": "증거",
+      "english": "Evidence",
+      "vietnamese": "Bằng chứng",
+      "type": "noun",
+      "romanization": "jeungeo"
+    },
+    {
+      "korean": "계승자",
+      "english": "Successor",
+      "vietnamese": "Người kế vị",
+      "type": "noun",
+      "romanization": "gyeseungja"
+    }
+  ]
+}

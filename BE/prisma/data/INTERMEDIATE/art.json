@@ -1,0 +1,112 @@
+{
+  "topic": "Nghệ thuật",
+  "level": "INTERMEDIATE",
+  "description": "Art",
+  "vocabulary": [
+    {
+      "korean": "미술",
+      "english": "Art",
+      "vietnamese": "Mỹ thuật",
+      "type": "noun",
+      "romanization": "misul"
+    },
+    {
+      "korean": "그림",
+      "english": "Painting",
+      "vietnamese": "Bức tranh",
+      "type": "noun",
+      "romanization": "geurim"
+    },
+    {
+      "korean": "조각",
+      "english": "Sculpture",
+      "vietnamese": "Tác phẩm điêu khắc",
+      "type": "noun",
+      "romanization": "jogak"
+    },
+    {
+      "korean": "색",
+      "english": "Color",
+      "vietnamese": "Màu",
+      "type": "noun",
+      "romanization": "saek"
+    },
+    {
+      "korean": "붓",
+      "english": "Brush",
+      "vietnamese": "Cọ",
+      "type": "noun",
+      "romanization": "but"
+    },
+    {
+      "korean": "모델",
+      "english": "Model",
+      "vietnamese": "Người mẫu",
+      "type": "noun",
+      "romanization": "model"
+    },
+    {
+      "korean": "캔버스",
+      "english": "Canvas",
+      "vietnamese": "Vải canvas",
+      "type": "noun",
+      "romanization": "kaenbeo"
+    },
+    {
+      "korean": "팔레트",
+      "english": "Palette",
+      "vietnamese": "Bảng trộn màu",
+      "type": "noun",
+      "romanization": "palletu"
+    },
+    {
+      "korean": "소묘",
+      "english": "Sketch",
+      "vietnamese": "Nét vẽ",
+      "type": "noun",
+      "romanization": "somyo"
+    },
+    {
+      "korean": "명암",
+      "english": "Light and shade",
+      "vietnamese": "Sáng tối",
+      "type": "noun",
+      "romanization": "myeongam"
+    },
+    {
+      "korean": "질감",
+      "english": "Texture",
+      "vietnamese": "Kết cấu",
+      "type": "noun",
+      "romanization": "jilgam"
+    },
+    {
+      "korean": "원근법",
+      "english": "Perspective",
+      "vietnamese": "Zuất điểm",
+      "type": "noun",
+      "romanization": "weungeunbeop"
+    },
+    {
+      "korean": "구도",
+      "english": "Composition",
+      "vietnamese": "Bố cục",
+      "type": "noun",
+      "romanization": "guudo"
+    },
+    {
+      "korean": "회화",
+      "english": "Painting technique",
+      "vietnamese": "Kỹ thuật vẽ",
+      "type": "noun",
+      "romanization": "hoehwa"
+    },
+    {
+      "korean": "주제",
+      "english": "Subject",
+      "vietnamese": "Chủ đề",
+      "type": "noun",
+      "romanization": "juje"
+    }
+  ]
+}

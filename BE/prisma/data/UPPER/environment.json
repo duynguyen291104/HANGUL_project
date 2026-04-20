@@ -1,0 +1,112 @@
+{
+  "topic": "Môi trường",
+  "level": "UPPER",
+  "description": "Environment and ecology",
+  "vocabulary": [
+    {
+      "korean": "환경",
+      "english": "Environment",
+      "vietnamese": "Môi trường",
+      "type": "noun",
+      "romanization": "hwangyeong"
+    },
+    {
+      "korean": "오염",
+      "english": "Pollution",
+      "vietnamese": "Ô nhiễm",
+      "type": "noun",
+      "romanization": "oyeom"
+    },
+    {
+      "korean": "지구 온난화",
+      "english": "Global warming",
+      "vietnamese": "Trái đất ấm lên",
+      "type": "noun",
+      "romanization": "jigu onnanhwa"
+    },
+    {
+      "korean": "탄소",
+      "english": "Carbon",
+      "vietnamese": "Các-bon",
+      "type": "noun",
+      "romanization": "tanso"
+    },
+    {
+      "korean": "에너지",
+      "english": "Energy",
+      "vietnamese": "Năng lượng",
+      "type": "noun",
+      "romanization": "eneoji"
+    },
+    {
+      "korean": "지속 가능",
+      "english": "Sustainable",
+      "vietnamese": "Bền vững",
+      "type": "adjective",
+      "romanization": "jisok ganeung"
+    },
+    {
+      "korean": "재활용",
+      "english": "Recycling",
+      "vietnamese": "Tai su dung",
+      "type": "noun",
+      "romanization": "jaehwalyong"
+    },
+    {
+      "korean": "생물다양성",
+      "english": "Biodiversity",
+      "vietnamese": "Da dang sinh hoc",
+      "type": "noun",
+      "romanization": "saengmuldayangseong"
+    },
+    {
+      "korean": "생태계",
+      "english": "Ecosystem",
+      "vietnamese": "He sinh thai",
+      "type": "noun",
+      "romanization": "saengtaegye"
+    },
+    {
+      "korean": "멸종",
+      "english": "Extinction",
+      "vietnamese": "Tuyệt chung",
+      "type": "noun",
+      "romanization": "myeoljong"
+    },
+    {
+      "korean": "오존층",
+      "english": "Ozone layer",
+      "vietnamese": "Tang ozone",
+      "type": "noun",
+      "romanization": "ojoncheung"
+    },
+    {
+      "korean": "산성비",
+      "english": "Acid rain",
+      "vietnamese": "Mua axit",
+      "type": "noun",
+      "romanization": "sansaengbi"
+    },
+    {
+      "korean": "수질",
+      "english": "Water quality",
+      "vietnamese": "Chat luong nuoc",
+      "type": "noun",
+      "romanization": "sujil"
+    },
+    {
+      "korean": "보호구역",
+      "english": "Protected area",
+      "vietnamese": "Khu vuc bao ve",
+      "type": "noun",
+      "romanization": "bohoguyeok"
+    },
+    {
+      "korean": "자연자본",
+      "english": "Natural capital",
+      "vietnamese": "Von tu nhien",
+      "type": "noun",
+      "romanization": "jayeon jabon"
+    }
+  ]
+}

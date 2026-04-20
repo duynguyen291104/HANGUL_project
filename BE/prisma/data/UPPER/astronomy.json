@@ -1,0 +1,112 @@
+{
+  "topic": "Thiên văn học",
+  "level": "UPPER",
+  "description": "Astronomy",
+  "vocabulary": [
+    {
+      "korean": "천문학",
+      "english": "Astronomy",
+      "vietnamese": "Thiên văn học",
+      "type": "noun",
+      "romanization": "cheonmunhak"
+    },
+    {
+      "korean": "행성",
+      "english": "Planet",
+      "vietnamese": "Hành tinh",
+      "type": "noun",
+      "romanization": "haengseong"
+    },
+    {
+      "korean": "별",
+      "english": "Star",
+      "vietnamese": "Sao",
+      "type": "noun",
+      "romanization": "byeol"
+    },
+    {
+      "korean": "은하계",
+      "english": "Galaxy",
+      "vietnamese": "Thiên hà",
+      "type": "noun",
+      "romanization": "eunhagye"
+    },
+    {
+      "korean": "우주",
+      "english": "Universe",
+      "vietnamese": "Vũ trụ",
+      "type": "noun",
+      "romanization": "uju"
+    },
+    {
+      "korean": "블랙홀",
+      "english": "Black hole",
+      "vietnamese": "Lỗ đen",
+      "type": "noun",
+      "romanization": "beullaekhol"
+    },
+    {
+      "korean": "달",
+      "english": "Moon",
+      "vietnamese": "Mat trang",
+      "type": "noun",
+      "romanization": "dal"
+    },
+    {
+      "korean": "혜성",
+      "english": "Comet",
+      "vietnamese": "Sao chei",
+      "type": "noun",
+      "romanization": "hyeseong"
+    },
+    {
+      "korean": "소행성",
+      "english": "Asteroid",
+      "vietnamese": "Tieu hanh tinh",
+      "type": "noun",
+      "romanization": "sohaengseong"
+    },
+    {
+      "korean": "중력",
+      "english": "Gravity",
+      "vietnamese": "Luc hut",
+      "type": "noun",
+      "romanization": "jungyeok"
+    },
+    {
+      "korean": "광년",
+      "english": "Light year",
+      "vietnamese": "Nam quang",
+      "type": "noun",
+      "romanization": "gwangyeon"
+    },
+    {
+      "korean": "관측",
+      "english": "Observation",
+      "vietnamese": "Quan sai",
+      "type": "noun",
+      "romanization": "gwancheuk"
+    },
+    {
+      "korean": "천체",
+      "english": "Celestial body",
+      "vietnamese": "Thien the",
+      "type": "noun",
+      "romanization": "cheontae"
+    },
+    {
+      "korean": "중성자",
+      "english": "Neutron",
+      "vietnamese": "Trung tinh tu",
+      "type": "noun",
+      "romanization": "jungseongja"
+    },
+    {
+      "korean": "빅뱅",
+      "english": "Big Bang",
+      "vietnamese": "Vu tro lon",
+      "type": "noun",
+      "romanization": "bigbang"
+    }
+  ]
+}

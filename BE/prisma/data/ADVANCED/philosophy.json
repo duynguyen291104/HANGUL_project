@@ -1,0 +1,112 @@
+{
+  "topic": "Triết học",
+  "level": "ADVANCED",
+  "description": "Philosophy and abstract concepts",
+  "vocabulary": [
+    {
+      "korean": "철학",
+      "english": "Philosophy",
+      "vietnamese": "Triết học",
+      "type": "noun",
+      "romanization": "cheolhak"
+    },
+    {
+      "korean": "이성",
+      "english": "Reason",
+      "vietnamese": "Lý trí",
+      "type": "noun",
+      "romanization": "iseong"
+    },
+    {
+      "korean": "진리",
+      "english": "Truth",
+      "vietnamese": "Chân lý",
+      "type": "noun",
+      "romanization": "jinli"
+    },
+    {
+      "korean": "의견",
+      "english": "Opinion",
+      "vietnamese": "Ý kiến",
+      "type": "noun",
+      "romanization": "uigyeon"
+    },
+    {
+      "korean": "존재",
+      "english": "Existence",
+      "vietnamese": "Sự tồn tại",
+      "type": "noun",
+      "romanization": "jonzae"
+    },
+    {
+      "korean": "윤리",
+      "english": "Ethics",
+      "vietnamese": "Đạo đức",
+      "type": "noun",
+      "romanization": "yulli"
+    },
+    {
+      "korean": "존재론",
+      "english": "Ontology",
+      "vietnamese": "Bản thể học",
+      "type": "noun",
+      "romanization": "jonzae ron"
+    },
+    {
+      "korean": "인식론",
+      "english": "Epistemology",
+      "vietnamese": "Nhân thức học",
+      "type": "noun",
+      "romanization": "insik ron"
+    },
+    {
+      "korean": "미학",
+      "english": "Aesthetics",
+      "vietnamese": "Thẩm mỹ học",
+      "type": "noun",
+      "romanization": "mihak"
+    },
+    {
+      "korean": "형이상학",
+      "english": "Metaphysics",
+      "vietnamese": "Siêu hình học",
+      "type": "noun",
+      "romanization": "hyeongisang hak"
+    },
+    {
+      "korean": "논리학",
+      "english": "Logic",
+      "vietnamese": "Lôgic học",
+      "type": "noun",
+      "romanization": "nongnihak"
+    },
+    {
+      "korean": "정언",
+      "english": "Categorical",
+      "vietnamese": "Phạm trù",
+      "type": "adjective",
+      "romanization": "jeongeo"
+    },
+    {
+      "korean": "가언",
+      "english": "Hypothetical",
+      "vietnamese": "Giả thuyết",
+      "type": "adjective",
+      "romanization": "gayeon"
+    },
+    {
+      "korean": "소거",
+      "english": "Elimination",
+      "vietnamese": "Loại bỏ",
+      "type": "noun",
+      "romanization": "sogeo"
+    },
+    {
+      "korean": "초월",
+      "english": "Transcendence",
+      "vietnamese": "Vượt qua",
+      "type": "noun",
+      "romanization": "chowol"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "topic": "Thể thao chuyên nghiệp",
+  "level": "UPPER",
+  "description": "Professional sports",
+  "vocabulary": [
+    {
+      "korean": "올림픽",
+      "english": "Olympic Games",
+      "vietnamese": "Olympic",
+      "type": "noun",
+      "romanization": "ollimpik"
+    },
+    {
+      "korean": "메달",
+      "english": "Medal",
+      "vietnamese": "Huy chương",
+      "type": "noun",
+      "romanization": "medal"
+    },
+    {
+      "korean": "챔피언",
+      "english": "Champion",
+      "vietnamese": "Nhà vô địch",
+      "type": "noun",
+      "romanization": "chaempien"
+    },
+    {
+      "korean": "경기",
+      "english": "Game/Match",
+      "vietnamese": "Trận đấu",
+      "type": "noun",
+      "romanization": "gyeonggi"
+    },
+    {
+      "korean": "승리",
+      "english": "Victory",
+      "vietnamese": "Chiến thắng",
+      "type": "noun",
+      "romanization": "seungni"
+    },
+    {
+      "korean": "패배",
+      "english": "Defeat",
+      "vietnamese": "Thất bại",
+      "type": "noun",
+      "romanization": "paebae"
+    },
+    {
+      "korean": "훈련",
+      "english": "Training",
+      "vietnamese": "Luyen tap",
+      "type": "noun",
+      "romanization": "hunryeon"
+    },
+    {
+      "korean": "코치",
+      "english": "Coach",
+      "vietnamese": "Hluan luyen",
+      "type": "noun",
+      "romanization": "kochi"
+    },
+    {
+      "korean": "전략",
+      "english": "Strategy",
+      "vietnamese": "Chien luoc",
+      "type": "noun",
+      "romanization": "jeonlyak"
+    },
+    {
+      "korean": "기술",
+      "english": "Technique",
+      "vietnamese": "Ky thuat",
+      "type": "noun",
+      "romanization": "gisul"
+    },
+    {
+      "korean": "경기력",
+      "english": "Performance",
+      "vietnamese": "Hieu suat thi dau",
+      "type": "noun",
+      "romanization": "gyeonggiryeok"
+    },
+    {
+      "korean": "부상",
+      "english": "Injury",
+      "vietnamese": "Chan thuong",
+      "type": "noun",
+      "romanization": "busang"
+    },
+    {
+      "korean": "회복기",
+      "english": "Recovery period",
+      "vietnamese": "Thoi gian hoi phuc",
+      "type": "noun",
+      "romanization": "hoebogygi"
+    },
+    {
+      "korean": "결승",
+      "english": "Finals",
+      "vietnamese": "Tran chung ket",
+      "type": "noun",
+      "romanization": "gyeolseung"
+    },
+    {
+      "korean": "우승자",
+      "english": "Champion",
+      "vietnamese": "Nha vo dich",
+      "type": "noun",
+      "romanization": "useungja"
+    }
+  ]
+}

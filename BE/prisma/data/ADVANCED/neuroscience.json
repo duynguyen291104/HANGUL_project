@@ -1,0 +1,112 @@
+{
+  "topic": "Thần kinh học",
+  "level": "ADVANCED",
+  "description": "Neuroscience",
+  "vocabulary": [
+    {
+      "korean": "신경과학",
+      "english": "Neuroscience",
+      "vietnamese": "Thần kinh học",
+      "type": "noun",
+      "romanization": "singyeonggwahak"
+    },
+    {
+      "korean": "뇌",
+      "english": "Brain",
+      "vietnamese": "Não",
+      "type": "noun",
+      "romanization": "noe"
+    },
+    {
+      "korean": "신경원",
+      "english": "Neuron",
+      "vietnamese": "Tế bào thần kinh",
+      "type": "noun",
+      "romanization": "singyeongwon"
+    },
+    {
+      "korean": "시냅스",
+      "english": "Synapse",
+      "vietnamese": "Dây thần kinh",
+      "type": "noun",
+      "romanization": "sinaepeu"
+    },
+    {
+      "korean": "신경전달물질",
+      "english": "Neurotransmitter",
+      "vietnamese": "Chất dẫn truyền thần kinh",
+      "type": "noun",
+      "romanization": "singyeongjeondalmuljil"
+    },
+    {
+      "korean": "인지능력",
+      "english": "Cognition",
+      "vietnamese": "Nhận thức",
+      "type": "noun",
+      "romanization": "injinungnyeok"
+    },
+    {
+      "korean": "신경계",
+      "english": "Nervous system",
+      "vietnamese": "Hệ thần kinh",
+      "type": "noun",
+      "romanization": "singyeonggye"
+    },
+    {
+      "korean": "대뇌피질",
+      "english": "Cerebral cortex",
+      "vietnamese": "Vỏ não",
+      "type": "noun",
+      "romanization": "daenoepienjil"
+    },
+    {
+      "korean": "도파민",
+      "english": "Dopamine",
+      "vietnamese": "Dopamin",
+      "type": "noun",
+      "romanization": "dopamin"
+    },
+    {
+      "korean": "세로토닌",
+      "english": "Serotonin",
+      "vietnamese": "Serotonin",
+      "type": "noun",
+      "romanization": "serotonineen"
+    },
+    {
+      "korean": "신경가소성",
+      "english": "Neuroplasticity",
+      "vietnamese": "Tính dẻo dai",
+      "type": "noun",
+      "romanization": "singyeong gasoseong"
+    },
+    {
+      "korean": "시냅스 제거",
+      "english": "Synaptic pruning",
+      "vietnamese": "Xóa các dây thần kinh",
+      "type": "noun",
+      "romanization": "sinaps jegeo"
+    },
+    {
+      "korean": "신경 신호",
+      "english": "Neural signal",
+      "vietnamese": "Tín hiệu thần kinh",
+      "type": "noun",
+      "romanization": "singyeong sinho"
+    },
+    {
+      "korean": "수초",
+      "english": "Myelin sheath",
+      "vietnamese": "Lớp myelin",
+      "type": "noun",
+      "romanization": "sucho"
+    },
+    {
+      "korean": "신경염증",
+      "english": "Neuroinflammation",
+      "vietnamese": "Viêm thần kinh",
+      "type": "noun",
+      "romanization": "singyeongyeomjung"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+version: '3.8'
+
+# Explicit network for container communication
+networks:
+  hangul-network:
+    driver: bridge
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: hangul-postgres
+    networks:
+      - hangul-network
+    environment:
+      POSTGRES_USER: hangul
+      POSTGRES_PASSWORD: hangul123
+      POSTGRES_DB: hangul
+    ports:
+      - "5433:5432"
+    volumes:
+      # Persist PostgreSQL data files on disk (vocabulary + user accounts)
+      - postgres_data:/var/lib/postgresql/data
+      # Backup location for data snapshots
+      - ./postgres_backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hangul"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ./BE
+      dockerfile: Dockerfile
+    container_name: hangul-backend
+    networks:
+      - hangul-network
+    environment:
+      DATABASE_URL: postgresql://${DB_USER:-hangul}:${DB_PASSWORD:-hangul123}@postgres:5432/${DB_NAME:-hangul}
+      JWT_SECRET: ${JWT_SECRET:-your-secret-key}
+      NODE_ENV: ${NODE_ENV:-development}
+      PORT: 5000
+      AI_BACKEND_URL: http://flask:5001
+    ports:
+      - "5000:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: always
+
+  # Flask AI Backend
+  flask:
+    build:
+      context: ./AI
+      dockerfile: Dockerfile
+    container_name: hangul-flask
+    networks:
+      - hangul-network
+    environment:
+      FLASK_ENV: development
+      FLASK_APP: app.py
+      # PostgreSQL Database Config (using service name 'postgres')
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: ${DB_NAME:-hangul}
+      DB_USER: ${DB_USER:-hangul}
+      DB_PASSWORD: ${DB_PASSWORD:-hangul123}
+      # Backend API Config
+      BACKEND_URL: http://backend:5000
+      BACKEND_API_KEY: ${BACKEND_API_KEY:-}
+    ports:
+      - "5001:5001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5001/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - ./AI:/app
+    expose:
+      - "5001"
+
+  # Frontend (optional - for development)
+  frontend:
+    build:
+      context: ./FE
+      dockerfile: Dockerfile.dev
+    container_name: hangul-frontend
+    networks:
+      - hangul-network
+    environment:
+      # In Docker, use service name 'backend' instead of localhost
+      NEXT_PUBLIC_API_URL: http://backend:5000/api
+      NEXT_PUBLIC_FLASK_API_URL: http://flask:5001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./FE/src:/app/src
+      - /app/node_modules
+
+volumes:
+  # PostgreSQL persistent data volume
+  # Saves all database data (user accounts + vocabulary) even after container stops
+  postgres_data:
+    driver: local
+  
+  # Optional: named volume for backups
+  postgres_backups:
+    driver: local

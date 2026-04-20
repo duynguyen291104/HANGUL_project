@@ -1,0 +1,112 @@
+{
+  "topic": "Sức khỏe",
+  "level": "UPPER",
+  "description": "Health and medicine",
+  "vocabulary": [
+    {
+      "korean": "건강",
+      "english": "Health",
+      "vietnamese": "Sức khỏe",
+      "type": "noun",
+      "romanization": "geongang"
+    },
+    {
+      "korean": "병원",
+      "english": "Hospital",
+      "vietnamese": "Bệnh viện",
+      "type": "noun",
+      "romanization": "byeongwon"
+    },
+    {
+      "korean": "의사",
+      "english": "Doctor",
+      "vietnamese": "Bác sĩ",
+      "type": "noun",
+      "romanization": "uisa"
+    },
+    {
+      "korean": "약",
+      "english": "Medicine",
+      "vietnamese": "Thuốc",
+      "type": "noun",
+      "romanization": "yak"
+    },
+    {
+      "korean": "질병",
+      "english": "Disease",
+      "vietnamese": "Bệnh",
+      "type": "noun",
+      "romanization": "jilbyeong"
+    },
+    {
+      "korean": "증상",
+      "english": "Symptom",
+      "vietnamese": "Triệu chứng",
+      "type": "noun",
+      "romanization": "jeungsang"
+    },
+    {
+      "korean": "예방",
+      "english": "Prevention",
+      "vietnamese": "Phong chong",
+      "type": "noun",
+      "romanization": "yebang"
+    },
+    {
+      "korean": "불편",
+      "english": "Discomfort",
+      "vietnamese": "Khong tien",
+      "type": "noun",
+      "romanization": "bulpyeon"
+    },
+    {
+      "korean": "진단",
+      "english": "Diagnosis",
+      "vietnamese": "Chan doan",
+      "type": "noun",
+      "romanization": "jindan"
+    },
+    {
+      "korean": "치료",
+      "english": "Treatment",
+      "vietnamese": "Dieu tri",
+      "type": "noun",
+      "romanization": "chiryo"
+    },
+    {
+      "korean": "회복",
+      "english": "Recovery",
+      "vietnamese": "Phuc hoi",
+      "type": "noun",
+      "romanization": "hoeboğ"
+    },
+    {
+      "korean": "감염",
+      "english": "Infection",
+      "vietnamese": "Nhiem khuẩn",
+      "type": "noun",
+      "romanization": "gamyeom"
+    },
+    {
+      "korean": "면역",
+      "english": "Immunity",
+      "vietnamese": "Mien dich",
+      "type": "noun",
+      "romanization": "milyeok"
+    },
+    {
+      "korean": "백신",
+      "english": "Vaccine",
+      "vietnamese": "Vac xin",
+      "type": "noun",
+      "romanization": "baeksin"
+    },
+    {
+      "korean": "처방",
+      "english": "Prescription",
+      "vietnamese": "Toa thuoc",
+      "type": "noun",
+      "romanization": "cheobang"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "topic": "Đồ nội thất",
+  "level": "NEWBIE",
+  "description": "Furniture",
+  "vocabulary": [
+    {
+      "korean": "침대",
+      "english": "Bed",
+      "vietnamese": "Giường",
+      "type": "noun",
+      "romanization": "chimdae"
+    },
+    {
+      "korean": "책상",
+      "english": "Desk",
+      "vietnamese": "Bàn",
+      "type": "noun",
+      "romanization": "chaeksang"
+    },
+    {
+      "korean": "의자",
+      "english": "Chair",
+      "vietnamese": "Ghế",
+      "type": "noun",
+      "romanization": "uija"
+    },
+    {
+      "korean": "소파",
+      "english": "Sofa",
+      "vietnamese": "Ghế sofa",
+      "type": "noun",
+      "romanization": "sofa"
+    },
+    {
+      "korean": "찬장",
+      "english": "Cabinet",
+      "vietnamese": "Tủ",
+      "type": "noun",
+      "romanization": "chanjang"
+    },
+    {
+      "korean": "창문",
+      "english": "Window",
+      "vietnamese": "Cửa sổ",
+      "type": "noun",
+      "romanization": "changmun"
+    },
+    {
+      "korean": "거울",
+      "english": "Mirror",
+      "vietnamese": "Gương",
+      "type": "noun",
+      "romanization": "geoul"
+    },
+    {
+      "korean": "등",
+      "english": "Lamp",
+      "vietnamese": "Đèn",
+      "type": "noun",
+      "romanization": "deung"
+    },
+    {
+      "korean": "선반",
+      "english": "Shelf",
+      "vietnamese": "Kệ",
+      "type": "noun",
+      "romanization": "seonban"
+    },
+    {
+      "korean": "침구",
+      "english": "Bedding",
+      "vietnamese": "Chăn ga",
+      "type": "noun",
+      "romanization": "chimgu"
+    },
+    {
+      "korean": "베개",
+      "english": "Pillow",
+      "vietnamese": "Gối",
+      "type": "noun",
+      "romanization": "begae"
+    },
+    {
+      "korean": "담요",
+      "english": "Blanket",
+      "vietnamese": "Chăn",
+      "type": "noun",
+      "romanization": "damyo"
+    },
+    {
+      "korean": "식탁",
+      "english": "Dining table",
+      "vietnamese": "Bàn ăn",
+      "type": "noun",
+      "romanization": "siktag"
+    },
+    {
+      "korean": "옷장",
+      "english": "Wardrobe",
+      "vietnamese": "Tủ quần áo",
+      "type": "noun",
+      "romanization": "ocjang"
+    },
+    {
+      "korean": "카펫",
+      "english": "Carpet",
+      "vietnamese": "Thảm",
+      "type": "noun",
+      "romanization": "kapet"
+    },
+    {
+      "korean": "원탁",
+      "english": "Round table",
+      "vietnamese": "Bàn tròn",
+      "type": "noun",
+      "romanization": "wontag"
+    }
+  ]
+}

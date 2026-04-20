@@ -1,0 +1,105 @@
+{
+  "topic": "Thứ trong tuần",
+  "level": "NEWBIE",
+  "description": "Days of the week",
+  "vocabulary": [
+    {
+      "korean": "월요일",
+      "english": "Monday",
+      "vietnamese": "Thứ hai",
+      "type": "noun",
+      "romanization": "wol-yoil"
+    },
+    {
+      "korean": "화요일",
+      "english": "Tuesday",
+      "vietnamese": "Thứ ba",
+      "type": "noun",
+      "romanization": "hwa-yoil"
+    },
+    {
+      "korean": "수요일",
+      "english": "Wednesday",
+      "vietnamese": "Thứ tư",
+      "type": "noun",
+      "romanization": "su-yoil"
+    },
+    {
+      "korean": "목요일",
+      "english": "Thursday",
+      "vietnamese": "Thứ năm",
+      "type": "noun",
+      "romanization": "mok-yoil"
+    },
+    {
+      "korean": "금요일",
+      "english": "Friday",
+      "vietnamese": "Thứ sáu",
+      "type": "noun",
+      "romanization": "geum-yoil"
+    },
+    {
+      "korean": "토요일",
+      "english": "Saturday",
+      "vietnamese": "Thứ bảy",
+      "type": "noun",
+      "romanization": "to-yoil"
+    },
+    {
+      "korean": "일요일",
+      "english": "Sunday",
+      "vietnamese": "Chủ nhật",
+      "type": "noun",
+      "romanization": "il-yoil"
+    },
+    {
+      "korean": "평일",
+      "english": "Weekday",
+      "vietnamese": "Ngày thường",
+      "type": "noun",
+      "romanization": "pyeong-il"
+    },
+    {
+      "korean": "주말",
+      "english": "Weekend",
+      "vietnamese": "Cuối tuần",
+      "type": "noun",
+      "romanization": "jumal"
+    },
+    {
+      "korean": "오늘",
+      "english": "Today",
+      "vietnamese": "Hôm nay",
+      "type": "noun",
+      "romanization": "oneul"
+    },
+    {
+      "korean": "내일",
+      "english": "Tomorrow",
+      "vietnamese": "Ngày mai",
+      "type": "noun",
+      "romanization": "naeil"
+    },
+    {
+      "korean": "어제",
+      "english": "Yesterday",
+      "vietnamese": "Hôm qua",
+      "type": "noun",
+      "romanization": "eoje"
+    },
+    {
+      "korean": "언제",
+      "english": "When",
+      "vietnamese": "Khi nào",
+      "type": "noun",
+      "romanization": "eonje"
+    },
+    {
+      "korean": "시간",
+      "english": "Hour/Time",
+      "vietnamese": "Giờ",
+      "type": "noun",
+      "romanization": "sigan"
+    }
+  ]
+}

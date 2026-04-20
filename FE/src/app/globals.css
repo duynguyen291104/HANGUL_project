@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Playwrite+IE:wght@100..400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Cormorant Garamond', serif;
+  background-color: rgb(250, 250, 245);
+  color: rgb(26, 28, 25);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+p, span, a, button, label, input, textarea {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+}
+
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+:root {
+  /* Brand Colors */
+  --primary: #72564c;
+  --primary-fixed: #ffdbce;
+  --primary-fixed-dim: #e4beb2;
+  --primary-container: #8d6e63;
+  
+  --secondary: #406561;
+  --secondary-fixed: #c2ebe5;
+  --secondary-fixed-dim: #a6cec9;
+  
+  --tertiary: #815300;
+  --tertiary-fixed: #ffddb5;
+  --tertiary-fixed-dim: #ffb957;
+  
+  /* Surface Colors */
+  --surface: #fafaf5;
+  --surface-dim: #dadad5;
+  --surface-container: #eeeee9;
+  --surface-container-high: #e8e8e3;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary hover:bg-primary-container text-white font-semibold py-3 px-6 rounded-full transition duration-300 shadow-md hover:shadow-lg font-headline;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary-fixed hover:bg-secondary-fixed-dim text-secondary font-semibold py-2 px-4 rounded-lg transition duration-300 font-headline;
+  }
+
+  .card-base {
+    @apply bg-surface-container rounded-lg shadow-sm hover:shadow-lg transition-all;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-md p-6 transition duration-300 hover:shadow-lg;
+  }
+
+  .card-primary {
+    @apply bg-gradient-to-br from-primary to-primary-container text-white rounded-2xl shadow-md p-6;
+  }
+
+  .card-accent {
+    @apply bg-gradient-to-br from-secondary-fixed to-secondary-fixed-dim text-secondary rounded-2xl shadow-md p-6;
+  }
+
+  .container-md {
+    @apply max-w-2xl mx-auto;
+  }
+
+  .container-lg {
+    @apply max-w-5xl mx-auto;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold text-on-background mb-6 font-headline;
+  }
+
+  .stat-box {
+    @apply bg-white rounded-2xl shadow-sm p-6 text-center;
+  }
+
+  .progress-bar {
+    @apply w-full bg-surface-container-high rounded-full h-2 overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply bg-primary rounded-full h-full transition-all duration-500;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Loading Animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

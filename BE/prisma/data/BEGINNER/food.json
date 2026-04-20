@@ -1,0 +1,105 @@
+{
+  "topic": "Đồ ăn",
+  "level": "BEGINNER",
+  "description": "Food and drinks",
+  "vocabulary": [
+    {
+      "korean": "밥",
+      "english": "Rice",
+      "vietnamese": "Cơm",
+      "type": "noun",
+      "romanization": "bap"
+    },
+    {
+      "korean": "음식",
+      "english": "Food",
+      "vietnamese": "Thức ăn",
+      "type": "noun",
+      "romanization": "eumsik"
+    },
+    {
+      "korean": "물",
+      "english": "Water",
+      "vietnamese": "Nước",
+      "type": "noun",
+      "romanization": "mul"
+    },
+    {
+      "korean": "커피",
+      "english": "Coffee",
+      "vietnamese": "Cà phê",
+      "type": "noun",
+      "romanization": "keopi"
+    },
+    {
+      "korean": "차",
+      "english": "Tea",
+      "vietnamese": "Trà",
+      "type": "noun",
+      "romanization": "cha"
+    },
+    {
+      "korean": "고기",
+      "english": "Meat",
+      "vietnamese": "Thịt",
+      "type": "noun",
+      "romanization": "gogi"
+    },
+    {
+      "korean": "채소",
+      "english": "Vegetables",
+      "vietnamese": "Rau",
+      "type": "noun",
+      "romanization": "chaeso"
+    },
+    {
+      "korean": "과일",
+      "english": "Fruits",
+      "vietnamese": "Trái cây",
+      "type": "noun",
+      "romanization": "gwail"
+    },
+    {
+      "korean": "생선",
+      "english": "Fish",
+      "vietnamese": "Cá",
+      "type": "noun",
+      "romanization": "saengseon"
+    },
+    {
+      "korean": "닭",
+      "english": "Chicken",
+      "vietnamese": "Gà",
+      "type": "noun",
+      "romanization": "dak"
+    },
+    {
+      "korean": "스프",
+      "english": "Soup",
+      "vietnamese": "Canh",
+      "type": "noun",
+      "romanization": "seup"
+    },
+    {
+      "korean": "샐러드",
+      "english": "Salad",
+      "vietnamese": "Salad",
+      "type": "noun",
+      "romanization": "saelreodeu"
+    },
+    {
+      "korean": "빵",
+      "english": "Bread",
+      "vietnamese": "Bánh mì",
+      "type": "noun",
+      "romanization": "ppang"
+    },
+    {
+      "korean": "계란",
+      "english": "Egg",
+      "vietnamese": "Trứng",
+      "type": "noun",
+      "romanization": "gyeran"
+    }
+  ]
+}

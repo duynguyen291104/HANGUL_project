@@ -1,0 +1,112 @@
+{
+  "topic": "Kinh doanh",
+  "level": "INTERMEDIATE",
+  "description": "Business and commerce",
+  "vocabulary": [
+    {
+      "korean": "비즈니스",
+      "english": "Business",
+      "vietnamese": "Kinh doanh",
+      "type": "noun",
+      "romanization": "bijeuniswu"
+    },
+    {
+      "korean": "계약",
+      "english": "Contract",
+      "vietnamese": "Hợp đồng",
+      "type": "noun",
+      "romanization": "gyeyak"
+    },
+    {
+      "korean": "거래",
+      "english": "Transaction",
+      "vietnamese": "Giao dịch",
+      "type": "noun",
+      "romanization": "georae"
+    },
+    {
+      "korean": "이익",
+      "english": "Profit",
+      "vietnamese": "Lợi nhuận",
+      "type": "noun",
+      "romanization": "iik"
+    },
+    {
+      "korean": "손실",
+      "english": "Loss",
+      "vietnamese": "Tổn thất",
+      "type": "noun",
+      "romanization": "sonsil"
+    },
+    {
+      "korean": "투자",
+      "english": "Investment",
+      "vietnamese": "Đầu tư",
+      "type": "noun",
+      "romanization": "tuja"
+    },
+    {
+      "korean": "고객",
+      "english": "Customer",
+      "vietnamese": "Khách hàng",
+      "type": "noun",
+      "romanization": "gogyeok"
+    },
+    {
+      "korean": "판매",
+      "english": "Sales",
+      "vietnamese": "Bán hàng",
+      "type": "noun",
+      "romanization": "panmae"
+    },
+    {
+      "korean": "공급",
+      "english": "Supply",
+      "vietnamese": "Cung cấp",
+      "type": "noun",
+      "romanization": "gonggub"
+    },
+    {
+      "korean": "수요",
+      "english": "Demand",
+      "vietnamese": "Nhu cầu",
+      "type": "noun",
+      "romanization": "suyeo"
+    },
+    {
+      "korean": "마케팅",
+      "english": "Marketing",
+      "vietnamese": "Marketing",
+      "type": "noun",
+      "romanization": "maketing"
+    },
+    {
+      "korean": "브랜드",
+      "english": "Brand",
+      "vietnamese": "Thương hiệu",
+      "type": "noun",
+      "romanization": "beuraendeu"
+    },
+    {
+      "korean": "경쟁",
+      "english": "Competition",
+      "vietnamese": "Cạnh tranh",
+      "type": "noun",
+      "romanization": "gyeongjaeng"
+    },
+    {
+      "korean": "수익성",
+      "english": "Profitability",
+      "vietnamese": "Khả năng sinh lợi",
+      "type": "noun",
+      "romanization": "suyikseong"
+    },
+    {
+      "korean": "제품",
+      "english": "Product",
+      "vietnamese": "Sản phẩm",
+      "type": "noun",
+      "romanization": "jepoom"
+    }
+  ]
+}

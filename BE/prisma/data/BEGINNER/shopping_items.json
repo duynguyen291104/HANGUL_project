@@ -1,0 +1,105 @@
+{
+  "topic": "Đồ vật mua sắm",
+  "level": "BEGINNER",
+  "description": "Shopping items",
+  "vocabulary": [
+    {
+      "korean": "옷",
+      "english": "Clothes",
+      "vietnamese": "Quần áo",
+      "type": "noun",
+      "romanization": "ot"
+    },
+    {
+      "korean": "신발",
+      "english": "Shoes",
+      "vietnamese": "Giày",
+      "type": "noun",
+      "romanization": "sinbal"
+    },
+    {
+      "korean": "모자",
+      "english": "Hat",
+      "vietnamese": "Mũ",
+      "type": "noun",
+      "romanization": "moja"
+    },
+    {
+      "korean": "가방",
+      "english": "Bag",
+      "vietnamese": "Túi xách",
+      "type": "noun",
+      "romanization": "gabang"
+    },
+    {
+      "korean": "시계",
+      "english": "Watch",
+      "vietnamese": "Đồng hồ",
+      "type": "noun",
+      "romanization": "sigye"
+    },
+    {
+      "korean": "안경",
+      "english": "Glasses",
+      "vietnamese": "Kính",
+      "type": "noun",
+      "romanization": "angyeong"
+    },
+    {
+      "korean": "옷",
+      "english": "Coat/Jacket",
+      "vietnamese": "Áo khoác",
+      "type": "noun",
+      "romanization": "ot"
+    },
+    {
+      "korean": "목건",
+      "english": "Scarf",
+      "vietnamese": "Khăn quấn",
+      "type": "noun",
+      "romanization": "mokkeun"
+    },
+    {
+      "korean": "양말",
+      "english": "Socks",
+      "vietnamese": "Tất",
+      "type": "noun",
+      "romanization": "yangmal"
+    },
+    {
+      "korean": "반글",
+      "english": "Ring",
+      "vietnamese": "Nhẫn",
+      "type": "noun",
+      "romanization": "bangul"
+    },
+    {
+      "korean": "목걸이",
+      "english": "Necklace",
+      "vietnamese": "Dây chuyền",
+      "type": "noun",
+      "romanization": "mokgorgi"
+    },
+    {
+      "korean": "향",
+      "english": "Perfume",
+      "vietnamese": "Nước hoa",
+      "type": "noun",
+      "romanization": "hyung"
+    },
+    {
+      "korean": "지갑",
+      "english": "Wallet",
+      "vietnamese": "Ví",
+      "type": "noun",
+      "romanization": "jigap"
+    },
+    {
+      "korean": "손수건",
+      "english": "Handkerchief",
+      "vietnamese": "Khăn lau",
+      "type": "noun",
+      "romanization": "sonsugeon"
+    }
+  ]
+}

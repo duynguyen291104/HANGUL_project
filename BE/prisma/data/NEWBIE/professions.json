@@ -1,0 +1,119 @@
+{
+  "topic": "Nghề nghiệp",
+  "level": "NEWBIE",
+  "description": "Common professions",
+  "vocabulary": [
+    {
+      "korean": "의사",
+      "english": "Doctor",
+      "vietnamese": "Bác sĩ",
+      "type": "noun",
+      "romanization": "uisa"
+    },
+    {
+      "korean": "간호사",
+      "english": "Nurse",
+      "vietnamese": "Y tá",
+      "type": "noun",
+      "romanization": "ganhosa"
+    },
+    {
+      "korean": "선생님",
+      "english": "Teacher",
+      "vietnamese": "Giáo viên",
+      "type": "noun",
+      "romanization": "seonsaengnim"
+    },
+    {
+      "korean": "요리사",
+      "english": "Chef",
+      "vietnamese": "Đầu bếp",
+      "type": "noun",
+      "romanization": "yorisa"
+    },
+    {
+      "korean": "경찰",
+      "english": "Police",
+      "vietnamese": "Cảnh sát",
+      "type": "noun",
+      "romanization": "gyeongchal"
+    },
+    {
+      "korean": "소방관",
+      "english": "Firefighter",
+      "vietnamese": "Lính cứu hỏa",
+      "type": "noun",
+      "romanization": "sobangwan"
+    },
+    {
+      "korean": "엔지니어",
+      "english": "Engineer",
+      "vietnamese": "Kỹ sư",
+      "type": "noun",
+      "romanization": "enjinieo"
+    },
+    {
+      "korean": "건축가",
+      "english": "Architect",
+      "vietnamese": "Kiến trúc sư",
+      "type": "noun",
+      "romanization": "geonchukga"
+    },
+    {
+      "korean": "변호사",
+      "english": "Lawyer",
+      "vietnamese": "Luật sư",
+      "type": "noun",
+      "romanization": "byeonhosa"
+    },
+    {
+      "korean": "회계사",
+      "english": "Accountant",
+      "vietnamese": "Kế toán",
+      "type": "noun",
+      "romanization": "hweggeyesa"
+    },
+    {
+      "korean": "기자",
+      "english": "Journalist",
+      "vietnamese": "Nhà báo",
+      "type": "noun",
+      "romanization": "gija"
+    },
+    {
+      "korean": "배우",
+      "english": "Actor",
+      "vietnamese": "Diễn viên",
+      "type": "noun",
+      "romanization": "baeou"
+    },
+    {
+      "korean": "화가",
+      "english": "Painter",
+      "vietnamese": "Họa sĩ",
+      "type": "noun",
+      "romanization": "hwaga"
+    },
+    {
+      "korean": "음악가",
+      "english": "Musician",
+      "vietnamese": "Nhạc sĩ",
+      "type": "noun",
+      "romanization": "eumakga"
+    },
+    {
+      "korean": "사진사",
+      "english": "Photographer",
+      "vietnamese": "Nhiếp ảnh gia",
+      "type": "noun",
+      "romanization": "sajinsa"
+    },
+    {
+      "korean": "프로그래머",
+      "english": "Programmer",
+      "vietnamese": "Lập trình viên",
+      "type": "noun",
+      "romanization": "peurogeuraemeo"
+    }
+  ]
+}

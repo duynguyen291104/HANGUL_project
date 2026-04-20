@@ -1,0 +1,119 @@
+{
+  "topic": "Mua sắm",
+  "level": "INTERMEDIATE",
+  "description": "Shopping and commerce",
+  "vocabulary": [
+    {
+      "korean": "쇼핑",
+      "english": "Shopping",
+      "vietnamese": "Mua sắm",
+      "type": "noun",
+      "romanization": "syoping"
+    },
+    {
+      "korean": "가격",
+      "english": "Price",
+      "vietnamese": "Giá",
+      "type": "noun",
+      "romanization": "gagyeok"
+    },
+    {
+      "korean": "할인",
+      "english": "Discount",
+      "vietnamese": "Giảm giá",
+      "type": "noun",
+      "romanization": "hallin"
+    },
+    {
+      "korean": "돈",
+      "english": "Money",
+      "vietnamese": "Tiền",
+      "type": "noun",
+      "romanization": "don"
+    },
+    {
+      "korean": "카드",
+      "english": "Card",
+      "vietnamese": "Thẻ",
+      "type": "noun",
+      "romanization": "kadeu"
+    },
+    {
+      "korean": "계산",
+      "english": "Payment",
+      "vietnamese": "Thanh toán",
+      "type": "noun",
+      "romanization": "gyesan"
+    },
+    {
+      "korean": "영수증",
+      "english": "Receipt",
+      "vietnamese": "Hoa nhan",
+      "type": "noun",
+      "romanization": "yeongsujung"
+    },
+    {
+      "korean": "효율",
+      "english": "Efficiency",
+      "vietnamese": "Ty le giam gia",
+      "type": "noun",
+      "romanization": "hyoyul"
+    },
+    {
+      "korean": "사이즈",
+      "english": "Size",
+      "vietnamese": "Size",
+      "type": "noun",
+      "romanization": "saiju"
+    },
+    {
+      "korean": "라벨",
+      "english": "Label",
+      "vietnamese": "Nhan hieu",
+      "type": "noun",
+      "romanization": "rabel"
+    },
+    {
+      "korean": "선물",
+      "english": "Gift",
+      "vietnamese": "Qua tang",
+      "type": "noun",
+      "romanization": "seonmul"
+    },
+    {
+      "korean": "언제나",
+      "english": "Anytime",
+      "vietnamese": "Luon luon",
+      "type": "adverb",
+      "romanization": "eonjena"
+    },
+    {
+      "korean": "충동구매",
+      "english": "Impulse buy",
+      "vietnamese": "Mua hien",
+      "type": "noun",
+      "romanization": "chungdong gumae"
+    },
+    {
+      "korean": "깎다",
+      "english": "Bargain",
+      "vietnamese": "Kham gia",
+      "type": "verb",
+      "romanization": "kkakda"
+    },
+    {
+      "korean": "비싼",
+      "english": "Expensive",
+      "vietnamese": "Dat",
+      "type": "adjective",
+      "romanization": "bissan"
+    },
+    {
+      "korean": "의류",
+      "english": "Clothing",
+      "vietnamese": "Quan ao",
+      "type": "noun",
+      "romanization": "uiryu"
+    }
+  ]
+}

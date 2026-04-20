@@ -1,0 +1,112 @@
+{
+  "topic": "Ngôn ngữ học",
+  "level": "ADVANCED",
+  "description": "Linguistics",
+  "vocabulary": [
+    {
+      "korean": "언어학",
+      "english": "Linguistics",
+      "vietnamese": "Ngôn ngữ học",
+      "type": "noun",
+      "romanization": "eonoehak"
+    },
+    {
+      "korean": "문법",
+      "english": "Grammar",
+      "vietnamese": "Ngữ pháp",
+      "type": "noun",
+      "romanization": "munbeop"
+    },
+    {
+      "korean": "음운론",
+      "english": "Phonology",
+      "vietnamese": "Âm vị học",
+      "type": "noun",
+      "romanization": "eumunron"
+    },
+    {
+      "korean": "의미론",
+      "english": "Semantics",
+      "vietnamese": "Ngữ nghĩa học",
+      "type": "noun",
+      "romanization": "uimiron"
+    },
+    {
+      "korean": "통사론",
+      "english": "Syntax",
+      "vietnamese": "Cú pháp",
+      "type": "noun",
+      "romanization": "tونgsaron"
+    },
+    {
+      "korean": "형태론",
+      "english": "Morphology",
+      "vietnamese": "Hình thái học",
+      "type": "noun",
+      "romanization": "hyeongtaelon"
+    },
+    {
+      "korean": "발음",
+      "english": "Pronunciation",
+      "vietnamese": "Phát âm",
+      "type": "noun",
+      "romanization": "bareun"
+    },
+    {
+      "korean": "어휘",
+      "english": "Vocabulary",
+      "vietnamese": "Từ vựng",
+      "type": "noun",
+      "romanization": "eohwi"
+    },
+    {
+      "korean": "문맥",
+      "english": "Context",
+      "vietnamese": "Ngữ cảnh",
+      "type": "noun",
+      "romanization": "munmaek"
+    },
+    {
+      "korean": "번역",
+      "english": "Translation",
+      "vietnamese": "Dịch",
+      "type": "noun",
+      "romanization": "beonyeok"
+    },
+    {
+      "korean": "방언",
+      "english": "Dialect",
+      "vietnamese": "Phương ngữ",
+      "type": "noun",
+      "romanization": "bangyeon"
+    },
+    {
+      "korean": "언어체계",
+      "english": "Language system",
+      "vietnamese": "Hệ thống ngôn ngữ",
+      "type": "noun",
+      "romanization": "eonoegy-e che-gye"
+    },
+    {
+      "korean": "조음",
+      "english": "Articulation",
+      "vietnamese": "Từ phát",
+      "type": "noun",
+      "romanization": "joeum"
+    },
+    {
+      "korean": "음절",
+      "english": "Syllable",
+      "vietnamese": "Âm tiết",
+      "type": "noun",
+      "romanization": "eumjeol"
+    },
+    {
+      "korean": "문법 범주",
+      "english": "Grammar category",
+      "vietnamese": "Thể loại ngữ pháp",
+      "type": "noun",
+      "romanization": "munbop beomju"
+    }
+  ]
+}

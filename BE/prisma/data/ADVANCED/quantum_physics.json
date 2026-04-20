@@ -1,0 +1,112 @@
+{
+  "topic": "Vật lý Lượng tử",
+  "level": "ADVANCED",
+  "description": "Quantum physics",
+  "vocabulary": [
+    {
+      "korean": "양자 물리학",
+      "english": "Quantum physics",
+      "vietnamese": "Vật lý lượng tử",
+      "type": "noun",
+      "romanization": "yangja mulihak"
+    },
+    {
+      "korean": "원자",
+      "english": "Atom",
+      "vietnamese": "Nguyên tử",
+      "type": "noun",
+      "romanization": "wona"
+    },
+    {
+      "korean": "전자",
+      "english": "Electron",
+      "vietnamese": "Electron",
+      "type": "noun",
+      "romanization": "jeomja"
+    },
+    {
+      "korean": "입자",
+      "english": "Particle",
+      "vietnamese": "Hạt",
+      "type": "noun",
+      "romanization": "ipja"
+    },
+    {
+      "korean": "파동",
+      "english": "Wave",
+      "vietnamese": "Sóng",
+      "type": "noun",
+      "romanization": "padong"
+    },
+    {
+      "korean": "슈뢰딩거",
+      "english": "Schrödinger",
+      "vietnamese": "Schrödinger",
+      "type": "noun",
+      "romanization": "syureodingeo"
+    },
+    {
+      "korean": "양자역학",
+      "english": "Quantum mechanics",
+      "vietnamese": "Cơ học lượng tử",
+      "type": "noun",
+      "romanization": "yangja yeokgyeok"
+    },
+    {
+      "korean": "불확실성 원리",
+      "english": "Uncertainty principle",
+      "vietnamese": "Nguyên lý bất định",
+      "type": "noun",
+      "romanization": "bulhwaksilseong wonni"
+    },
+    {
+      "korean": "파동입자이중성",
+      "english": "Wave-particle duality",
+      "vietnamese": "Tính lưỡng cực",
+      "type": "noun",
+      "romanization": "padong inputja idungseong"
+    },
+    {
+      "korean": "수소원자",
+      "english": "Hydrogen atom",
+      "vietnamese": "Nguyên tử hydro",
+      "type": "noun",
+      "romanization": "suso wonjas"
+    },
+    {
+      "korean": "스핀",
+      "english": "Spin",
+      "vietnamese": "Quay tròn",
+      "type": "noun",
+      "romanization": "seupin"
+    },
+    {
+      "korean": "중첩",
+      "english": "Superposition",
+      "vietnamese": "Chồng chập",
+      "type": "noun",
+      "romanization": "jungjyeop"
+    },
+    {
+      "korean": "연얽힘",
+      "english": "Entanglement",
+      "vietnamese": "Rối lại",
+      "type": "noun",
+      "romanization": "yeon yakkim"
+    },
+    {
+      "korean": "양자컴퓨터",
+      "english": "Quantum computer",
+      "vietnamese": "Máy tính lượng tử",
+      "type": "noun",
+      "romanization": "yangja keompyuteo"
+    },
+    {
+      "korean": "파동함수",
+      "english": "Wave function",
+      "vietnamese": "Hàm sóng",
+      "type": "noun",
+      "romanization": "padong hamsu"
+    }
+  ]
+}

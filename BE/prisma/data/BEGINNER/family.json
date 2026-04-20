@@ -1,0 +1,105 @@
+{
+  "topic": "Gia đình",
+  "level": "BEGINNER",
+  "description": "Family members",
+  "vocabulary": [
+    {
+      "korean": "아버지",
+      "english": "Father",
+      "vietnamese": "Bố",
+      "type": "noun",
+      "romanization": "abeoji"
+    },
+    {
+      "korean": "어머니",
+      "english": "Mother",
+      "vietnamese": "Mẹ",
+      "type": "noun",
+      "romanization": "eomeoni"
+    },
+    {
+      "korean": "형",
+      "english": "Older brother",
+      "vietnamese": "Anh trai",
+      "type": "noun",
+      "romanization": "hyeong"
+    },
+    {
+      "korean": "누나",
+      "english": "Older sister",
+      "vietnamese": "Chị gái",
+      "type": "noun",
+      "romanization": "nuna"
+    },
+    {
+      "korean": "동생",
+      "english": "Younger sibling",
+      "vietnamese": "Em",
+      "type": "noun",
+      "romanization": "dongsaeng"
+    },
+    {
+      "korean": "할머니",
+      "english": "Grandmother",
+      "vietnamese": "Bà",
+      "type": "noun",
+      "romanization": "halmeoni"
+    },
+    {
+      "korean": "할아버지",
+      "english": "Grandfather",
+      "vietnamese": "Ông",
+      "type": "noun",
+      "romanization": "harabeoji"
+    },
+    {
+      "korean": "삼촌",
+      "english": "Uncle",
+      "vietnamese": "Chú",
+      "type": "noun",
+      "romanization": "samchon"
+    },
+    {
+      "korean": "숙모",
+      "english": "Aunt",
+      "vietnamese": "Dì",
+      "type": "noun",
+      "romanization": "sukmo"
+    },
+    {
+      "korean": "조카",
+      "english": "Nephew/Niece",
+      "vietnamese": "Cháu",
+      "type": "noun",
+      "romanization": "joka"
+    },
+    {
+      "korean": "사위",
+      "english": "Son-in-law",
+      "vietnamese": "Rể",
+      "type": "noun",
+      "romanization": "sawui"
+    },
+    {
+      "korean": "며느리",
+      "english": "Daughter-in-law",
+      "vietnamese": "Dâu",
+      "type": "noun",
+      "romanization": "myeongnuri"
+    },
+    {
+      "korean": "남편",
+      "english": "Husband",
+      "vietnamese": "Chồng",
+      "type": "noun",
+      "romanization": "nampyeon"
+    },
+    {
+      "korean": "아내",
+      "english": "Wife",
+      "vietnamese": "Vợ",
+      "type": "noun",
+      "romanization": "anae"
+    }
+  ]
+}

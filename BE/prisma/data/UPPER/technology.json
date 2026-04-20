@@ -1,0 +1,112 @@
+{
+  "topic": "Công nghệ",
+  "level": "UPPER",
+  "description": "Technology and computing",
+  "vocabulary": [
+    {
+      "korean": "컴퓨터",
+      "english": "Computer",
+      "vietnamese": "Máy tính",
+      "type": "noun",
+      "romanization": "keompyuteo"
+    },
+    {
+      "korean": "인터넷",
+      "english": "Internet",
+      "vietnamese": "Internet",
+      "type": "noun",
+      "romanization": "inteonet"
+    },
+    {
+      "korean": "프로그램",
+      "english": "Program",
+      "vietnamese": "Chương trình",
+      "type": "noun",
+      "romanization": "peurogeuraem"
+    },
+    {
+      "korean": "앱",
+      "english": "App",
+      "vietnamese": "Ứng dụng",
+      "type": "noun",
+      "romanization": "aep"
+    },
+    {
+      "korean": "데이터",
+      "english": "Data",
+      "vietnamese": "Dữ liệu",
+      "type": "noun",
+      "romanization": "deiteo"
+    },
+    {
+      "korean": "보안",
+      "english": "Security",
+      "vietnamese": "Bảo mật",
+      "type": "noun",
+      "romanization": "boan"
+    },
+    {
+      "korean": "소프트웨어",
+      "english": "Software",
+      "vietnamese": "Phan mem",
+      "type": "noun",
+      "romanization": "sofeutuweo"
+    },
+    {
+      "korean": "하드웨어",
+      "english": "Hardware",
+      "vietnamese": "Thiet bi",
+      "type": "noun",
+      "romanization": "hadeuweo"
+    },
+    {
+      "korean": "클라우드",
+      "english": "Cloud",
+      "vietnamese": "Diem may",
+      "type": "noun",
+      "romanization": "keullaude"
+    },
+    {
+      "korean": "인공지능",
+      "english": "Artificial intelligence",
+      "vietnamese": "Tri tue nhan tao",
+      "type": "noun",
+      "romanization": "ingongjinae"
+    },
+    {
+      "korean": "빅데이터",
+      "english": "Big data",
+      "vietnamese": "Du lieu lon",
+      "type": "noun",
+      "romanization": "bikdeiteo"
+    },
+    {
+      "korean": "암호화",
+      "english": "Encryption",
+      "vietnamese": "Ma hoa",
+      "type": "noun",
+      "romanization": "amhohwa"
+    },
+    {
+      "korean": "사이버",
+      "english": "Cyber",
+      "vietnamese": "Mang may",
+      "type": "noun",
+      "romanization": "saibeol"
+    },
+    {
+      "korean": "로봇",
+      "english": "Robot",
+      "vietnamese": "Robot",
+      "type": "noun",
+      "romanization": "robot"
+    },
+    {
+      "korean": "디지털",
+      "english": "Digital",
+      "vietnamese": "Chu so",
+      "type": "noun",
+      "romanization": "dijital"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "topic": "Sở thích",
+  "level": "BEGINNER",
+  "description": "Hobbies and interests",
+  "vocabulary": [
+    {
+      "korean": "읽기",
+      "english": "Reading",
+      "vietnamese": "Đọc sách",
+      "type": "noun",
+      "romanization": "ilgi"
+    },
+    {
+      "korean": "쓰기",
+      "english": "Writing",
+      "vietnamese": "Viết",
+      "type": "noun",
+      "romanization": "sseogi"
+    },
+    {
+      "korean": "영화 보기",
+      "english": "Watching movies",
+      "vietnamese": "Xem phim",
+      "type": "noun",
+      "romanization": "yeonghwa bogi"
+    },
+    {
+      "korean": "음악 듣기",
+      "english": "Listening to music",
+      "vietnamese": "Nghe nhạc",
+      "type": "noun",
+      "romanization": "eumak deutgi"
+    },
+    {
+      "korean": "그리기",
+      "english": "Drawing",
+      "vietnamese": "Vẽ",
+      "type": "noun",
+      "romanization": "geurigi"
+    },
+    {
+      "korean": "게임하기",
+      "english": "Playing games",
+      "vietnamese": "Chơi trò chơi",
+      "type": "noun",
+      "romanization": "geimhagi"
+    },
+    {
+      "korean": "댄스",
+      "english": "Dancing",
+      "vietnamese": "Nhảy",
+      "type": "noun",
+      "romanization": "daenseu"
+    },
+    {
+      "korean": "요리",
+      "english": "Cooking",
+      "vietnamese": "Nấu ăn",
+      "type": "noun",
+      "romanization": "yori"
+    },
+    {
+      "korean": "수집",
+      "english": "Collecting",
+      "vietnamese": "Sưu tầm",
+      "type": "noun",
+      "romanization": "sujip"
+    },
+    {
+      "korean": "여행",
+      "english": "Traveling",
+      "vietnamese": "Du lịch",
+      "type": "noun",
+      "romanization": "yeohaeng"
+    },
+    {
+      "korean": "사진",
+      "english": "Photography",
+      "vietnamese": "Chụp ảnh",
+      "type": "noun",
+      "romanization": "sajin"
+    },
+    {
+      "korean": "노래",
+      "english": "Singing",
+      "vietnamese": "Hát",
+      "type": "noun",
+      "romanization": "norae"
+    },
+    {
+      "korean": "운동",
+      "english": "Exercise",
+      "vietnamese": "Tập thể dục",
+      "type": "noun",
+      "romanization": "undong"
+    },
+    {
+      "korean": "프로그래밍",
+      "english": "Programming",
+      "vietnamese": "Lập trình",
+      "type": "noun",
+      "romanization": "programming"
+    }
+  ]
+}

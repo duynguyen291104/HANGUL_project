@@ -1,0 +1,126 @@
+{
+  "topic": "Chào hỏi cơ bản",
+  "level": "NEWBIE",
+  "description": "Basic greetings and polite phrases",
+  "vocabulary": [
+    {
+      "korean": "안녕하세요",
+      "english": "Hello (formal)",
+      "vietnamese": "Xin chào (lịch sự)",
+      "type": "expression",
+      "romanization": "annyeonghaseyo"
+    },
+    {
+      "korean": "안녕",
+      "english": "Hi",
+      "vietnamese": "Xin chào",
+      "type": "expression",
+      "romanization": "annyeong"
+    },
+    {
+      "korean": "감사합니다",
+      "english": "Thank you",
+      "vietnamese": "Cảm ơn",
+      "type": "expression",
+      "romanization": "gamsahamnida"
+    },
+    {
+      "korean": "죄송합니다",
+      "english": "I'm sorry",
+      "vietnamese": "Tôi xin lỗi",
+      "type": "expression",
+      "romanization": "joesonghamnida"
+    },
+    {
+      "korean": "안녕히 가세요",
+      "english": "Goodbye",
+      "vietnamese": "Tạm biệt",
+      "type": "expression",
+      "romanization": "annyeonghi gaseyo"
+    },
+    {
+      "korean": "반갑습니다",
+      "english": "Nice to meet you",
+      "vietnamese": "Rất vui được gặp bạn",
+      "type": "expression",
+      "romanization": "bangapseumnida"
+    },
+    {
+      "korean": "됨직합니다",
+      "english": "You're welcome",
+      "vietnamese": "Không có gì",
+      "type": "expression",
+      "romanization": "doeemsikseumnida"
+    },
+    {
+      "korean": "천천히",
+      "english": "Slowly",
+      "vietnamese": "Từ từ",
+      "type": "adverb",
+      "romanization": "cheoncheonhi"
+    },
+    {
+      "korean": "빨리",
+      "english": "Quickly",
+      "vietnamese": "Nhanh chóng",
+      "type": "adverb",
+      "romanization": "ppalli"
+    },
+    {
+      "korean": "다시",
+      "english": "Again",
+      "vietnamese": "Lần nữa",
+      "type": "adverb",
+      "romanization": "dasi"
+    },
+    {
+      "korean": "네",
+      "english": "Yes",
+      "vietnamese": "Có/Vâng",
+      "type": "expression",
+      "romanization": "ne"
+    },
+    {
+      "korean": "아니요",
+      "english": "No",
+      "vietnamese": "Không",
+      "type": "expression",
+      "romanization": "aniyo"
+    },
+    {
+      "korean": "이해했습니다",
+      "english": "I understand",
+      "vietnamese": "Tôi hiểu rồi",
+      "type": "expression",
+      "romanization": "ihaehaesseumnida"
+    },
+    {
+      "korean": "모르겠습니다",
+      "english": "I don't know",
+      "vietnamese": "Tôi không biết",
+      "type": "expression",
+      "romanization": "moreugessseumnida"
+    },
+    {
+      "korean": "도와주세요",
+      "english": "Help me please",
+      "vietnamese": "Giúp tôi với",
+      "type": "expression",
+      "romanization": "dowajuseyo"
+    },
+    {
+      "korean": "괜찮습니다",
+      "english": "It's okay",
+      "vietnamese": "Không sao",
+      "type": "expression",
+      "romanization": "gwaenchanseumnida"
+    },
+    {
+      "korean": "만나서 반갑습니다",
+      "english": "Pleasure to meet you",
+      "vietnamese": "Mừng được gặp bạn",
+      "type": "expression",
+      "romanization": "mannaseo bangapseumnida"
+    }
+  ]
+}

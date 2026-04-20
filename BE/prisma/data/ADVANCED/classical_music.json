@@ -1,0 +1,112 @@
+{
+  "topic": "Âm nhạc cổ điển",
+  "level": "ADVANCED",
+  "description": "Classical music",
+  "vocabulary": [
+    {
+      "korean": "클래식 음악",
+      "english": "Classical music",
+      "vietnamese": "Âm nhạc cổ điển",
+      "type": "noun",
+      "romanization": "keullaesik eumak"
+    },
+    {
+      "korean": "교향곡",
+      "english": "Symphony",
+      "vietnamese": "Giao hưởng",
+      "type": "noun",
+      "romanization": "gyohyanggok"
+    },
+    {
+      "korean": "협주곡",
+      "english": "Concerto",
+      "vietnamese": "Hiệp tấu",
+      "type": "noun",
+      "romanization": "hyeopsujugok"
+    },
+    {
+      "korean": "소나타",
+      "english": "Sonata",
+      "vietnamese": "Xô na ta",
+      "type": "noun",
+      "romanization": "seonata"
+    },
+    {
+      "korean": "실내악",
+      "english": "Chamber music",
+      "vietnamese": "Âm nhạc phòng",
+      "type": "noun",
+      "romanization": "silnaeak"
+    },
+    {
+      "korean": "스케르초",
+      "english": "Scherzo",
+      "vietnamese": "Xkẹ-ratsô",
+      "type": "noun",
+      "romanization": "seukeoceuo"
+    },
+    {
+      "korean": "오페라",
+      "english": "Opera",
+      "vietnamese": "Ô pe ra",
+      "type": "noun",
+      "romanization": "opera"
+    },
+    {
+      "korean": "발레",
+      "english": "Ballet",
+      "vietnamese": "Ba-lê",
+      "type": "noun",
+      "romanization": "balle"
+    },
+    {
+      "korean": "현악기",
+      "english": "String instruments",
+      "vietnamese": "Nhạc cụ dây đàn",
+      "type": "noun",
+      "romanization": "hyeonakgi"
+    },
+    {
+      "korean": "목관악기",
+      "english": "Woodwind instruments",
+      "vietnamese": "Nhạc cụ gỗ",
+      "type": "noun",
+      "romanization": "mokgwanakgi"
+    },
+    {
+      "korean": "동음",
+      "english": "Chord",
+      "vietnamese": "Hòa âm",
+      "type": "noun",
+      "romanization": "dongeum"
+    },
+    {
+      "korean": "성악",
+      "english": "Vocal music",
+      "vietnamese": "Thanh nhạc",
+      "type": "noun",
+      "romanization": "seongyag"
+    },
+    {
+      "korean": "기악",
+      "english": "Instrumental music",
+      "vietnamese": "Nhạc cụ",
+      "type": "noun",
+      "romanization": "giag"
+    },
+    {
+      "korean": "실내악 앙상블",
+      "english": "Chamber ensemble",
+      "vietnamese": "Dàn nhạc phòng",
+      "type": "noun",
+      "romanization": "silnaeak angsambul"
+    },
+    {
+      "korean": "지휘자",
+      "english": "Conductor",
+      "vietnamese": "Nhạc trưởng",
+      "type": "noun",
+      "romanization": "jihwijia"
+    }
+  ]
+}

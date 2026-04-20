@@ -1,0 +1,112 @@
+{
+  "topic": "So sánh tôn giáo",
+  "level": "ADVANCED",
+  "description": "Comparative religion",
+  "vocabulary": [
+    {
+      "korean": "비교종교학",
+      "english": "Comparative religion",
+      "vietnamese": "So sánh tôn giáo",
+      "type": "noun",
+      "romanization": "bigyojonggyo-hak"
+    },
+    {
+      "korean": "기독교",
+      "english": "Christianity",
+      "vietnamese": "Đạo Ki-tô",
+      "type": "noun",
+      "romanization": "gidokgyo"
+    },
+    {
+      "korean": "이슬람",
+      "english": "Islam",
+      "vietnamese": "Đạo Hồi",
+      "type": "noun",
+      "romanization": "iseullam"
+    },
+    {
+      "korean": "불교",
+      "english": "Buddhism",
+      "vietnamese": "Đạo Phật",
+      "type": "noun",
+      "romanization": "bulgyo"
+    },
+    {
+      "korean": "유대교",
+      "english": "Judaism",
+      "vietnamese": "Đạo Do Thái",
+      "type": "noun",
+      "romanization": "yudaegyo"
+    },
+    {
+      "korean": "도교",
+      "english": "Taoism",
+      "vietnamese": "Đạo Giáo",
+      "type": "noun",
+      "romanization": "dogyo"
+    },
+    {
+      "korean": "힌두교",
+      "english": "Hinduism",
+      "vietnamese": "Đạo Hindu",
+      "type": "noun",
+      "romanization": "hindugyo"
+    },
+    {
+      "korean": "신도",
+      "english": "Shinto",
+      "vietnamese": "Thần đạo",
+      "type": "noun",
+      "romanization": "shindo"
+    },
+    {
+      "korean": "유일신",
+      "english": "Monotheism",
+      "vietnamese": "Độc thần",
+      "type": "noun",
+      "romanization": "yuil shin"
+    },
+    {
+      "korean": "다신교",
+      "english": "Polytheism",
+      "vietnamese": "Đa thần",
+      "type": "noun",
+      "romanization": "dashin gyo"
+    },
+    {
+      "korean": "윤회",
+      "english": "Reincarnation",
+      "vietnamese": "Luân hồi",
+      "type": "noun",
+      "romanization": "yunhwe"
+    },
+    {
+      "korean": "영혼",
+      "english": "Soul",
+      "vietnamese": "Linh hồn",
+      "type": "noun",
+      "romanization": "yeonghon"
+    },
+    {
+      "korean": "구원",
+      "english": "Salvation",
+      "vietnamese": "Cứu rỗi",
+      "type": "noun",
+      "romanization": "guon"
+    },
+    {
+      "korean": "영성",
+      "english": "Spirituality",
+      "vietnamese": "Tính thiêng liêng",
+      "type": "noun",
+      "romanization": "yeongseong"
+    },
+    {
+      "korean": "신앙 공동체",
+      "english": "Faith community",
+      "vietnamese": "Cộng đồng tín ngưỡng",
+      "type": "noun",
+      "romanization": "shanang gongdongche"
+    }
+  ]
+}

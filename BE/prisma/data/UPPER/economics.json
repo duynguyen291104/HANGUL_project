@@ -1,0 +1,112 @@
+{
+  "topic": "Kinh tế",
+  "level": "UPPER",
+  "description": "Economics",
+  "vocabulary": [
+    {
+      "korean": "경제",
+      "english": "Economy",
+      "vietnamese": "Nền kinh tế",
+      "type": "noun",
+      "romanization": "gyeongje"
+    },
+    {
+      "korean": "시장",
+      "english": "Market",
+      "vietnamese": "Thị trường",
+      "type": "noun",
+      "romanization": "sijang"
+    },
+    {
+      "korean": "인플레이션",
+      "english": "Inflation",
+      "vietnamese": "Lạm phát",
+      "type": "noun",
+      "romanization": "inpeuleisyeon"
+    },
+    {
+      "korean": "디플레이션",
+      "english": "Deflation",
+      "vietnamese": "Giảm phát",
+      "type": "noun",
+      "romanization": "dipeuleisyeon"
+    },
+    {
+      "korean": "주식",
+      "english": "Stock",
+      "vietnamese": "Cổ phiếu",
+      "type": "noun",
+      "romanization": "jushik"
+    },
+    {
+      "korean": "채권",
+      "english": "Bond",
+      "vietnamese": "Trái phiếu",
+      "type": "noun",
+      "romanization": "chaekwon"
+    },
+    {
+      "korean": "불황",
+      "english": "Recession",
+      "vietnamese": "Chung tren",
+      "type": "noun",
+      "romanization": "bulhwang"
+    },
+    {
+      "korean": "호황",
+      "english": "Boom",
+      "vietnamese": "Bom thang",
+      "type": "noun",
+      "romanization": "hohwang"
+    },
+    {
+      "korean": "독점",
+      "english": "Monopoly",
+      "vietnamese": "Cam doan",
+      "type": "noun",
+      "romanization": "dokjeon"
+    },
+    {
+      "korean": "경쟁",
+      "english": "Competition",
+      "vietnamese": "Canh tranh",
+      "type": "noun",
+      "romanization": "gyeongjaeng"
+    },
+    {
+      "korean": "무역",
+      "english": "Trade",
+      "vietnamese": "Thuong mai",
+      "type": "noun",
+      "romanization": "muyeok"
+    },
+    {
+      "korean": "소비자",
+      "english": "Consumer",
+      "vietnamese": "Nguoi tieu dung",
+      "type": "noun",
+      "romanization": "sobija"
+    },
+    {
+      "korean": "생산자",
+      "english": "Producer",
+      "vietnamese": "Nha san xuat",
+      "type": "noun",
+      "romanization": "saengsanja"
+    },
+    {
+      "korean": "세금",
+      "english": "Tax",
+      "vietnamese": "Thue",
+      "type": "noun",
+      "romanization": "segeum"
+    },
+    {
+      "korean": "지표",
+      "english": "Index",
+      "vietnamese": "Chi so",
+      "type": "noun",
+      "romanization": "jipyo"
+    }
+  ]
+}

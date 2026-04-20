@@ -1,0 +1,23 @@
+{
+  "topic": "Các bộ phận cơ thể",
+  "level": "NEWBIE",
+  "description": "Body parts",
+  "vocabulary": [
+    {"korean": "머리", "english": "Head", "vietnamese": "Đầu", "type": "noun", "romanization": "meori"},
+    {"korean": "눈", "english": "Eye", "vietnamese": "Mắt", "type": "noun", "romanization": "nun"},
+    {"korean": "코", "english": "Nose", "vietnamese": "Mũi", "type": "noun", "romanization": "ko"},
+    {"korean": "입", "english": "Mouth", "vietnamese": "Miệng", "type": "noun", "romanization": "ip"},
+    {"korean": "귀", "english": "Ear", "vietnamese": "Tai", "type": "noun", "romanization": "gwi"},
+    {"korean": "손", "english": "Hand", "vietnamese": "Tay", "type": "noun", "romanization": "son"},
+    {"korean": "다리", "english": "Leg", "vietnamese": "Chân", "type": "noun", "romanization": "dari"},
+    {"korean": "발", "english": "Foot", "vietnamese": "Bàn chân", "type": "noun", "romanization": "bal"},
+    {"korean": "가슴", "english": "Chest", "vietnamese": "Ngực", "type": "noun", "romanization": "gaseum"},
+    {"korean": "배", "english": "Stomach", "vietnamese": "Bụng", "type": "noun", "romanization": "bae"},
+    {"korean": "등", "english": "Back", "vietnamese": "Lưng", "type": "noun", "romanization": "deung"},
+    {"korean": "팔", "english": "Arm", "vietnamese": "Cánh tay", "type": "noun", "romanization": "pal"},
+    {"korean": "어깨", "english": "Shoulder", "vietnamese": "Vai", "type": "noun", "romanization": "eokkae"},
+    {"korean": "무릎", "english": "Knee", "vietnamese": "Đầu gối", "type": "noun", "romanization": "mureup"},
+    {"korean": "머리카락", "english": "Hair", "vietnamese": "Tóc", "type": "noun", "romanization": "meorikarak"},
+    {"korean": "입술", "english": "Lips", "vietnamese": "Môi", "type": "noun", "romanization": "ipsul"}
+  ]
+}

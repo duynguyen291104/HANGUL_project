@@ -1,0 +1,119 @@
+{
+  "topic": "Động từ cơ bản",
+  "level": "NEWBIE",
+  "description": "Basic verbs",
+  "vocabulary": [
+    {
+      "korean": "먹다",
+      "english": "Eat",
+      "vietnamese": "Ăn",
+      "type": "verb",
+      "romanization": "meokda"
+    },
+    {
+      "korean": "마시다",
+      "english": "Drink",
+      "vietnamese": "Uống",
+      "type": "verb",
+      "romanization": "masida"
+    },
+    {
+      "korean": "잠을 자다",
+      "english": "Sleep",
+      "vietnamese": "Ngủ",
+      "type": "verb",
+      "romanization": "jameul jada"
+    },
+    {
+      "korean": "가다",
+      "english": "Go",
+      "vietnamese": "Đi",
+      "type": "verb",
+      "romanization": "gada"
+    },
+    {
+      "korean": "오다",
+      "english": "Come",
+      "vietnamese": "Đến",
+      "type": "verb",
+      "romanization": "oda"
+    },
+    {
+      "korean": "있다",
+      "english": "Be/Stay",
+      "vietnamese": "Ở",
+      "type": "verb",
+      "romanization": "issda"
+    },
+    {
+      "korean": "앉다",
+      "english": "Sit",
+      "vietnamese": "Ngồi",
+      "type": "verb",
+      "romanization": "anjda"
+    },
+    {
+      "korean": "서다",
+      "english": "Stand",
+      "vietnamese": "Đứng",
+      "type": "verb",
+      "romanization": "seoda"
+    },
+    {
+      "korean": "걷다",
+      "english": "Walk",
+      "vietnamese": "Đi bộ",
+      "type": "verb",
+      "romanization": "geotda"
+    },
+    {
+      "korean": "뛰다",
+      "english": "Run",
+      "vietnamese": "Chạy",
+      "type": "verb",
+      "romanization": "ttwida"
+    },
+    {
+      "korean": "읽다",
+      "english": "Read",
+      "vietnamese": "Đọc",
+      "type": "verb",
+      "romanization": "ilgda"
+    },
+    {
+      "korean": "쓰다",
+      "english": "Write",
+      "vietnamese": "Viết",
+      "type": "verb",
+      "romanization": "sseuda"
+    },
+    {
+      "korean": "보다",
+      "english": "See/Watch",
+      "vietnamese": "Xem",
+      "type": "verb",
+      "romanization": "boda"
+    },
+    {
+      "korean": "듣다",
+      "english": "Listen",
+      "vietnamese": "Nghe",
+      "type": "verb",
+      "romanization": "deutda"
+    },
+    {
+      "korean": "말하다",
+      "english": "Speak",
+      "vietnamese": "Nói",
+      "type": "verb",
+      "romanization": "malhada"
+    },
+    {
+      "korean": "하다",
+      "english": "Do/Make",
+      "vietnamese": "Làm",
+      "type": "verb",
+      "romanization": "hada"
+    }
+  ]
+}

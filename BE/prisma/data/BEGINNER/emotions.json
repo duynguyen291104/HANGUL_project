@@ -1,0 +1,105 @@
+{
+  "topic": "Cảm xúc",
+  "level": "BEGINNER",
+  "description": "Emotions and feelings",
+  "vocabulary": [
+    {
+      "korean": "행복하다",
+      "english": "Happy",
+      "vietnamese": "Vui",
+      "type": "adjective",
+      "romanization": "haengbokada"
+    },
+    {
+      "korean": "슬프다",
+      "english": "Sad",
+      "vietnamese": "Buồn",
+      "type": "adjective",
+      "romanization": "seulpeuda"
+    },
+    {
+      "korean": "화나다",
+      "english": "Angry",
+      "vietnamese": "Tức giận",
+      "type": "adjective",
+      "romanization": "hwanada"
+    },
+    {
+      "korean": "무섭다",
+      "english": "Scared",
+      "vietnamese": "Sợ",
+      "type": "adjective",
+      "romanization": "museobda"
+    },
+    {
+      "korean": "피곤하다",
+      "english": "Tired",
+      "vietnamese": "Mệt",
+      "type": "adjective",
+      "romanization": "pigonhada"
+    },
+    {
+      "korean": "흥미롭다",
+      "english": "Interesting",
+      "vietnamese": "Thú vị",
+      "type": "adjective",
+      "romanization": "heungmiropda"
+    },
+    {
+      "korean": "놀라다",
+      "english": "Surprised",
+      "vietnamese": "Ngạc nhiên",
+      "type": "adjective",
+      "romanization": "nollada"
+    },
+    {
+      "korean": "단소로다",
+      "english": "Lonely",
+      "vietnamese": "Cấp có mức",
+      "type": "adjective",
+      "romanization": "dansouroda"
+    },
+    {
+      "korean": "좋좋했다",
+      "english": "Frustrated",
+      "vietnamese": "Nồng nộI",
+      "type": "adjective",
+      "romanization": "jogjakhada"
+    },
+    {
+      "korean": "부끄럽다",
+      "english": "Embarrassed",
+      "vietnamese": "Xấu hổ",
+      "type": "adjective",
+      "romanization": "bulluda"
+    },
+    {
+      "korean": "불안하다",
+      "english": "Anxious",
+      "vietnamese": "Lo lắng",
+      "type": "adjective",
+      "romanization": "bulandhada"
+    },
+    {
+      "korean": "기쁘다",
+      "english": "Delighted",
+      "vietnamese": "Thỏ",
+      "type": "adjective",
+      "romanization": "gijinda"
+    },
+    {
+      "korean": "분노하다",
+      "english": "Irritated",
+      "vietnamese": "Khó",
+      "type": "adjective",
+      "romanization": "bulnohada"
+    },
+    {
+      "korean": "상망하다",
+      "english": "Disappointed",
+      "vietnamese": "Thất vọng",
+      "type": "adjective",
+      "romanization": "sangmanhada"
+    }
+  ]
+}

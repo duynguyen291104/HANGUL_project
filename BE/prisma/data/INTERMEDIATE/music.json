@@ -1,0 +1,112 @@
+{
+  "topic": "Âm nhạc",
+  "level": "INTERMEDIATE",
+  "description": "Music",
+  "vocabulary": [
+    {
+      "korean": "악기",
+      "english": "Musical instrument",
+      "vietnamese": "Nhạc cụ",
+      "type": "noun",
+      "romanization": "akgi"
+    },
+    {
+      "korean": "피아노",
+      "english": "Piano",
+      "vietnamese": "Dương cầm",
+      "type": "noun",
+      "romanization": "piano"
+    },
+    {
+      "korean": "기타",
+      "english": "Guitar",
+      "vietnamese": "Ghi ta",
+      "type": "noun",
+      "romanization": "gita"
+    },
+    {
+      "korean": "바이올린",
+      "english": "Violin",
+      "vietnamese": "Vĩ cầm",
+      "type": "noun",
+      "romanization": "baiollin"
+    },
+    {
+      "korean": "박자",
+      "english": "Beat",
+      "vietnamese": "Nhịp",
+      "type": "noun",
+      "romanization": "bakja"
+    },
+    {
+      "korean": "멜로디",
+      "english": "Melody",
+      "vietnamese": "Giai điệu",
+      "type": "noun",
+      "romanization": "mellodi"
+    },
+    {
+      "korean": "노래",
+      "english": "Song",
+      "vietnamese": "Bai hat",
+      "type": "noun",
+      "romanization": "norae"
+    },
+    {
+      "korean": "높은음",
+      "english": "High pitch",
+      "vietnamese": "Am cao",
+      "type": "noun",
+      "romanization": "noppeun eum"
+    },
+    {
+      "korean": "낮은음",
+      "english": "Low pitch",
+      "vietnamese": "Am thap",
+      "type": "noun",
+      "romanization": "nateun eum"
+    },
+    {
+      "korean": "조화",
+      "english": "Harmony",
+      "vietnamese": "Hoa dieu",
+      "type": "noun",
+      "romanization": "johwa"
+    },
+    {
+      "korean": "악보",
+      "english": "Musical score",
+      "vietnamese": "Ban nhac",
+      "type": "noun",
+      "romanization": "akbo"
+    },
+    {
+      "korean": "가수",
+      "english": "Singer",
+      "vietnamese": "Ca si",
+      "type": "noun",
+      "romanization": "gasu"
+    },
+    {
+      "korean": "음악가",
+      "english": "Musician",
+      "vietnamese": "Nha nhac",
+      "type": "noun",
+      "romanization": "eumakga"
+    },
+    {
+      "korean": "클래식",
+      "english": "Classical music",
+      "vietnamese": "Nhac co dien",
+      "type": "noun",
+      "romanization": "keullasik"
+    },
+    {
+      "korean": "비트",
+      "english": "Rhythm",
+      "vietnamese": "Nhip",
+      "type": "noun",
+      "romanization": "biteu"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "topic": "Sinh học phân tử",
+  "level": "ADVANCED",
+  "description": "Molecular biology",
+  "vocabulary": [
+    {
+      "korean": "분자 생물학",
+      "english": "Molecular biology",
+      "vietnamese": "Sinh học phân tử",
+      "type": "noun",
+      "romanization": "bunja saenmulhak"
+    },
+    {
+      "korean": "DNA",
+      "english": "DNA",
+      "vietnamese": "DNA",
+      "type": "noun",
+      "romanization": "DNA"
+    },
+    {
+      "korean": "RNA",
+      "english": "RNA",
+      "vietnamese": "RNA",
+      "type": "noun",
+      "romanization": "RNA"
+    },
+    {
+      "korean": "유전자",
+      "english": "Gene",
+      "vietnamese": "Gen",
+      "type": "noun",
+      "romanization": "yujeanja"
+    },
+    {
+      "korean": "단백질",
+      "english": "Protein",
+      "vietnamese": "Protenin",
+      "type": "noun",
+      "romanization": "danbaekjil"
+    },
+    {
+      "korean": "돌연변이",
+      "english": "Mutation",
+      "vietnamese": "Đột biến",
+      "type": "noun",
+      "romanization": "dolryeonbyeoni"
+    },
+    {
+      "korean": "효소",
+      "english": "Enzyme",
+      "vietnamese": "Enzyme",
+      "type": "noun",
+      "romanization": "hyoso"
+    },
+    {
+      "korean": "아미노산",
+      "english": "Amino acid",
+      "vietnamese": "Axit amin",
+      "type": "noun",
+      "romanization": "aminosan"
+    },
+    {
+      "korean": "촉매",
+      "english": "Catalyst",
+      "vietnamese": "Chất xúc tác",
+      "type": "noun",
+      "romanization": "chugmae"
+    },
+    {
+      "korean": "복제",
+      "english": "Replication",
+      "vietnamese": "Nhân bản",
+      "type": "noun",
+      "romanization": "bokje"
+    },
+    {
+      "korean": "세포분열",
+      "english": "Cell division",
+      "vietnamese": "Tách tế bào",
+      "type": "noun",
+      "romanization": "sepobun-yeol"
+    },
+    {
+      "korean": "유전자 조작",
+      "english": "Genetic engineering",
+      "vietnamese": "Kỹ thuật di truyền",
+      "type": "noun",
+      "romanization": "yujeanja joojak"
+    },
+    {
+      "korean": "생명공학",
+      "english": "Biotechnology",
+      "vietnamese": "Sinh công nghệ",
+      "type": "noun",
+      "romanization": "saongmyeong gonghak"
+    },
+    {
+      "korean": "불안정",
+      "english": "Instability",
+      "vietnamese": "Không ổn định",
+      "type": "noun",
+      "romanization": "buran jung"
+    },
+    {
+      "korean": "상위",
+      "english": "Upper",
+      "vietnamese": "Trên",
+      "type": "adverb",
+      "romanization": "sangui"
+    }
+  ]
+}

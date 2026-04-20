@@ -1,0 +1,112 @@
+{
+  "topic": "Văn hóa ẩm thực",
+  "level": "UPPER",
+  "description": "Food culture",
+  "vocabulary": [
+    {
+      "korean": "음식 문화",
+      "english": "Food culture",
+      "vietnamese": "Văn hóa ẩm thực",
+      "type": "noun",
+      "romanization": "eumsik munhwa"
+    },
+    {
+      "korean": "전통",
+      "english": "Tradition",
+      "vietnamese": "Truyền thống",
+      "type": "noun",
+      "romanization": "jeontong"
+    },
+    {
+      "korean": "풍미",
+      "english": "Flavor",
+      "vietnamese": "Hương vị",
+      "type": "noun",
+      "romanization": "pungmi"
+    },
+    {
+      "korean": "식사법",
+      "english": "Dining etiquette",
+      "vietnamese": "Quy tắc ăn uống",
+      "type": "noun",
+      "romanization": "siksabeop"
+    },
+    {
+      "korean": "요리 기법",
+      "english": "Cooking technique",
+      "vietnamese": "Kỹ thuật nấu ăn",
+      "type": "noun",
+      "romanization": "yori gibeop"
+    },
+    {
+      "korean": "세계 요리",
+      "english": "International cuisine",
+      "vietnamese": "Ẩm thực quốc tế",
+      "type": "noun",
+      "romanization": "segye yori"
+    },
+    {
+      "korean": "식재료 준비",
+      "english": "Ingredient preparation",
+      "vietnamese": "Chuan bi nguyen lieu",
+      "type": "noun",
+      "romanization": "sikjaeyo junbi"
+    },
+    {
+      "korean": "상차림",
+      "english": "Table setting",
+      "vietnamese": "Trang tri ban",
+      "type": "noun",
+      "romanization": "sangcharim"
+    },
+    {
+      "korean": "식습관",
+      "english": "Eating habits",
+      "vietnamese": "Thoi quen an uong",
+      "type": "noun",
+      "romanization": "sikseupmwan"
+    },
+    {
+      "korean": "의식",
+      "english": "Ceremony",
+      "vietnamese": "Le thuc",
+      "type": "noun",
+      "romanization": "uisik"
+    },
+    {
+      "korean": "지역음식",
+      "english": "Regional cuisine",
+      "vietnamese": "Amon dia phuong",
+      "type": "noun",
+      "romanization": "jiyeok eumsik"
+    },
+    {
+      "korean": "영양",
+      "english": "Nutrition",
+      "vietnamese": "Dinh duong",
+      "type": "noun",
+      "romanization": "yeongyang"
+    },
+    {
+      "korean": "스트릿푸드",
+      "english": "Street food",
+      "vietnamese": "Do an duong pho",
+      "type": "noun",
+      "romanization": "seutorit pud"
+    },
+    {
+      "korean": "미슐랭",
+      "english": "Michelin",
+      "vietnamese": "Michelin",
+      "type": "noun",
+      "romanization": "misyulleng"
+    },
+    {
+      "korean": "셰프",
+      "english": "Chef",
+      "vietnamese": "Dau bep",
+      "type": "noun",
+      "romanization": "syep"
+    }
+  ]
+}

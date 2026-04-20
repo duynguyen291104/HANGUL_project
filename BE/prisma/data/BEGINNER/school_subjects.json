@@ -1,0 +1,105 @@
+{
+  "topic": "Môn học",
+  "level": "BEGINNER",
+  "description": "School subjects",
+  "vocabulary": [
+    {
+      "korean": "수학",
+      "english": "Mathematics",
+      "vietnamese": "Toán học",
+      "type": "noun",
+      "romanization": "suhak"
+    },
+    {
+      "korean": "과학",
+      "english": "Science",
+      "vietnamese": "Khoa học",
+      "type": "noun",
+      "romanization": "gwahak"
+    },
+    {
+      "korean": "영어",
+      "english": "English",
+      "vietnamese": "Tiếng Anh",
+      "type": "noun",
+      "romanization": "yeongeo"
+    },
+    {
+      "korean": "국어",
+      "english": "Korean language",
+      "vietnamese": "Tiếng Hàn",
+      "type": "noun",
+      "romanization": "guggeo"
+    },
+    {
+      "korean": "역사",
+      "english": "History",
+      "vietnamese": "Lịch sử",
+      "type": "noun",
+      "romanization": "yeoksa"
+    },
+    {
+      "korean": "지리",
+      "english": "Geography",
+      "vietnamese": "Địa lý",
+      "type": "noun",
+      "romanization": "jiri"
+    },
+    {
+      "korean": "기술",
+      "english": "Technology",
+      "vietnamese": "Kỹ thuật",
+      "type": "noun",
+      "romanization": "gisul"
+    },
+    {
+      "korean": "스포츠",
+      "english": "Physical education",
+      "vietnamese": "Thể dục",
+      "type": "noun",
+      "romanization": "seupocheu"
+    },
+    {
+      "korean": "미술",
+      "english": "Art",
+      "vietnamese": "Mỹ thuật",
+      "type": "noun",
+      "romanization": "misul"
+    },
+    {
+      "korean": "음악",
+      "english": "Music",
+      "vietnamese": "Âm nhạc",
+      "type": "noun",
+      "romanization": "eumak"
+    },
+    {
+      "korean": "민중",
+      "english": "Civic/Social studies",
+      "vietnamese": "Năng động dân sự",
+      "type": "noun",
+      "romanization": "minjoong"
+    },
+    {
+      "korean": "종려",
+      "english": "Ethics/Morality",
+      "vietnamese": "Đạo đức",
+      "type": "noun",
+      "romanization": "jugeori"
+    },
+    {
+      "korean": "도서관",
+      "english": "Library science",
+      "vietnamese": "Thư viện",
+      "type": "noun",
+      "romanization": "doseokan"
+    },
+    {
+      "korean": "칼모",
+      "english": "Calligraphy",
+      "vietnamese": "Pháp độc",
+      "type": "noun",
+      "romanization": "kalmo"
+    }
+  ]
+}

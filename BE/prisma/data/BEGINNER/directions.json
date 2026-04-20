@@ -1,0 +1,105 @@
+{
+  "topic": "Hướng dẫn",
+  "level": "BEGINNER",
+  "description": "Directions",
+  "vocabulary": [
+    {
+      "korean": "앞",
+      "english": "Front",
+      "vietnamese": "Phía trước",
+      "type": "noun",
+      "romanization": "ap"
+    },
+    {
+      "korean": "뒤",
+      "english": "Back",
+      "vietnamese": "Phía sau",
+      "type": "noun",
+      "romanization": "dwi"
+    },
+    {
+      "korean": "왼쪽",
+      "english": "Left",
+      "vietnamese": "Bên trái",
+      "type": "noun",
+      "romanization": "wenjjok"
+    },
+    {
+      "korean": "오른쪽",
+      "english": "Right",
+      "vietnamese": "Bên phải",
+      "type": "noun",
+      "romanization": "oleunjjok"
+    },
+    {
+      "korean": "위",
+      "english": "Up",
+      "vietnamese": "Trên",
+      "type": "noun",
+      "romanization": "wi"
+    },
+    {
+      "korean": "아래",
+      "english": "Down",
+      "vietnamese": "Dưới",
+      "type": "noun",
+      "romanization": "arae"
+    },
+    {
+      "korean": "중앙",
+      "english": "Middle/Center",
+      "vietnamese": "Giữa",
+      "type": "noun",
+      "romanization": "jungang"
+    },
+    {
+      "korean": "멀단",
+      "english": "Far",
+      "vietnamese": "Xa",
+      "type": "adjective",
+      "romanization": "meoldan"
+    },
+    {
+      "korean": "가까운",
+      "english": "Near",
+      "vietnamese": "Gần",
+      "type": "adjective",
+      "romanization": "gakkaun"
+    },
+    {
+      "korean": "링크",
+      "english": "Right turn",
+      "vietnamese": "Rẽ phải",
+      "type": "noun",
+      "romanization": "ringkeu"
+    },
+    {
+      "korean": "친중",
+      "english": "Intersection",
+      "vietnamese": "Ngã tư",
+      "type": "noun",
+      "romanization": "chinjung"
+    },
+    {
+      "korean": "단단",
+      "english": "Cross",
+      "vietnamese": "Chảo",
+      "type": "verb",
+      "romanization": "danhan"
+    },
+    {
+      "korean": "길",
+      "english": "Road/Street",
+      "vietnamese": "Đường",
+      "type": "noun",
+      "romanization": "gil"
+    },
+    {
+      "korean": "오른쪽",
+      "english": "Left turn",
+      "vietnamese": "Rẽ trái",
+      "type": "noun",
+      "romanization": "oleunjjok"
+    }
+  ]
+}

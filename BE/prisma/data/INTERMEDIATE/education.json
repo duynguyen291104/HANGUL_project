@@ -1,0 +1,112 @@
+{
+  "topic": "Giáo dục",
+  "level": "INTERMEDIATE",
+  "description": "Education and learning",
+  "vocabulary": [
+    {
+      "korean": "학교",
+      "english": "School",
+      "vietnamese": "Trường học",
+      "type": "noun",
+      "romanization": "hakgyo"
+    },
+    {
+      "korean": "책",
+      "english": "Book",
+      "vietnamese": "Sách",
+      "type": "noun",
+      "romanization": "chaek"
+    },
+    {
+      "korean": "선생님",
+      "english": "Teacher",
+      "vietnamese": "Giáo viên",
+      "type": "noun",
+      "romanization": "seonsaengnim"
+    },
+    {
+      "korean": "공부",
+      "english": "Study",
+      "vietnamese": "Học tập",
+      "type": "noun",
+      "romanization": "gongbu"
+    },
+    {
+      "korean": "시험",
+      "english": "Exam",
+      "vietnamese": "Kỳ thi",
+      "type": "noun",
+      "romanization": "siheom"
+    },
+    {
+      "korean": "숙제",
+      "english": "Homework",
+      "vietnamese": "Bài tập về nhà",
+      "type": "noun",
+      "romanization": "sukje"
+    },
+    {
+      "korean": "대학생",
+      "english": "University student",
+      "vietnamese": "Sinh viên",
+      "type": "noun",
+      "romanization": "daehaksaeng"
+    },
+    {
+      "korean": "강의",
+      "english": "Lecture",
+      "vietnamese": "Bài giảng",
+      "type": "noun",
+      "romanization": "gangui"
+    },
+    {
+      "korean": "학과",
+      "english": "Department",
+      "vietnamese": "Khoa",
+      "type": "noun",
+      "romanization": "hakgwa"
+    },
+    {
+      "korean": "도서관",
+      "english": "Library",
+      "vietnamese": "Thư viện",
+      "type": "noun",
+      "romanization": "doseoggwan"
+    },
+    {
+      "korean": "성적",
+      "english": "Grade",
+      "vietnamese": "Thành tích",
+      "type": "noun",
+      "romanization": "seongjeok"
+    },
+    {
+      "korean": "통과하다",
+      "english": "Pass",
+      "vietnamese": "Vượt qua",
+      "type": "verb",
+      "romanization": "tonggwahada"
+    },
+    {
+      "korean": "학급",
+      "english": "Class",
+      "vietnamese": "Lớp học",
+      "type": "noun",
+      "romanization": "hakgeup"
+    },
+    {
+      "korean": "재능 있는 학생",
+      "english": "Gifted student",
+      "vietnamese": "Học sinh tài năng",
+      "type": "noun",
+      "romanization": "jaeneung itneun haksaeng"
+    },
+    {
+      "korean": "자퇴",
+      "english": "Dropout",
+      "vietnamese": "Bỏ học",
+      "type": "noun",
+      "romanization": "jatoe"
+    }
+  ]
+}
