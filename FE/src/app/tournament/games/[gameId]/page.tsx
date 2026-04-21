@@ -13,6 +13,7 @@ export default function GamePage() {
   const params = useParams();
   const gameId = params?.gameId as string;
   const [submitting, setSubmitting] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
   const [newAchievements, setNewAchievements] = useState<AchievementNotification[]>([]);
   const startTimeRef = useRef<number>(Date.now());
 
@@ -23,6 +24,7 @@ export default function GamePage() {
   }, [gameId, router]);
 
   const handleComplete = async (_score: number, correctAnswers: number) => {
+    setGameCompleted(true);
     setSubmitting(true);
     const elapsedSeconds = Math.max(1, Math.round((Date.now() - startTimeRef.current) / 1000));
     try {
@@ -76,12 +78,12 @@ export default function GamePage() {
 
   // Effect: redirect after achievements have been shown (or immediately if none)
   useEffect(() => {
-    if (!submitting) {
+    if (gameCompleted && !submitting) {
       const delay = newAchievements.length > 0 ? 4500 : 500;
       const t = setTimeout(() => router.push('/tournament'), delay);
       return () => clearTimeout(t);
     }
-  }, [submitting]);
+  }, [submitting, gameCompleted]);
 
   const handleExit = () => {
     router.push('/tournament');
