@@ -33,9 +33,17 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const normalizedEmail = formData.email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!formData.email || !formData.name || !formData.password) {
+    if (!normalizedEmail || !formData.name.trim() || !formData.password) {
       setError('Vui lòng điền đầy đủ thông tin');
+      setLoading(false);
+      return;
+    }
+
+    if (!emailRegex.test(normalizedEmail)) {
+      setError('Email không đúng định dạng');
       setLoading(false);
       return;
     }
@@ -46,14 +54,14 @@ export default function RegisterPage() {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError('Mật khẩu phải tối thiểu 6 ký tự');
+    if (formData.password.length < 8) {
+      setError('Mật khẩu phải có ít nhất 8 ký tự');
       setLoading(false);
       return;
     }
 
     try {
-      await register(formData.email, formData.name, formData.password);
+      await register(normalizedEmail, formData.name.trim(), formData.password);
       router.push('/login?registered=true');
     } catch (err) {
       const error = err as Error;
@@ -131,6 +139,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="Nguyễn Văn A"
                 autoComplete="name"
+                required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
             </div>
@@ -147,6 +156,7 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="hello@otter.edu"
                 autoComplete="email"
+                required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
             </div>
@@ -163,9 +173,11 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="••••••••"
                 autoComplete="new-password"
+                minLength={8}
+                required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
-              <p className="text-xs text-[#504441] px-1">Minimum 6 characters</p>
+              <p className="text-xs text-[#504441] px-1">Minimum 8 characters</p>
             </div>
 
             {/* Confirm Password Field */}
@@ -180,6 +192,8 @@ export default function RegisterPage() {
                 onChange={handleChange}
                 placeholder="••••••••"
                 autoComplete="new-password"
+                minLength={8}
+                required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
             </div>

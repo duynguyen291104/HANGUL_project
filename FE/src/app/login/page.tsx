@@ -40,15 +40,29 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    const normalizedEmail = formData.email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!formData.email || !formData.password) {
+    if (!normalizedEmail || !formData.password) {
       setError('Vui lòng điền email và mật khẩu');
       setLoading(false);
       return;
     }
 
+    if (!emailRegex.test(normalizedEmail)) {
+      setError('Email không đúng định dạng');
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      setError('Mật khẩu phải có ít nhất 8 ký tự');
+      setLoading(false);
+      return;
+    }
+
     try {
-      await login(formData.email, formData.password);
+      await login(normalizedEmail, formData.password);
       // Read role from store after login (store was updated by login())
       const role = useAuthStore.getState().user?.role;
       setTimeout(() => {
@@ -59,8 +73,7 @@ export default function LoginPage() {
         }
       }, 500);
     } catch (err) {
-      const error = err as Error;
-      setError(error?.message || 'Đăng nhập thất bại');
+      setError('Thông tin đăng nhập không chính xác');
     } finally {
       setLoading(false);
     }
@@ -141,6 +154,7 @@ export default function LoginPage() {
                 onChange={handleChange}
                 placeholder="hello@otter.edu"
                 autoComplete="email"
+                required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
             </div>
@@ -162,6 +176,8 @@ export default function LoginPage() {
                 onChange={handleChange}
                 placeholder="••••••••"
                 autoComplete="current-password"
+                minLength={8}
+                required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
             </div>

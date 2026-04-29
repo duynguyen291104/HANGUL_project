@@ -26,6 +26,7 @@ HANGUL/
 ### Tech Stack Summary
 
 **Frontend**
+
 - Next.js 14 + React 18
 - TypeScript
 - TailwindCSS + shadcn/ui
@@ -33,6 +34,7 @@ HANGUL/
 - IndexedDB + localStorage
 
 **Backend**
+
 - Node.js + Express.js
 - TypeScript
 - PostgreSQL
@@ -40,6 +42,7 @@ HANGUL/
 - JWT Authentication
 
 **AI/ML**
+
 - Flask
 - YOLOv8 (object detection)
 - Azure Speech Services (pronunciation)
@@ -48,6 +51,7 @@ HANGUL/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Docker & Docker Compose (recommended)
 - OR:
   - Node.js 18+
@@ -73,14 +77,16 @@ docker-compose exec backend npm run prisma:migrate
 ```
 
 Access:
-- Frontend: http://localhost:3000
-- Backend: http://localhost:5000
-- Flask AI: http://localhost:5001
+
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend: [http://localhost:5000](http://localhost:5000)
+- Flask AI: [http://localhost:5001](http://localhost:5001)
 - Database: localhost:5432
 
 ### Option 2: Local Development
 
 #### Frontend Setup
+
 ```bash
 cd FE
 npm install
@@ -89,6 +95,7 @@ npm run dev  # http://localhost:3000
 ```
 
 #### Backend Setup
+
 ```bash
 cd BE
 npm install
@@ -99,6 +106,7 @@ npm run dev  # http://localhost:5000
 ```
 
 #### Flask AI Setup
+
 ```bash
 cd AI
 python -m venv venv
@@ -110,6 +118,7 @@ python app.py  # http://localhost:5001
 ## 📁 Project Structure
 
 ### Frontend (FE)
+
 ```
 src/
 ├── components/        # Reusable UI components
@@ -126,6 +135,7 @@ src/
 ```
 
 ### Backend (BE)
+
 ```
 src/
 ├── app.ts            # Express app initialization
@@ -142,6 +152,7 @@ prisma/
 ```
 
 ### AI Backend (AI)
+
 ```
 ├── app.py           # Flask app
 ├── models/          # YOLOv8 weights (downloaded on first run)
@@ -152,6 +163,7 @@ prisma/
 ## 🔐 Role-Based Access Control
 
 ### USER Role
+
 - ✅ Take quizzes and exercises
 - ✅ Learn vocabulary
 - ✅ Track progress
@@ -159,6 +171,7 @@ prisma/
 - ❌ Cannot create/edit content
 
 ### ADMIN Role
+
 - ✅ Create/update/delete vocabulary
 - ✅ Create/update/delete questions & exercises
 - ✅ View user analytics
@@ -166,6 +179,7 @@ prisma/
 - ✅ All USER permissions
 
 ### SUPER_ADMIN Role (Optional)
+
 - ✅ Manage other admins
 - ✅ System configuration
 - ✅ All ADMIN permissions
@@ -173,35 +187,41 @@ prisma/
 ## 📚 Key Features Implementation
 
 ### 1. Streak System
+
 - User gets +1 streak for completing ≥1 exercise per day
 - Automatic reset if day is skipped
 - Stored in `User.currentStreak` + `User.lastCheckinDate`
 
 ### 2. Quiz System
+
 - Admin creates questions with multiple choice answers
 - Questions stored with versioning for historical accuracy
 - User submissions saved with session snapshots
 - Prevents score manipulation
 
 ### 3. Vocabulary Management
+
 - 500+ vocabulary items organized by level (NEWBIE → ADVANCED)
 - Soft delete with `isActive` flag
 - Versioning for content changes
 - Users can add to personal learning list
 
 ### 4. Handwriting Practice
+
 - Canvas-based drawing
 - IoU (Intersection over Union) based scoring
 - Pixel-level character comparison
 - Real-time feedback
 
 ### 5. Pronunciation Scoring
+
 - Browser MediaRecorder API for audio capture
 - Upload to Flask backend for processing
 - Azure Speech Services for phoneme-level analysis
 - Feedback on accuracy, fluency, completeness
 
 ### 6. Camera Detection
+
 - YOLOv8 model for real-time object detection
 - Detected objects mapped to vocabulary
 - Instant Korean translation and pronunciation
@@ -210,6 +230,7 @@ prisma/
 ## 🗄️ Database Schema Highlights
 
 ### Core Tables
+
 - **User** - User accounts with roles and progress
 - **Vocabulary** - Korean-English vocabulary items
 - **Question** - Quiz questions with options
@@ -222,6 +243,7 @@ prisma/
 - **FeedPost** & **Comment** - Community features
 
 ### Design Principles
+
 - ✅ Soft deletes (preserve data)
 - ✅ Content versioning (track changes)
 - ✅ Session-based scoring (prevent manipulation)
@@ -230,6 +252,7 @@ prisma/
 ## 🔗 API Endpoints
 
 ### Authentication
+
 ```
 POST   /api/auth/register
 POST   /api/auth/login
@@ -237,6 +260,7 @@ GET    /api/auth/me
 ```
 
 ### Vocabulary (USER)
+
 ```
 GET    /api/vocabulary
 GET    /api/vocabulary/:id
@@ -244,6 +268,7 @@ POST   /api/vocabulary/:id/learn
 ```
 
 ### Vocabulary (ADMIN)
+
 ```
 POST   /api/vocabulary
 POST   /api/vocabulary/bulk/create
@@ -252,6 +277,7 @@ DELETE /api/vocabulary/:id
 ```
 
 ### Quiz
+
 ```
 POST   /api/quiz/start
 POST   /api/quiz/answer
@@ -260,6 +286,7 @@ GET    /api/quiz/history
 ```
 
 ### Camera Detection
+
 ```
 POST   /api/camera/detect
 ```
@@ -269,6 +296,7 @@ See individual README files in FE/, BE/, and AI/ for complete API documentation.
 ## 🎮 Key User Flows
 
 ### Learning Flow
+
 1. User registers/logs in
 2. Selects learning level (NEWBIE → ADVANCED)
 3. Browses available topics
@@ -278,6 +306,7 @@ See individual README files in FE/, BE/, and AI/ for complete API documentation.
 7. Progress updated in database
 
 ### Quiz Flow
+
 1. Click "Start Quiz"
 2. Backend generates 10 random questions
 3. Frontend displays questions (correct answers NOT shown)
@@ -287,6 +316,7 @@ See individual README files in FE/, BE/, and AI/ for complete API documentation.
 7. Session ends and results saved
 
 ### Streak System Flow
+
 1. User completes exercise
 2. Backend checks `lastCheckinDate`
 3. If today → skip (already checked)
@@ -297,6 +327,7 @@ See individual README files in FE/, BE/, and AI/ for complete API documentation.
 ## 🛠️ Development Commands
 
 ### Frontend
+
 ```bash
 cd FE
 npm run dev          # Start dev server
@@ -306,6 +337,7 @@ npm run type-check   # TypeScript validation
 ```
 
 ### Backend
+
 ```bash
 cd BE
 npm run dev                    # Start dev server with watch
@@ -317,6 +349,7 @@ npm run lint                  # Check code quality
 ```
 
 ### Flask AI
+
 ```bash
 cd AI
 source venv/bin/activate      # Activate virtual environment
@@ -327,6 +360,7 @@ python -m pip freeze         # List dependencies
 ## 📦 Environment Files
 
 ### BE/.env
+
 ```
 DATABASE_URL="postgresql://user:pass@localhost:5432/hangul_db"
 JWT_SECRET="your-secret"
@@ -337,12 +371,14 @@ FLASK_API_URL="http://localhost:5001"
 ```
 
 ### FE/.env.local
+
 ```
 NEXT_PUBLIC_API_URL="http://localhost:5000/api"
 NEXT_PUBLIC_FLASK_API_URL="http://localhost:5001"
 ```
 
 ### AI/.env
+
 ```
 FLASK_ENV=development
 FLASK_APP=app.py
@@ -352,24 +388,25 @@ AZURE_SPEECH_KEY=your-key
 
 ## 🎯 MVP Checklist
 
-- [x] Project structure
-- [x] Database schema (Prisma)
-- [x] Authentication (JWT + bcrypt)
-- [x] Role-based access control
-- [ ] Core API routes (in progress)
-- [ ] Frontend pages
-- [ ] Zustand stores
-- [ ] Quiz system
-- [ ] Handwriting practice
-- [ ] Pronunciation training
-- [ ] Camera detection
-- [ ] Community features
-- [ ] Progress tracking
-- [ ] Docker deployment
+- Project structure
+- Database schema (Prisma)
+- Authentication (JWT + bcrypt)
+- Role-based access control
+- Core API routes (in progress)
+- Frontend pages
+- Zustand stores
+- Quiz system
+- Handwriting practice
+- Pronunciation training
+- Camera detection
+- Community features
+- Progress tracking
+- Docker deployment
 
 ## 🚀 Deployment
 
 ### Production Build
+
 ```bash
 # Backend
 cd BE
@@ -387,11 +424,13 @@ python app.py
 ```
 
 ### Docker Production
+
 ```bash
 docker-compose -f docker-compose.yml up -d
 ```
 
 ### Database Backup
+
 ```bash
 docker-compose exec postgres pg_dump -U hangul hangul_db > backup.sql
 ```

@@ -26,6 +26,7 @@ interface AdjustModal {
 
 const LEVELS = ['CỰC_CƠ_BẢN', 'SƠ_CẤP', 'TRUNG_CẤP', 'CAO_CẤP', 'THÀNH_THẠO'];
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const ITEMS_PER_PAGE = 10;
 
 export default function AdminUsers() {
   const { token } = useAuthStore();
@@ -38,8 +39,24 @@ export default function AdminUsers() {
   const [modalAmount, setModalAmount] = useState('');
   const [modalReason, setModalReason] = useState('');
   const [modalLevel, setModalLevel] = useState('');
+  const [notice, setNotice] = useState<{ id: number; type: 'success' | 'error'; message: string } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => { fetchUsers(); }, [token]);
+  useEffect(() => {
+    if (!notice) return;
+    const timer = setTimeout(() => setNotice(null), 4000);
+    return () => clearTimeout(timer);
+  }, [notice]);
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filterBanned]);
+
+  const notify = (type: 'success' | 'error', message: string) => {
+    setNotice({ id: Date.now(), type, message });
+  };
+
+  const isProtectedAdmin = (user: AdminUser) => user.role === 'ADMIN';
 
   const fetchUsers = async () => {
     try {
@@ -48,7 +65,10 @@ export default function AdminUsers() {
       });
       const data = await res.json();
       setUsers(data.data || []);
-    } catch { console.error('Failed to fetch users'); }
+    } catch {
+      console.error('Failed to fetch users');
+      notify('error', 'Khong the tai danh sach tai khoan');
+    }
     finally { setLoading(false); }
   };
 
@@ -60,47 +80,78 @@ export default function AdminUsers() {
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: body ? JSON.stringify(body) : undefined,
       });
-      if (!res.ok) { const err = await res.json(); alert(err.error || 'Action failed'); return false; }
+      if (!res.ok) { const err = await res.json(); notify('error', err.error || 'Action failed'); return false; }
       return true;
-    } catch { alert('Request failed'); return false; }
+    } catch { notify('error', 'Request failed'); return false; }
     finally { setActionLoading(null); }
   };
 
   const handleBan = async (user: AdminUser) => {
+    if (isProtectedAdmin(user)) {
+      notify('error', 'Khong the thao tac voi tai khoan admin');
+      return;
+    }
     const action = user.isBanned ? 'unban' : 'ban';
     const confirmed = window.confirm(
       user.isBanned ? `Mo khoa tai khoan "${user.name}"?` : `Khoa tai khoan "${user.name}"? User se khong dang nhap duoc.`
     );
     if (!confirmed) return;
     const ok = await doAction(user.id, action);
-    if (ok) setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isBanned: !u.isBanned } : u));
+    if (ok) {
+      setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isBanned: !u.isBanned } : u));
+      notify('success', user.isBanned ? 'Mo khoa tai khoan thanh cong' : 'Khoa tai khoan thanh cong');
+    }
   };
 
   const handleDelete = async (user: AdminUser) => {
+    if (isProtectedAdmin(user)) {
+      notify('error', 'Khong the thao tac voi tai khoan admin');
+      return;
+    }
     const confirmed = window.confirm(`Xoa vinh vien tai khoan "${user.name}" (${user.email})? Khong the hoan tac.`);
     if (!confirmed) return;
     const ok = await doAction(user.id, '', 'DELETE');
-    if (ok) setUsers(prev => prev.filter(u => u.id !== user.id));
+    if (ok) {
+      setUsers(prev => prev.filter(u => u.id !== user.id));
+      notify('success', 'Xoa tai khoan thanh cong');
+    }
   };
 
   const handleResetScore = async (user: AdminUser) => {
+    if (isProtectedAdmin(user)) {
+      notify('error', 'Khong the thao tac voi tai khoan admin');
+      return;
+    }
     const confirmed = window.confirm(`Reset toan bo XP, Trophy va Streak cua "${user.name}" ve 0?`);
     if (!confirmed) return;
     const ok = await doAction(user.id, 'reset-score');
-    if (ok) setUsers(prev => prev.map(u => u.id === user.id ? { ...u, totalXP: 0, totalTrophy: 0, currentStreak: 0 } : u));
+    if (ok) {
+      setUsers(prev => prev.map(u => u.id === user.id ? { ...u, totalXP: 0, totalTrophy: 0, currentStreak: 0 } : u));
+      notify('success', 'Reset diem thanh cong');
+    }
   };
 
   const handleModalSubmit = async () => {
     if (!modal) return;
+    const targetUser = users.find(u => u.id === modal.userId);
+    if (targetUser && isProtectedAdmin(targetUser)) {
+      notify('error', 'Khong the thao tac voi tai khoan admin');
+      closeModal();
+      return;
+    }
     if (modal.type === 'level') {
-      if (!modalLevel) return alert('Chon level');
+      if (!modalLevel) return notify('error', 'Chon level');
       const ok = await doAction(modal.userId, 'set-level', 'POST', { level: modalLevel });
-      if (ok) { setUsers(prev => prev.map(u => u.id === modal.userId ? { ...u, level: modalLevel } : u)); closeModal(); }
+      if (ok) {
+        setUsers(prev => prev.map(u => u.id === modal.userId ? { ...u, level: modalLevel } : u));
+        notify('success', 'Cap nhat level thanh cong');
+        closeModal();
+      }
       return;
     }
     const amount = parseInt(modalAmount);
-    if (isNaN(amount)) return alert('Nhap so hop le');
-    if (!modalReason.trim()) return alert('Nhap ly do');
+    if (isNaN(amount)) return notify('error', 'Nhap so hop le');
+    if (!modalReason.trim()) return notify('error', 'Nhap ly do');
     const path = modal.type === 'xp' ? 'adjust-xp' : 'adjust-trophy';
     const ok = await doAction(modal.userId, path, 'POST', { amount, reason: modalReason });
     if (ok) {
@@ -108,6 +159,7 @@ export default function AdminUsers() {
         if (u.id !== modal.userId) return u;
         return modal.type === 'xp' ? { ...u, totalXP: u.totalXP + amount } : { ...u, totalTrophy: u.totalTrophy + amount };
       }));
+      notify('success', modal.type === 'xp' ? 'Dieu chinh XP thanh cong' : 'Dieu chinh Trophy thanh cong');
       closeModal();
     }
   };
@@ -119,6 +171,14 @@ export default function AdminUsers() {
     const matchBan = filterBanned === 'all' || (filterBanned === 'banned' ? u.isBanned : !u.isBanned);
     return matchSearch && matchBan;
   });
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedUsers = filtered.slice(
+    (safeCurrentPage - 1) * ITEMS_PER_PAGE,
+    safeCurrentPage * ITEMS_PER_PAGE
+  );
+  const startItem = filtered.length === 0 ? 0 : (safeCurrentPage - 1) * ITEMS_PER_PAGE + 1;
+  const endItem = Math.min(safeCurrentPage * ITEMS_PER_PAGE, filtered.length);
 
   return (
     <div>
@@ -159,7 +219,7 @@ export default function AdminUsers() {
               </tr>
             </thead>
             <tbody>
-              {filtered.map(user => (
+              {paginatedUsers.map(user => (
                 <tr key={user.id} className={`border-b border-[#e8dcd4]/50 last:border-0 hover:bg-white transition ${user.isBanned ? 'opacity-60' : ''}`}>
                   <td className="px-5 py-3.5">
                     <div className="font-semibold text-sm text-[#1a1c19]">{user.name}</div>
@@ -194,29 +254,29 @@ export default function AdminUsers() {
                   <td className="px-5 py-3.5">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => setModal({ type: 'xp', userId: user.id, userName: user.name })} title="Dieu chinh XP"
-                        disabled={actionLoading === user.id} className="p-1.5 rounded-lg hover:bg-[#e8f0f8] text-[#2c5f8a] transition">
+                        disabled={actionLoading === user.id || isProtectedAdmin(user)} className="p-1.5 rounded-lg hover:bg-[#e8f0f8] text-[#2c5f8a] transition disabled:opacity-40 disabled:cursor-not-allowed">
                         <TrendingUp size={14} />
                       </button>
                       <button onClick={() => setModal({ type: 'trophy', userId: user.id, userName: user.name })} title="Dieu chinh Trophy"
-                        disabled={actionLoading === user.id} className="p-1.5 rounded-lg hover:bg-[#f8f4e8] text-[#815300] transition">
+                        disabled={actionLoading === user.id || isProtectedAdmin(user)} className="p-1.5 rounded-lg hover:bg-[#f8f4e8] text-[#815300] transition disabled:opacity-40 disabled:cursor-not-allowed">
                         <Trophy size={14} />
                       </button>
                       <button onClick={() => { setModal({ type: 'level', userId: user.id, userName: user.name }); setModalLevel(user.level); }} title="Set Level"
-                        disabled={actionLoading === user.id} className="p-1.5 rounded-lg hover:bg-[#e8dcd4] text-[#72564c] transition">
+                        disabled={actionLoading === user.id || isProtectedAdmin(user)} className="p-1.5 rounded-lg hover:bg-[#e8dcd4] text-[#72564c] transition disabled:opacity-40 disabled:cursor-not-allowed">
                         <Edit3 size={14} />
                       </button>
                       <button onClick={() => handleResetScore(user)} title="Reset XP/Trophy"
-                        disabled={actionLoading === user.id} className="p-1.5 rounded-lg hover:bg-orange-50 text-orange-400 transition">
+                        disabled={actionLoading === user.id || isProtectedAdmin(user)} className="p-1.5 rounded-lg hover:bg-orange-50 text-orange-400 transition disabled:opacity-40 disabled:cursor-not-allowed">
                         <RotateCcw size={14} />
                       </button>
                       <button onClick={() => handleBan(user)} title={user.isBanned ? 'Mo khoa' : 'Khoa tai khoan'}
-                        disabled={actionLoading === user.id || user.role === 'ADMIN'}
-                        className={`p-1.5 rounded-lg transition ${user.isBanned ? 'hover:bg-[#e8f4f0] text-[#406561]' : 'hover:bg-red-50 text-red-400'}`}>
+                        disabled={actionLoading === user.id || isProtectedAdmin(user)}
+                        className={`p-1.5 rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed ${user.isBanned ? 'hover:bg-[#e8f4f0] text-[#406561]' : 'hover:bg-red-50 text-red-400'}`}>
                         {user.isBanned ? <CheckCircle size={14} /> : <Ban size={14} />}
                       </button>
                       <button onClick={() => handleDelete(user)} title="Xoa tai khoan"
-                        disabled={actionLoading === user.id || user.role === 'ADMIN'}
-                        className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition">
+                        disabled={actionLoading === user.id || isProtectedAdmin(user)}
+                        className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition disabled:opacity-40 disabled:cursor-not-allowed">
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -226,6 +286,32 @@ export default function AdminUsers() {
             </tbody>
           </table>
         )}
+      </div>
+      <div className="mt-4 flex items-center justify-between gap-3">
+        <p className="text-xs text-[#8d6e63]">
+          Hien thi {startItem}-{endItem} / {filtered.length} tai khoan
+        </p>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+            disabled={safeCurrentPage === 1}
+            className="rounded-lg border border-[#e8dcd4] px-3 py-1.5 text-xs font-semibold text-[#504441] disabled:cursor-not-allowed disabled:opacity-50 hover:bg-white transition"
+          >
+            Truoc
+          </button>
+          <span className="text-xs font-semibold text-[#72564c]">
+            Trang {safeCurrentPage}/{totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+            disabled={safeCurrentPage === totalPages}
+            className="rounded-lg border border-[#e8dcd4] px-3 py-1.5 text-xs font-semibold text-[#504441] disabled:cursor-not-allowed disabled:opacity-50 hover:bg-white transition"
+          >
+            Sau
+          </button>
+        </div>
       </div>
 
       {modal && (
@@ -264,6 +350,30 @@ export default function AdminUsers() {
                 <Check size={14} /> Xac nhan
               </button>
             </div>
+          </div>
+        </div>
+      )}
+      {notice && (
+        <div
+          key={notice.id}
+          className={`fixed right-6 top-6 z-50 min-w-[280px] max-w-[420px] rounded-lg border px-4 py-3 text-sm font-medium shadow-lg ${
+            notice.type === 'success'
+              ? 'bg-green-50 border-green-200 text-green-700'
+              : 'bg-red-50 border-red-200 text-red-700'
+          }`}
+          role="status"
+          aria-live="polite"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <span>{notice.message}</span>
+            <button
+              type="button"
+              onClick={() => setNotice(null)}
+              className="text-xs font-bold opacity-70 hover:opacity-100"
+              aria-label="Dong thong bao"
+            >
+              x
+            </button>
           </div>
         </div>
       )}

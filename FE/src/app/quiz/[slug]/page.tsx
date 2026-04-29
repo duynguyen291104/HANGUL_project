@@ -841,12 +841,6 @@ export default function QuizDetailPage() {
                   <span className="text-3xl font-bold text-[#72564c] mb-1">
                     {option}
                   </span>
-                  <span className="text-[#504441]/60 font-medium italic">
-                    {idx === 0 && 'Lựa chọn A'}
-                    {idx === 1 && 'Lựa chọn B'}
-                    {idx === 2 && 'Lựa chọn C'}
-                    {idx === 3 && 'Lựa chọn D'}
-                  </span>
                 </div>
                 <div
                   className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
