@@ -37,20 +37,12 @@ export default function Header() {
   return (
     <>
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full h-[75px] bg-white shadow-md z-40 flex items-center justify-between px-6">
-        {/* Left - Hamburger Menu */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-all"
-          title="Menu"
-        >
-          <img
-            src="https://res.cloudinary.com/dds5jlp7e/image/upload/q_auto/f_auto/v1775570296/list-view_iu1k6k.png"
-            alt="Menu"
-            className="w-6 h-6"
-          />
-        </button>
-
+      <header className="fixed top-0 h-[75px] bg-white shadow-md z-40 flex items-center justify-between px-6 transition-all duration-300 ease-in-out"
+        style={{
+          left: sidebarOpen ? '288px' : '0px',
+          right: '0px',
+        }}
+      >
         {/* Center - HANGUL Logo */}
         <div className="flex-1 flex justify-center">
           <button
@@ -135,48 +127,64 @@ export default function Header() {
       </header>
 
       {/* Sidebar */}
-      {sidebarOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/20 z-30 top-[75px]"
+      <div
+        className={`fixed left-0 top-0 h-full w-72 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Sidebar Header */}
+        <div className="h-[75px] flex items-center justify-between px-6 border-b border-gray-100">
+          <span className="text-2xl font-black text-[#72564c] font-baloo">Menu</span>
+          <button
             onClick={() => setSidebarOpen(false)}
-          />
-          
-          {/* Sidebar Menu */}
-          <nav className="fixed left-0 top-[75px] h-[calc(100vh-75px)] w-72 bg-white shadow-lg z-30 overflow-y-auto">
-            <div className="px-4 py-6 space-y-1">
-              {menuItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setSidebarOpen(false)}
-                  className="block px-4 py-3 rounded-lg hover:bg-[#72564c] hover:text-white transition-all active:scale-95 text-[#72564c] font-semibold"
-                >
-                  <div className="flex flex-col">
-                    <span className="font-bold">{item.label}</span>
-                    <span className="text-xs opacity-70 font-normal">{item.subtitle}</span>
-                  </div>
-                </Link>
-              ))}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+          >
+            <img
+              src="https://res.cloudinary.com/dds5jlp7e/image/upload/q_auto/f_auto/v1775570296/list-view_iu1k6k.png"
+              alt="Close"
+              className="w-6 h-6"
+            />
+          </button>
+        </div>
 
-              {/* Admin Panel — chỉ hiện cho ADMIN */}
-              {isAdmin && (
-                <Link
-                  href="/admin/dashboard"
-                  onClick={() => setSidebarOpen(false)}
-                  className="block px-4 py-3 rounded-lg bg-gray-900 text-white font-semibold hover:bg-gray-700 transition-all active:scale-95 mt-2"
-                >
-                  <div className="flex flex-col">
-                    <span className="font-bold">⚙️ Admin Panel</span>
-                    <span className="text-xs opacity-70 font-normal">Quản trị hệ thống</span>
-                  </div>
-                </Link>
-              )}
-            </div>
-          </nav>
-        </>
-      )}
+        {/* Menu Items */}
+        <nav className="px-4 py-6 space-y-1 overflow-y-auto h-[calc(100vh-75px)]">
+          {menuItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setSidebarOpen(false)}
+              className="block px-4 py-3 rounded-lg hover:bg-[#72564c] hover:text-white transition-all active:scale-95 text-[#72564c] font-semibold"
+            >
+              <div className="flex flex-col">
+                <span className="font-baloo text-base">{item.label}</span>
+                <span className="text-2xl opacity-70 font-bold">{item.subtitle}</span>
+              </div>
+            </Link>
+          ))}
+
+          {isAdmin && (
+            <Link
+              href="/admin/dashboard"
+              onClick={() => setSidebarOpen(false)}
+              className="block px-4 py-3 rounded-lg bg-gray-900 text-white font-semibold hover:bg-gray-700 transition-all active:scale-95 mt-2"
+            >
+              <div className="flex flex-col">
+                <span className="font-bold">⚙️ Admin Panel</span>
+                <span className="text-xs opacity-70 font-normal">Quản trị hệ thống</span>
+              </div>
+            </Link>
+          )}
+        </nav>
+      </div>
+
+      {/* Backdrop */}
+      <div
+        className={`fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${
+          sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setSidebarOpen(false)}
+      />
 
       {/* Padding for fixed header */}
       <div className="h-[75px]" />
@@ -210,6 +218,20 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Nút mở sidebar — nằm ngoài sidebar, z-50 để không bị backdrop che */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className={`fixed top-0 left-0 z-50 w-[75px] h-[75px] flex items-center justify-center ${
+          sidebarOpen ? 'hidden' : 'flex'
+        }`}
+      >
+        <img
+          src="https://res.cloudinary.com/dds5jlp7e/image/upload/q_auto/f_auto/v1775570296/list-view_iu1k6k.png"
+          alt="Menu"
+          className="w-6 h-6"
+        />
+      </button>
 
       <style jsx>{`
         .hangul {

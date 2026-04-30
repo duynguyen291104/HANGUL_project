@@ -4,7 +4,7 @@
   "private": true,
   "main": "src/app.ts",
   "scripts": {
-    "dev": "kill -9 $(lsof -t -i:5000) 2>/dev/null || true && ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
     "prisma:generate": "prisma generate",

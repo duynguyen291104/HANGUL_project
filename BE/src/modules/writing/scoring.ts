@@ -2,7 +2,6 @@ import { Router, Request, Response } from 'express';
 import prisma from '../../lib/prisma';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 // @ts-ignore
-import Jimp from 'jimp';
 
 const router = Router();
 
@@ -21,29 +20,22 @@ interface AuthRequest extends Request {
 const evaluateWithPixels = async (imageBase64: string): Promise<{ accuracy: number; feedback: string }> => {
   try {
     const buf = Buffer.from(imageBase64, 'base64');
-    const image = await Jimp.read(buf);
-    const width = image.getWidth();
-    const height = image.getHeight();
-    const total = width * height;
+    // Đếm dark pixels trực tiếp từ raw buffer (bỏ qua PNG header ~100 bytes đầu)
+    // Heuristic: buffer càng có nhiều byte nhỏ (dark) = càng nhiều nét viết
+    let darkBytes = 0;
+    const start = 100; // skip PNG header
+    for (let i = start; i < buf.length; i++) {
+      if (buf[i] < 100) darkBytes++;
+    }
+    const ratio = darkBytes / (buf.length - start);
 
-    let inkPixels = 0;
-    image.scan(0, 0, width, height, (_x: number, _y: number, idx: number) => {
-      const r = image.bitmap.data[idx];
-      const g = image.bitmap.data[idx + 1];
-      const b = image.bitmap.data[idx + 2];
-      // Count pixels darker than threshold (ink = dark strokes, background = white/light gray)
-      if (r < 180 && g < 180 && b < 180) inkPixels++;
-    });
-
-    const inkRatio = inkPixels / total;
-
-    if (inkRatio < 0.005) {
+    if (ratio < 0.01) {
       return { accuracy: 0, feedback: 'Canvas trắng, chưa viết gì cả' };
-    } else if (inkRatio < 0.02) {
+    } else if (ratio < 0.03) {
       return { accuracy: 30, feedback: 'Nét viết quá mờ hoặc thiếu nhiều nét' };
-    } else if (inkRatio < 0.05) {
+    } else if (ratio < 0.07) {
       return { accuracy: 55, feedback: 'Viết được nhưng cần luyện thêm độ đậm và đầy đủ nét' };
-    } else if (inkRatio < 0.12) {
+    } else if (ratio < 0.15) {
       return { accuracy: 72, feedback: 'Viết ổn, tiếp tục luyện tập để chuẩn hơn' };
     } else {
       return { accuracy: 85, feedback: 'Nét viết đầy đặn, rất tốt!' };

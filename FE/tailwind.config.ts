@@ -67,9 +67,8 @@ const config: Config = {
         'surface-tint': '#75584d',
       },
       fontFamily: {
-        'headline': ['Cormorant Garamond', 'serif'],
-        'body': ['Cormorant Garamond', 'serif'],
-        'label': ['Cormorant Garamond', 'serif'],
+        nunito: ['var(--font-nunito)', 'sans-serif'],
+        baloo: ['var(--font-baloo)', 'sans-serif'],
       },
       borderRadius: {
         'DEFAULT': '1rem',
