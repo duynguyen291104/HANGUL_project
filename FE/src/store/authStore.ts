@@ -12,6 +12,7 @@ interface User {
   avatar?: string;
   currentStreak?: number;  // For streak tracking
   lastActiveAt?: string;
+  provider?: string;  // 'local' | 'google'
 }
 
 interface AuthStore {
@@ -20,6 +21,7 @@ interface AuthStore {
   isLoading: boolean;
   error: string | null;
   login: (email: string, password: string) => Promise<void>;
+  googleLogin: (accessToken: string) => Promise<void>;
   register: (email: string, name: string, password: string) => Promise<void>;
   logout: () => void;
   setUser: (user: User) => void;
@@ -79,6 +81,7 @@ export const useAuthStore = create<AuthStore>((set) => {
         levelLocked: data.levelLocked || false,
         totalXP: data.xp || 0,
         trophy: data.trophy || 0,  // Add trophy
+        provider: 'local',
       };
       
       // 🔥 LƯU USER VÀO LOCALSTORAGE
@@ -87,6 +90,48 @@ export const useAuthStore = create<AuthStore>((set) => {
       set({ user, token: data.token, isLoading: false });
     } catch (error: any) {
       console.error('Lỗi đăng nhập:', error);
+      set({ error: error.message, isLoading: false });
+      throw error;
+    }
+  },
+
+  googleLogin: async (accessToken: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/google-login`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accessToken }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Đăng nhập Google thất bại');
+      }
+
+      const data = await response.json();
+
+      localStorage.setItem('token', data.token);
+
+      const user: User = {
+        id: data.userId,
+        email: data.email,
+        name: data.name || '',
+        role: data.role || 'USER',
+        level: data.level || 'CỰC_CƠ_BẢN',
+        levelLocked: data.levelLocked || false,
+        totalXP: data.xp || 0,
+        trophy: data.trophy || 0,
+        avatar: data.avatar || undefined,
+        provider: 'google',
+      };
+
+      localStorage.setItem('user', JSON.stringify(user));
+      set({ user, token: data.token, isLoading: false });
+    } catch (error: any) {
       set({ error: error.message, isLoading: false });
       throw error;
     }
@@ -132,7 +177,10 @@ export const useAuthStore = create<AuthStore>((set) => {
     set({ user: null, token: null });
   },
 
-  setUser: (user: User) => set({ user }),
+  setUser: (user: User) => {
+    localStorage.setItem('user', JSON.stringify(user));
+    set({ user });
+  },
   setToken: (token: string) => {
     localStorage.setItem('token', token);
     set({ token });

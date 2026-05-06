@@ -9,28 +9,28 @@ import LevelTestModal from '@/components/LevelTestModal';
 const levels: { value: Level; label: string; description: string }[] = [
   {
     value: 'NEWBIE',
-    label: 'Beginner',
-    description: 'Làm quen với chữ cái và từ vựng đơn giản',
+    label: 'Newbie',
+    description: 'Các chủ đề nhập môn — bảng chữ cái và từ vựng căn bản nhất',
   },
   {
     value: 'BEGINNER',
-    label: 'Learner',
-    description: 'Viết được câu đơn hoàn chỉnh',
+    label: 'Beginner',
+    description: 'Các chủ đề quen thuộc hàng ngày với từ vựng phổ biến',
   },
   {
     value: 'INTERMEDIATE',
-    label: 'Challenger',
-    description: 'Viết được đoạn văn với 5-7 câu',
+    label: 'Intermediate',
+    description: 'Các chủ đề đa dạng hơn với độ khó từ vựng và ngữ pháp tăng dần',
   },
   {
     value: 'UPPER',
-    label: 'Master',
-    description: 'Viết được các bài có logic và lập luận',
+    label: 'Upper',
+    description: 'Các chủ đề nâng cao với ngữ pháp phức tạp và từ vựng phong phú',
   },
   {
     value: 'ADVANCED',
-    label: 'Grandmaster',
-    description: 'Viết essay, phân tích sâu',
+    label: 'Advanced',
+    description: 'Các chủ đề chuyên sâu với nội dung và cấu trúc câu phức tạp nhất',
   },
 ];
 
@@ -112,83 +112,80 @@ export default function LevelSelectionPage() {
 
   return (
     <>
-    <div className="min-h-screen bg-[#fafaf5] flex flex-col" style={{
+    <div className="h-screen overflow-hidden bg-[#fafaf5] flex" style={{
       backgroundImage: 'radial-gradient(#d4c3be 0.5px, transparent 0.5px)',
       backgroundSize: '24px 24px',
     }}>
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center justify-center px-6 py-12">
-        {/* Header Section */}
-        <header className="text-center mb-12">
-          <div className="mb-8 flex justify-center items-center gap-2">
-            <img
-              alt="Otter Mascot"
-              className="w-[200px] h-[200px] object-contain"
-              src="/otter-mascot.png"
-            />
-          </div>
-          <h1 className="text-6xl font-black tracking-tighter mb-4 uppercase text-[#72564c]">
-            HANGUL
-          </h1>
-          <p className="text-2xl font-bold text-[#8d6e63] mb-1" suppressHydrationWarning>
+
+      {/* ── Left panel — 38.2% (golden minor) ── */}
+      <div className="flex flex-col items-center justify-center gap-5 px-10 shrink-0" style={{ width: '38.2%' }}>
+        <img
+          alt="Otter Mascot"
+          className="object-contain"
+          style={{ width: '140px', height: '140px' }}
+          src="/otter-mascot.png"
+        />
+        <h1 className="text-6xl font-black tracking-tighter uppercase text-[#72564c] leading-none">
+          HANGUL
+        </h1>
+        <div className="text-center">
+          <p className="font-bold text-[#8d6e63]" suppressHydrationWarning style={{ fontSize: '20px' }}>
             Chào mừng, {user?.name || 'Learner'}!
           </p>
-          <p className="text-[#504441] font-medium">
+          <p className="text-[#504441] mt-1" style={{ fontSize: '20px' }}>
             Hãy chọn mức độ học tập phù hợp với bạn
           </p>
-        </header>
+        </div>
+        {error && (
+          <p className="text-red-500 text-center" style={{ fontSize: '20px' }}>{error}</p>
+        )}
+      </div>
 
-        {/* Levels Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 w-full max-w-2xl mb-12">
+      {/* ── Divider ── */}
+      <div className="w-px bg-[#e8dcd4] my-12 shrink-0" />
+
+      {/* ── Right panel — 61.8% (golden major) ── */}
+      <div className="flex-1 flex flex-col items-center justify-center gap-4 px-10">
+        {/* 2×2 top grid */}
+        <div className="grid grid-cols-2 gap-4 w-full" style={{ maxWidth: '560px' }}>
           {levels.slice(0, 4).map((level) => (
             <button
               key={level.value}
               onClick={() => handleSelectLevel(level.value)}
               disabled={loading}
-              className="tactile-card bg-white p-8 rounded-xl flex flex-col items-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 border-2 border-transparent hover:border-[#8d6e63] hover:shadow-[0_20px_25px_-5px_rgba(114,86,76,0.1),0_10px_10px_-5px_rgba(114,86,76,0.04)] hover:-translate-y-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="tactile-card bg-white px-6 py-5 rounded-xl flex flex-col items-center text-center border-2 border-transparent hover:border-[#8d6e63] hover:shadow-[0_12px_30px_rgba(114,86,76,0.1)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
-              <h3 className="text-xl font-extrabold text-[#72564c] mb-2">
+              <h3 className="font-extrabold text-[#72564c] mb-1" style={{ fontSize: '20px' }}>
                 {level.label}
               </h3>
-              <p className="text-sm text-[#504441] leading-relaxed">
+              <p className="text-[#504441] leading-snug" style={{ fontSize: '20px' }}>
                 {level.description}
               </p>
               {selected === level.value && loading && (
-                <div className="mt-4 w-4 h-4 border-2 border-[#72564c] border-t-transparent rounded-full animate-spin"></div>
+                <div className="mt-3 w-4 h-4 border-2 border-[#72564c] border-t-transparent rounded-full animate-spin" />
               )}
             </button>
           ))}
-
-          {/* Level 5 (Centered Span) */}
-          <button
-            onClick={() => handleSelectLevel(levels[4].value)}
-            disabled={loading}
-            className="tactile-card bg-white p-8 rounded-xl flex flex-col items-center text-center md:col-span-2 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 border-2 border-transparent hover:border-[#8d6e63] hover:shadow-[0_20px_25px_-5px_rgba(114,86,76,0.1),0_10px_10px_-5px_rgba(114,86,76,0.04)] hover:-translate-y-1 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <h3 className="text-xl font-extrabold text-[#72564c] mb-2">
-              {levels[4].label}
-            </h3>
-            <p className="text-sm text-[#504441] leading-relaxed">
-              {levels[4].description}
-            </p>
-            {selected === levels[4].value && loading && (
-              <div className="mt-4 w-4 h-4 border-2 border-[#72564c] border-t-transparent rounded-full animate-spin"></div>
-            )}
-          </button>
         </div>
 
-        {/* Error Message */}
-        {error && (
-          <div className="text-red-600 text-sm mb-6 text-center">
-            {error}
-          </div>
-        )}
-      </main>
-
-      {/* Footer Branding */}
-      <footer className="p-10 text-center opacity-40 text-xs tracking-[0.2em] font-bold uppercase text-[#72564c]">
-        Designed with Otter Love • Hangul Learning System
-      </footer>
+        {/* Advanced — full width */}
+        <button
+          onClick={() => handleSelectLevel(levels[4].value)}
+          disabled={loading}
+          className="tactile-card bg-white px-6 py-5 rounded-xl flex flex-col items-center text-center border-2 border-transparent hover:border-[#8d6e63] hover:shadow-[0_12px_30px_rgba(114,86,76,0.1)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all w-full"
+          style={{ maxWidth: '560px' }}
+        >
+          <h3 className="font-extrabold text-[#72564c] mb-1" style={{ fontSize: '20px' }}>
+            {levels[4].label}
+          </h3>
+          <p className="text-[#504441] leading-snug" style={{ fontSize: '20px' }}>
+            {levels[4].description}
+          </p>
+          {selected === levels[4].value && loading && (
+            <div className="mt-3 w-4 h-4 border-2 border-[#72564c] border-t-transparent rounded-full animate-spin" />
+          )}
+        </button>
+      </div>
 
       <style>{`
         .tactile-card {

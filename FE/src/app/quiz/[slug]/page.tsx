@@ -13,6 +13,7 @@ interface Question {
   question: string;
   korean: string;
   english: string;
+  romanization?: string;
   options: string[];
   correctAnswer: string;
   difficulty: string;
@@ -199,10 +200,121 @@ export default function QuizDetailPage() {
   const [startTime, setStartTime] = useState<number>(0);
   const [completionStats, setCompletionStats] = useState({
     xp: 25,
-    accuracy: 0,
+    correctCount: 0,
+    totalCount: 0,
     time: '00:00',
   });
   const [newAchievements, setNewAchievements] = useState<AchievementNotification[]>([]);
+  const [detailsExpanded, setDetailsExpanded] = useState(false);
+
+  // Completion screen — granular per-element animation states
+  const [anim, setAnim] = useState({
+    backBtn: false,
+    title: false,
+    subtitle: false,
+    xpCard: false,
+    correctCard: false,
+    timeCard: false,
+    result: false,
+    questionsRevealed: 0,
+    btnContinue: false,
+    btnHistory: false,
+  });
+  const [xpAnimated, setXpAnimated] = useState(0);
+  const [correctAnimated, setCorrectAnimated] = useState(0);
+  const [timeAnimated, setTimeAnimated] = useState('00:00');
+
+  useEffect(() => {
+    if (!quiz.completed) return;
+
+    // Reset
+    setAnim({ backBtn: false, title: false, subtitle: false, xpCard: false, correctCard: false, timeCard: false, result: false, questionsRevealed: 0, btnContinue: false, btnHistory: false });
+    setXpAnimated(0);
+    setCorrectAnimated(0);
+    setTimeAnimated('00:00');
+
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const intervals: ReturnType<typeof setInterval>[] = [];
+    const at = (ms: number, fn: () => void) => { const t = setTimeout(fn, ms); timers.push(t); };
+
+    // Step 1 — back button (80ms)
+    at(80, () => setAnim(p => ({ ...p, backBtn: true })));
+
+    // Step 2 — main title (200ms)
+    at(200, () => setAnim(p => ({ ...p, title: true })));
+
+    // Step 3 — subtitle (600ms)
+    at(600, () => setAnim(p => ({ ...p, subtitle: true })));
+
+    // Step 4 — XP card + counter (1000ms)
+    at(1000, () => {
+      setAnim(p => ({ ...p, xpCard: true }));
+      const xpTarget = completionStats.xp;
+      let xp = 0;
+      const xpStep = Math.max(1, Math.ceil(xpTarget / 28));
+      const iv = setInterval(() => {
+        xp = Math.min(xp + xpStep, xpTarget);
+        setXpAnimated(xp);
+        if (xp >= xpTarget) clearInterval(iv);
+      }, 18);
+      intervals.push(iv);
+    });
+
+    // Step 5 — correct count card + counter (1600ms)
+    at(1600, () => {
+      setAnim(p => ({ ...p, correctCard: true }));
+      const target = completionStats.correctCount;
+      let val = 0;
+      if (target === 0) return;
+      const iv = setInterval(() => {
+        val = Math.min(val + 1, target);
+        setCorrectAnimated(val);
+        if (val >= target) clearInterval(iv);
+      }, 80);
+      intervals.push(iv);
+    });
+
+    // Step 6 — time card + counting from 00:00 → actual time (2250ms)
+    at(2250, () => {
+      setAnim(p => ({ ...p, timeCard: true }));
+      const parts = completionStats.time.split(':').map(Number);
+      const totalSec = (parts[0] || 0) * 60 + (parts[1] || 0);
+      if (totalSec === 0) { setTimeAnimated('00:00'); return; }
+      const steps = Math.min(totalSec, 60);
+      const ivMs = Math.max(12, Math.floor(1200 / steps));
+      let step = 0;
+      const iv = setInterval(() => {
+        step++;
+        const cur = Math.min(Math.round((step / steps) * totalSec), totalSec);
+        const m = Math.floor(cur / 60);
+        const s = cur % 60;
+        setTimeAnimated(`${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`);
+        if (step >= steps) clearInterval(iv);
+      }, ivMs);
+      intervals.push(iv);
+    });
+
+    // Step 7 — result message (after time finishes ~2250 + 1400 = 3650ms)
+    at(3650, () => setAnim(p => ({ ...p, result: true })));
+
+    // Step 7b — reveal questions one by one (only the 2 initially visible)
+    const visibleCount = Math.min(2, quiz.questions.length);
+    for (let i = 0; i < visibleCount; i++) {
+      at(3950 + i * 350, () => setAnim(p => ({ ...p, questionsRevealed: i + 1 })));
+    }
+    const buttonsStart = 3950 + visibleCount * 350 + 200;
+
+    // Step 8 — continue button
+    at(buttonsStart, () => setAnim(p => ({ ...p, btnContinue: true })));
+
+    // Step 9 — history button
+    at(buttonsStart + 450, () => setAnim(p => ({ ...p, btnHistory: true })));
+
+    return () => {
+      timers.forEach(clearTimeout);
+      intervals.forEach(clearInterval);
+    };
+  }, [quiz.completed]);
 
   useEffect(() => {
     if (!slug) {
@@ -237,12 +349,12 @@ export default function QuizDetailPage() {
             // Transform 10 random vocabulary into quiz questions
             if (randomData.vocabulary && Array.isArray(randomData.vocabulary)) {
               const questions = randomData.vocabulary.map((vocab: any, vocabIndex: number) => {
-                const correctAnswer = vocab.english;
+                const correctAnswer = vocab.vietnamese;
                 
                 // Get wrong answers from OTHER vocabulary items IN SAME 10-ITEM SET
                 const wrongAnswers = randomData.vocabulary
                   .filter((_: any, idx: number) => idx !== vocabIndex)
-                  .map((v: any) => v.english);
+                  .map((v: any) => v.vietnamese);
                 
                 // Shuffle and take 3 wrong answers
                 const selectedWrongAnswers = wrongAnswers
@@ -266,16 +378,17 @@ export default function QuizDetailPage() {
                 return {
                   id: vocab.id,
                   type: 'multiple-choice',
-                  question: `"${vocab.korean}" có nghĩa là gì trong tiếng Anh?`,
+                  question: `"${vocab.korean}" có nghĩa là gì trong tiếng Việt?`,
                   korean: vocab.korean,
+                  romanization: vocab.romanization || '',
                   english: vocab.english,
                   vietnamese: vocab.vietnamese,
                   options: options,
                   correctAnswer: correctAnswer,
                   difficulty: 'Medium',
                   level: randomData.topicLevel,
-                  explanation: `${vocab.korean} (${vocab.romanization}) có nghĩa là "${vocab.english}"`,
-                  explanation_vi: `${vocab.korean} (${vocab.romanization}) tiếng Việt là "${vocab.vietnamese}"`,
+                  explanation: `${vocab.korean} (${vocab.romanization}) có nghĩa là "${vocab.vietnamese}"`,
+                  explanation_vi: `${vocab.korean} (${vocab.romanization}) tiếng Anh là "${vocab.english}"`,
                 };
               });
               
@@ -317,11 +430,11 @@ export default function QuizDetailPage() {
               .slice(0, 10);
             
             const questions = randomVocab.map((vocab: any, vocabIndex: number) => {
-              const correctAnswer = vocab.english;
+              const correctAnswer = vocab.vietnamese;
               
               const wrongAnswers = randomVocab
                 .filter((_: any, idx: number) => idx !== vocabIndex)
-                .map((v: any) => v.english);
+                .map((v: any) => v.vietnamese);
               
               const selectedWrongAnswers = wrongAnswers
                 .sort(() => Math.random() - 0.5)
@@ -342,16 +455,17 @@ export default function QuizDetailPage() {
               return {
                 id: vocab.id,
                 type: 'multiple-choice',
-                question: `"${vocab.korean}" có nghĩa là gì trong tiếng Anh?`,
+                question: `"${vocab.korean}" có nghĩa là gì trong tiếng Việt?`,
                 korean: vocab.korean,
+                romanization: vocab.romanization || '',
                 english: vocab.english,
                 vietnamese: vocab.vietnamese,
                 options: options,
                 correctAnswer: correctAnswer,
                 difficulty: 'Medium',
                 level: topicData.level,
-                explanation: `${vocab.korean} (${vocab.romanization}) có nghĩa là "${vocab.english}"`,
-                explanation_vi: `${vocab.korean} (${vocab.romanization}) tiếng Việt là "${vocab.vietnamese}"`,
+                explanation: `${vocab.korean} (${vocab.romanization}) có nghĩa là "${vocab.vietnamese}"`,
+                explanation_vi: `${vocab.korean} (${vocab.romanization}) tiếng Anh là "${vocab.english}"`,
               };
             });
             
@@ -556,7 +670,8 @@ export default function QuizDetailPage() {
 
       setCompletionStats({
         xp: submitData.xpGained || 25,
-        accuracy: submitData.percentage || percentage,
+        correctCount: quiz.score,
+        totalCount: quiz.questions.length,
         time: timeStr,
       });
 
@@ -604,7 +719,7 @@ export default function QuizDetailPage() {
           if (completeData.nextTopicUnlocked) {
             setQuiz((prev) => ({
               ...prev,
-              unlockedMessage: `🎉 Chủ đề tiếp theo "${completeData.nextTopicName}" đã được mở khóa!`,
+              unlockedMessage: `Chủ đề tiếp theo "${completeData.nextTopicName}" đã được mở khóa!`,
             }));
           }
         } catch (error) {
@@ -634,99 +749,90 @@ export default function QuizDetailPage() {
     const percentage = quiz.percentage || 0;
     const passed = quiz.isPassed || false;
 
+    const fi = (visible: boolean) => ({
+      opacity: visible ? 1 : 0,
+      transform: visible ? 'scale(1) translateY(0px)' : 'scale(0.9) translateY(20px)',
+      transition: 'opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1)',
+    });
+
     return (
-      <div className="min-h-screen bg-[#fafaf5] font-['Be_Vietnam_Pro']">
+      <div className="min-h-screen bg-[#fafaf5] font-['Be_Vietnam_Pro'] overflow-x-hidden">
         <Header />
 
         {/* Back Button */}
-        <div className="fixed left-[20px] top-[95px] z-20">
+        <div className="fixed left-[20px] top-[95px] z-20" style={fi(anim.backBtn)}>
           <button
             onClick={() => router.push('/quiz')}
             className="flex items-center gap-2 px-4 py-2 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95"
+            style={{ fontSize: '20px' }}
           >
-            <span className="text-xl">←</span>
+            <span>←</span>
             <span>Quay lại</span>
           </button>
         </div>
 
-        <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-12 flex flex-col items-center justify-center min-h-[80vh]">
-          {/* Hero Section */}
-          <div className="relative w-full flex flex-col items-center gap-12">
-            <div className="text-center">
-              <h1 className="font-extrabold text-5xl md:text-6xl text-[#72564c] tracking-tight">
+        <main className="w-full max-w-5xl mx-auto px-4 py-10 pt-16 flex flex-col items-center gap-6">
+          <div className="w-full flex flex-col items-center gap-6">
+
+            {/* Step 1 — Title */}
+            <div style={fi(anim.title)}>
+              <h1 className="font-extrabold text-4xl md:text-5xl text-[#72564c] tracking-tight text-center">
                 Bài học hoàn tất!
               </h1>
-              <p className="text-[#504441] font-medium mt-4 text-xl">
-                Hana rất tự hào về nỗ lực của bạn!
+            </div>
+
+            {/* Step 2 — Subtitle */}
+            <div style={{ ...fi(anim.subtitle), marginTop: '0px' }}>
+              <p className="text-[#504441] font-medium text-center" style={{ fontSize: '20px' }}>
+                Chủ đề: {topicName || 'Quiz'} - Bài tập: Trắc nghiệm
               </p>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-2xl">
-              {/* XP Card */}
-              <div className="bg-[#f4f4ef] rounded-lg p-6 flex flex-col items-center justify-center hover:bg-[#eeeee9] transition-colors">
-                <div className="w-12 h-12 rounded-full bg-[#ffdbce] flex items-center justify-center mb-3">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#815300" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-                  </svg>
-                </div>
-                <span className="font-bold text-2xl text-[#815300]">
-                  +{completionStats.xp} XP
+            {/* Steps 3–5 — Stats */}
+            <div className="flex items-stretch w-full max-w-2xl">
+              <div
+                className="flex-1 p-4 flex flex-col items-center justify-center"
+                style={fi(anim.xpCard)}
+              >
+                <span className="font-bold text-[#815300] font-['Cormorant_Garamond']" style={{ fontSize: '20px' }}>
+                  +{xpAnimated} XP
                 </span>
-                <span className="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#504441] mt-2">
-                  Điểm kinh nghiệm
+                <span className="font-['Cormorant_Garamond'] uppercase tracking-widest text-[#504441] mt-1 text-center" style={{ fontSize: '20px' }}>
+                  Điểm KN
                 </span>
               </div>
 
-              {/* Accuracy Card */}
-              <div className="bg-[#f4f4ef] rounded-lg p-6 flex flex-col items-center justify-center hover:bg-[#eeeee9] transition-colors">
-                <div className="w-12 h-12 rounded-full bg-[#c2ebe5] flex items-center justify-center mb-3">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2e7b72" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="12" r="4" />
-                    <line x1="12" y1="2" x2="12" y2="4" />
-                    <line x1="12" y1="20" x2="12" y2="22" />
-                    <line x1="2" y1="12" x2="4" y2="12" />
-                    <line x1="20" y1="12" x2="22" y2="12" />
-                  </svg>
-                </div>
-                <span className="font-bold text-2xl text-[#72564c]">
-                  {completionStats.accuracy}%
+              <div className="w-px bg-black self-stretch" />
+
+              <div
+                className="flex-1 p-4 flex flex-col items-center justify-center"
+                style={fi(anim.correctCard)}
+              >
+                <span className="font-bold text-[#72564c] font-['Cormorant_Garamond']" style={{ fontSize: '20px' }}>
+                  {correctAnimated}/{completionStats.totalCount}
                 </span>
-                <span className="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#504441] mt-2">
-                  Độ chính xác
+                <span className="font-['Cormorant_Garamond'] uppercase tracking-widest text-[#504441] mt-1 text-center" style={{ fontSize: '20px' }}>
+                  Câu đúng
                 </span>
               </div>
 
-              {/* Time Card */}
-              <div className="bg-[#f4f4ef] rounded-lg p-6 flex flex-col items-center justify-center hover:bg-[#eeeee9] transition-colors">
-                <div className="w-12 h-12 rounded-full bg-[#ffdbce] flex items-center justify-center mb-3">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#815300" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                </div>
-                <span className="font-bold text-2xl text-[#5b4137]">
-                  {completionStats.time}
+              <div className="w-px bg-black self-stretch" />
+
+              <div
+                className="flex-1 p-4 flex flex-col items-center justify-center"
+                style={fi(anim.timeCard)}
+              >
+                <span className="font-bold text-[#5b4137] font-['Cormorant_Garamond'] tabular-nums" style={{ fontSize: '20px' }}>
+                  {timeAnimated}
                 </span>
-                <span className="font-['Plus_Jakarta_Sans'] text-xs uppercase tracking-widest text-[#504441] mt-2">
-                  Thời gian học
+                <span className="font-['Cormorant_Garamond'] uppercase tracking-widest text-[#504441] mt-1 text-center" style={{ fontSize: '20px' }}>
+                  Thời gian
                 </span>
               </div>
             </div>
 
-            {/* Result Message */}
-            <div className="w-full max-w-2xl">
-              <div className={`p-6 rounded-lg text-center font-bold text-lg ${
-                passed 
-                  ? 'bg-[#ffdbce] text-[#2b160f]' 
-                  : 'bg-[#ffdad6] text-[#ba1a1a]'
-              }`}>
-                {passed 
-                  ? `Bạn vượt qua với ${percentage}% - Bạn đã đạt mục tiêu 70%` 
-                  : `Bạn đạt ${percentage}% - Cần thêm ${70 - percentage}% để đạt mục tiêu`
-                }
-              </div>
+            {/* Step 6 — Result message */}
+            <div className="w-full max-w-2xl" style={fi(anim.result)}>
               {quiz.unlockedMessage && (
                 <div className="mt-4 p-4 bg-[#ffdbce] text-[#2b160f] rounded-lg animate-pulse font-semibold text-center">
                   {quiz.unlockedMessage}
@@ -734,21 +840,89 @@ export default function QuizDetailPage() {
               )}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col w-full max-w-sm gap-4">
-              <button
-                onClick={() => router.push('/quiz?refresh=true')}
-                className="bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:from-[#8d6e63] hover:to-[#a0806e] active:scale-95 transition-all flex items-center justify-center gap-2"
-              >
-                Tiếp tục
-                <span>&rarr;</span>
-              </button>
-              <button
-                onClick={() => router.push('/learning-map?refresh=true')}
-                className="bg-[#ffdbce] text-[#2b160f] font-bold text-lg py-4 rounded-xl hover:bg-[#e4beb2] active:scale-95 transition-all"
-              >
-                Bài tiếp theo
-              </button>
+            {/* Chi tiết bài */}
+            <div className="w-full max-w-2xl" style={{ ...fi(anim.result), marginTop: '-19px' }}>
+              <div className="bg-[#fafaf5] rounded-xl border border-black p-5" style={{ paddingBottom: '12px' }}>
+                <p className="font-bold text-[#72564c] mb-4" style={{ fontSize: '20px' }}>Chi tiết bài</p>
+                <div className="flex flex-col gap-3">
+                  {(detailsExpanded ? quiz.questions : quiz.questions.slice(0, 2)).map((q, idx) => {
+                    const userAns = quiz.answers.find(a => a.questionId === q.id);
+                    const isCorrect = userAns?.isCorrect ?? false;
+                    const cardVisible = detailsExpanded || idx < anim.questionsRevealed;
+                    return (
+                      <div
+                        key={q.id}
+                        className={`relative p-4 border-[2px] ${
+                          isCorrect
+                            ? 'bg-[#e8f5e9] border-[#4caf50]'
+                            : 'bg-[#ffdad6] border-[#ba1a1a]'
+                        }`}
+                        style={{ borderRadius: '15px', ...fi(cardVisible) }}
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <p className="font-bold text-[#504441] mb-1" style={{ fontSize: '20px' }}>
+                              {idx + 1}. {q.korean}
+                              {q.romanization && (
+                                <span className="font-normal text-[#72564c]/70 ml-2" style={{ fontSize: '20px' }}>
+                                  - phiên âm: {q.romanization}
+                                </span>
+                              )}
+                            </p>
+                            {!isCorrect && (
+                              <p className="text-[#504441]" style={{ fontSize: '20px' }}>
+                                Đáp án đúng: <b className="text-[#72564c]">{q.correctAnswer}</b>
+                              </p>
+                            )}
+                            {userAns?.selectedAnswer && (
+                              <p className="text-[#504441] mt-1" style={{ fontSize: '20px' }}>
+                                Bạn chọn: <b className={isCorrect ? 'text-[#2e7d32]' : 'text-[#ba1a1a]'}>{userAns.selectedAnswer}</b>
+                              </p>
+                            )}
+                          </div>
+                          <span className={`shrink-0 font-bold ${isCorrect ? 'text-[#2e7d32]' : 'text-[#ba1a1a]'}`} style={{ fontSize: '20px' }}>
+                            {isCorrect ? '+10XP' : '0XP'}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {quiz.questions.length > 2 && (
+                  <button
+                    onClick={() => setDetailsExpanded(v => !v)}
+                    className="w-full text-center text-[#72564c] hover:text-[#504441] font-bold transition"
+                    style={{ fontSize: '20px', marginTop: '12px' }}
+                  >
+                    {detailsExpanded ? 'Thu gọn ▲' : `Xem thêm ${quiz.questions.length - 2} mục ▼`}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Step 7+8 — Action Buttons (each fades in separately) */}
+            <div className="flex flex-col w-full max-w-sm gap-3 pb-8">
+              {/* Step 7 — Tiếp tục */}
+              <div style={fi(anim.btnContinue)}>
+                <button
+                  onClick={() => router.push('/quiz?refresh=true')}
+                  className="w-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white font-bold py-3.5 rounded-xl shadow-lg hover:from-[#8d6e63] hover:to-[#a0806e] active:scale-95 transition-all flex items-center justify-center gap-2"
+                  style={{ fontSize: '20px' }}
+                >
+                  Tiếp tục
+                  <span>&rarr;</span>
+                </button>
+              </div>
+              {/* Step 8 — Xem lịch sử tiến độ */}
+              <div style={fi(anim.btnHistory)}>
+                <button
+                  onClick={() => router.push('/learning-map')}
+                  className="w-full bg-[#ffdbce] text-[#2b160f] font-bold py-3.5 rounded-xl hover:bg-[#e4beb2] active:scale-95 transition-all"
+                  style={{ fontSize: '20px' }}
+                >
+                  Xem lịch sử tiến độ
+                </button>
+              </div>
             </div>
           </div>
         </main>
@@ -756,6 +930,7 @@ export default function QuizDetailPage() {
           achievements={newAchievements}
           onDismiss={(id) => setNewAchievements(prev => prev.filter(a => a.id !== id))}
         />
+        <Footer />
       </div>
     );
   }
@@ -764,194 +939,170 @@ export default function QuizDetailPage() {
   const answerLabels = ['A', 'B', 'C', 'D'];
 
   return (
-    <div className="min-h-screen bg-[#fafaf5]">
-      <Header />
+    <div className="w-full bg-[#fafaf5] font-['Be_Vietnam_Pro']">
+      {/* Quiz area: luôn full 100vh */}
+      <div className="h-screen flex flex-col overflow-hidden">
+        <Header />
 
-      {/* Back Button */}
-      <div className="fixed left-[20px] top-[95px] z-20">
-        <button
-          onClick={() => router.push('/quiz')}
-          className="flex items-center gap-2 px-4 py-2 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95"
-        >
-          <span className="text-xl">←</span>
-          <span>Quay lại</span>
-        </button>
-      </div>
-
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-12 flex flex-col items-center">
-        {/* Progress Section */}
-        <section className="w-full mb-16">
-          <div className="flex items-center justify-between mb-4">
-            <span className="font-bold text-[#72564c] tracking-tight">
-              {topicName || 'Quiz'}
-            </span>
-            <span className="font-bold text-[#72564c]/60">
-              {quiz.currentIndex + 1} / {quiz.questions.length}
-            </span>
-          </div>
-          <div className="w-full h-4 bg-[#eeeee9] rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] rounded-full transition-all"
-              style={{ width: `${((quiz.currentIndex + 1) / quiz.questions.length) * 100}%` }}
-            />
-          </div>
-        </section>
-
-        {/* Question Section */}
-        <section className="w-full text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-[#504441] tracking-tight mb-4">
-            {currentQuestion.question}
-          </h1>
-          <p className="text-[#504441]/70 text-lg">
-            Tiếng Hàn: <span className="font-bold text-[#72564c]">{currentQuestion.korean}</span>
-          </p>
-        </section>
-
-        {/* Options Grid */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-          {currentQuestion.options.map((option, idx) => {
-            const isSelected = quiz.selectedAnswer === option;
-            const isCorrectOption = option === quiz.correctAnswerText; // Compare with correct answer from API
-            let buttonClass =
-              'group relative flex items-center justify-between p-8 bg-[#f4f4ef] hover:bg-white border-2 border-transparent hover:border-[#8d6e63]/30 rounded-xl transition-all duration-300 active:scale-[0.98]';
-
-            if (quiz.showResult) {
-              if (isCorrectOption) {
-                // Green for correct answer
-                buttonClass =
-                  'group relative flex items-center justify-between p-8 bg-[#e8f5e9] border-2 border-[#4caf50] rounded-xl transition-all duration-300 active:scale-[0.98]';
-              } else if (isSelected && !quiz.isAnswerCorrect) {
-                // Red for wrong answer selected
-                buttonClass =
-                  'group relative flex items-center justify-between p-8 bg-[#ffebee] border-2 border-[#f44336] rounded-xl transition-all duration-300 active:scale-[0.98]';
-              }
-            } else if (isSelected) {
-              buttonClass =
-                'group relative flex items-center justify-between p-8 bg-white border-2 border-[#72564c] rounded-xl transition-all duration-300 active:scale-[0.98]';
-            }
-
-            return (
-              <button
-                key={idx}
-                onClick={() => handleAnswerSelect(option)}
-                disabled={quiz.showResult}
-                className={`${buttonClass} ${quiz.showResult ? 'cursor-default' : 'cursor-pointer'}`}
-              >
-                <div className="flex flex-col items-start">
-                  <span className="text-3xl font-bold text-[#72564c] mb-1">
-                    {option}
-                  </span>
-                  <span className="text-[#504441]/60 font-medium italic">
-                    {idx === 0 && 'Lựa chọn A'}
-                    {idx === 1 && 'Lựa chọn B'}
-                    {idx === 2 && 'Lựa chọn C'}
-                    {idx === 3 && 'Lựa chọn D'}
-                  </span>
-                </div>
-                <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
-                    quiz.showResult && isCorrectOption
-                      ? 'bg-[#4caf50]'
-                      : quiz.showResult && isSelected && !quiz.isAnswerCorrect
-                      ? 'bg-[#f44336]'
-                      : isSelected
-                      ? 'bg-[#72564c]'
-                      : 'bg-[#eeeee9]'
-                  }`}
-                >
-                  <span
-                    className={`font-black text-lg ${
-                      quiz.showResult && isCorrectOption
-                        ? 'text-white'
-                        : quiz.showResult && isSelected && !quiz.isAnswerCorrect
-                        ? 'text-white'
-                        : isSelected
-                        ? 'text-white'
-                        : 'text-[#72564c]/40'
-                    }`}
-                  >
-                    {quiz.showResult && isCorrectOption ? '✓' : quiz.showResult && isSelected && !quiz.isAnswerCorrect ? '✗' : answerLabels[idx]}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
+        {/* Back Button — cách lề trái 25px, cách header 20px */}
+        <div className="shrink-0 w-full" style={{ paddingTop: '20px', paddingLeft: '25px' }}>
+          <button
+            onClick={() => router.push('/quiz')}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95"
+            style={{ fontSize: '20px' }}
+          >
+            <span>←</span>
+            <span>Quay lại</span>
+          </button>
         </div>
 
-        {/* Explanation Section */}
-        {quiz.showResult && (
-          <section className="w-full mb-12 mt-8 max-w-3xl">
-            <div className={`border-2 rounded-xl p-8 ${
-              quiz.isAnswerCorrect
-                ? 'bg-gradient-to-br from-[#e8f5e9] to-[#c8e6c9] border-[#4caf50]'
-                : 'bg-gradient-to-br from-[#ffebee] to-[#ffcdd2] border-[#f44336]'
-            }`}>
-              {/* Result Status */}
-              <div className="mb-8">
-                <p className={`text-lg font-bold tracking-widest mb-2 ${quiz.isAnswerCorrect ? 'text-[#2e7d32]' : 'text-[#c62828]'}`}>
-                  {quiz.isAnswerCorrect ? '✓ ĐÚN G' : '✗ SAI'}
-                </p>                {!quiz.isAnswerCorrect && (
-                  <p className={`text-sm font-bold mb-2 text-[#c62828]`}>
-                    👇 Đáp án đúng:
-                  </p>
-                )}                <p className={`text-3xl font-bold ${quiz.isAnswerCorrect ? 'text-[#2e7d32]' : 'text-[#d32f2f]'}`}>
-                  {quiz.correctAnswerText}
-                </p>
-              </div>
-
-              {/* Two Column Layout for Explanations */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* English Explanation */}
-                {currentQuestion.explanation && (
-                  <div className="flex flex-col">
-                    <p className="text-[#504441]/70 text-sm font-bold tracking-widest mb-3">
-                      📖 GIẢI THÍCH
-                    </p>
-                    <p className="text-[#504441] text-base leading-relaxed font-medium">
-                      {currentQuestion.explanation}
-                    </p>
-                  </div>
-                )}
-
-                {/* Vietnamese Translation */}
-                {currentQuestion.explanation_vi && (
-                  <div className="flex flex-col bg-white/50 rounded-lg p-4">
-                    <p className="text-[#504441]/70 text-sm font-bold tracking-widest mb-3">
-                      🇻🇳 DỊCH TIẾNG VIỆT
-                    </p>
-                    <p className="text-[#504441] text-base leading-relaxed font-medium">
-                      {currentQuestion.explanation_vi}
-                    </p>
-                  </div>
-                )}
-              </div>
+        <main className="flex-1 flex flex-col min-h-0 max-w-4xl mx-auto w-full px-6 pb-4" style={{ paddingTop: '20px' }}>
+          {/* Progress Section */}
+          <section className="shrink-0 w-full">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-[#72564c] tracking-tight" style={{ fontSize: '20px' }}>
+                Chủ đề bài học: {topicName || 'Quiz'}
+              </span>
+              <span className="font-bold text-[#72564c]/60" style={{ fontSize: '20px' }}>
+                {quiz.currentIndex + 1} / {quiz.questions.length}
+              </span>
+            </div>
+            <div className="w-full h-2 bg-[#eeeee9] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] rounded-full transition-all duration-500"
+                style={{ width: `${((quiz.currentIndex + 1) / quiz.questions.length) * 100}%` }}
+              />
             </div>
           </section>
-        )}
 
-        {/* Bottom Section with Buttons */}
-        <section className="w-full flex items-end justify-end gap-8">
-          {/* Action Button */}
-          <button
-            onClick={() => {
-              if (quiz.showResult) {
-                handleNextQuestion();
-              } else if (quiz.selectedAnswer) {
-                handleCheckAnswer(quiz.selectedAnswer);
-              }
+          {/* Question Section — cách progress 20px */}
+          <section className="shrink-0 w-full text-center" style={{ marginTop: '20px' }}>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#504441] tracking-tight">
+              {currentQuestion.question}
+            </h1>
+            {/* Phiên âm — cách đề bài 20px */}
+            <p className="text-[#504441]/70" style={{ marginTop: '20px', fontSize: '20px' }}>
+              Phiên âm: <span className="font-bold text-[#72564c]">{currentQuestion.romanization || currentQuestion.korean}</span>
+            </p>
+          </section>
+
+          {/* Options Grid — cố định height, cách phiên âm 20px */}
+          <div
+            className="grid grid-cols-2 shrink-0"
+            style={{
+              marginTop: '20px',
+              gap: '20px',
+              gridTemplateRows: 'minmax(100px, 120px) minmax(100px, 120px)',
             }}
-            disabled={!quiz.showResult && !quiz.selectedAnswer}
-            className={`px-12 py-4 rounded-full font-bold font-['Plus_Jakarta_Sans'] shadow-lg transition-all active:scale-95 ${
-              !quiz.showResult && !quiz.selectedAnswer
-                ? 'bg-[#d4c3be] text-[#72564c]/50 cursor-not-allowed'
-                : 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white shadow-[#72564c]/20 hover:scale-105'
-            }`}
           >
-            {quiz.showResult ? 'Tiếp tục' : 'Kiểm tra đáp án'}
-          </button>
-        </section>
-      </main>
+            {currentQuestion.options.map((option, idx) => {
+              const isSelected = quiz.selectedAnswer === option;
+              const isCorrectOption = option === quiz.correctAnswerText;
+              let buttonClass =
+                'w-full h-full flex items-center justify-between px-6 py-3 bg-[#f4f4ef] hover:bg-white border-2 border-transparent hover:border-[#8d6e63]/30 rounded-2xl transition-all duration-300 active:scale-[0.98]';
+
+              if (quiz.showResult) {
+                if (isCorrectOption) {
+                  buttonClass = 'w-full h-full flex items-center justify-between px-6 py-3 bg-[#e8f5e9] border-2 border-[#4caf50] rounded-2xl transition-all duration-300';
+                } else if (isSelected && !quiz.isAnswerCorrect) {
+                  buttonClass = 'w-full h-full flex items-center justify-between px-6 py-3 bg-[#ffebee] border-2 border-[#f44336] rounded-2xl transition-all duration-300';
+                } else {
+                  buttonClass = 'w-full h-full flex items-center justify-between px-6 py-3 bg-[#f4f4ef] border-2 border-transparent rounded-2xl transition-all duration-300';
+                }
+              } else if (isSelected) {
+                buttonClass = 'w-full h-full flex items-center justify-between px-6 py-3 bg-white border-2 border-[#72564c] rounded-2xl transition-all duration-300';
+              }
+
+              return (
+                <button
+                  key={idx}
+                  onClick={() => handleAnswerSelect(option)}
+                  disabled={quiz.showResult}
+                  className={`${buttonClass} ${quiz.showResult ? 'cursor-default' : 'cursor-pointer'}`}
+                >
+                  <span className="text-xl font-bold text-[#72564c] text-left">{option}</span>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+                    quiz.showResult && isCorrectOption ? 'bg-[#4caf50]'
+                    : quiz.showResult && isSelected && !quiz.isAnswerCorrect ? 'bg-[#f44336]'
+                    : isSelected ? 'bg-[#72564c]'
+                    : 'bg-[#eeeee9]'
+                  }`}>
+                    <span className={`font-black text-sm ${
+                      (quiz.showResult && isCorrectOption) || (quiz.showResult && isSelected && !quiz.isAnswerCorrect) || isSelected
+                        ? 'text-white' : 'text-[#72564c]/40'
+                    }`}>
+                      {quiz.showResult && isCorrectOption ? '✓' : quiz.showResult && isSelected && !quiz.isAnswerCorrect ? '✗' : answerLabels[idx]}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Explanation Section — cách options đúng 30px, min 120px max 150px */}
+          {quiz.showResult && (
+            <div className="shrink-0" style={{ marginTop: '30px', minHeight: '120px', maxHeight: '150px' }}>
+              <div className={`h-full border-2 rounded-2xl px-6 py-5 flex items-center gap-6 ${
+                quiz.isAnswerCorrect
+                  ? 'bg-[#e8f5e9] border-[#4caf50]'
+                  : 'bg-[#ffebee] border-[#f44336]'
+              }`}>
+                <div className="shrink-0">
+                  <p className={`font-bold tracking-widest ${quiz.isAnswerCorrect ? 'text-[#2e7d32]' : 'text-[#c62828]'}`} style={{ fontSize: '20px' }}>
+                    {quiz.isAnswerCorrect ? 'ĐÚNG' : 'SAI'}
+                  </p>
+                  {!quiz.isAnswerCorrect && (
+                    <p className="text-[#c62828] font-semibold mt-1" style={{ fontSize: '20px' }}>Đáp án đúng:</p>
+                  )}
+                  <p className={`font-bold mt-1 ${quiz.isAnswerCorrect ? 'text-[#2e7d32]' : 'text-[#d32f2f]'}`} style={{ fontSize: '20px' }}>
+                    {quiz.correctAnswerText}
+                  </p>
+                </div>
+                <div className="flex-1 min-w-0 grid grid-cols-2 gap-4">
+                  {currentQuestion.explanation && (
+                    <div>
+                      <p className="text-[#504441]/70 font-bold tracking-widest mb-1" style={{ fontSize: '20px' }}>GIẢI THÍCH</p>
+                      <p className="text-[#504441] leading-relaxed" style={{ fontSize: '20px' }}>{currentQuestion.explanation}</p>
+                    </div>
+                  )}
+                  {currentQuestion.explanation_vi && (
+                    <div className="bg-white/50 rounded-xl p-3">
+                      <p className="text-[#504441]/70 font-bold tracking-widest mb-1" style={{ fontSize: '20px' }}>THÊM</p>
+                      <p className="text-[#504441] leading-relaxed" style={{ fontSize: '20px' }}>{currentQuestion.explanation_vi}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+
+          {/* Action Button — cách options hoặc ô thông báo 30px */}
+          <div className="shrink-0 w-full flex justify-end" style={{ marginTop: '30px', paddingBottom: '8px' }}>
+            <button
+              onClick={() => {
+                if (quiz.showResult) {
+                  handleNextQuestion();
+                } else if (quiz.selectedAnswer) {
+                  handleCheckAnswer(quiz.selectedAnswer);
+                }
+              }}
+              disabled={!quiz.showResult && !quiz.selectedAnswer}
+              className={`px-10 py-3 rounded-full font-bold shadow-lg transition-all active:scale-95 font-['Cormorant_Garamond'] text-lg ${
+                !quiz.showResult && !quiz.selectedAnswer
+                  ? 'bg-[#d4c3be] text-[#72564c]/50 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white hover:scale-105'
+              }`}
+            >
+              {quiz.showResult ? 'Tiếp tục' : 'Kiểm tra đáp án'}
+            </button>
+          </div>
+        </main>
+      </div>
+
+      {/* Footer nằm dưới vùng 100vh — scroll xuống để thấy */}
       <Footer />
+
       <AchievementToast
         achievements={newAchievements}
         onDismiss={(id) => setNewAchievements(prev => prev.filter(a => a.id !== id))}

@@ -27,7 +27,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[#fafaf5] text-[#1a1c19]">
 
       {/* ── Fixed Header ── */}
-      <header className="fixed top-0 left-0 w-full h-[75px] bg-[#fafaf5]/90 backdrop-blur-xl z-40 flex items-center justify-between px-[100px] border-b border-[#e8dcd4]">
+      <header data-form-text="" className="fixed top-0 left-0 w-full h-[75px] bg-[#fafaf5]/90 backdrop-blur-xl z-40 flex items-center justify-between px-[100px] border-b border-[#e8dcd4]">
         <div className="flex items-center gap-3">
           <img
             src="https://res.cloudinary.com/dds5jlp7e/image/upload/v1774702475/Screenshot_from_2026-03-28_19-52-57-removebg-preview_xvqdug.png"
@@ -86,7 +86,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Features ── */}
-      <section className="px-[100px] py-16 border-b border-[#e8dcd4]">
+      <section data-form-text="" className="px-[100px] py-16 border-b border-[#e8dcd4]">
         <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#8d6e63] mb-3">Tính năng</p>
         <h2 className="text-4xl font-black text-[#1a1c19] tracking-tight mb-12">
           Mọi thứ bạn cần để thành thạo tiếng Hàn
@@ -112,7 +112,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── How it works ── */}
-      <section className="px-[100px] py-16 border-b border-[#e8dcd4]">
+      <section data-form-text="" className="px-[100px] py-16 border-b border-[#e8dcd4]">
         <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-[#8d6e63] mb-3">Cách hoạt động</p>
         <h2 className="text-4xl font-black text-[#1a1c19] tracking-tight mb-12">Ba bước đơn giản</h2>
         <div className="grid grid-cols-3 gap-12">
@@ -141,7 +141,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="px-[100px] py-20">
+      <section data-form-text="" className="px-[100px] py-20">
         <div className="bg-[#72564c] rounded-2xl px-16 py-16 flex items-center justify-between">
           <div>
             <p className="text-[13px] uppercase tracking-[0.25em] font-bold text-[#ffdbce]/70 mb-3">Sẵn sàng chưa?</p>
@@ -165,7 +165,7 @@ export default function LandingPage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="px-[100px] py-8 border-t border-[#e8dcd4]">
+      <footer data-form-text="" className="px-[100px] py-8 border-t border-[#e8dcd4]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img

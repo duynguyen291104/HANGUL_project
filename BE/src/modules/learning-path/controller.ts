@@ -171,11 +171,11 @@ router.get('/learning-path', authenticate, async (req, res) => {
 
     console.log('📚 Topics found:', topics.length, 'for level:', user.level);
 
-    // Calculate correct count for QUIZ (from LearningHistory with skillType='quiz')
+    // Calculate correct count for QUIZ (from LearningHistory with skillType='quiz' OR 'QUIZ')
     const quizHistoryItems = await prisma.learningHistory.findMany({
       where: { 
         userId,
-        skillType: 'quiz',
+        skillType: { in: ['quiz', 'QUIZ'] },
       },
       select: { topicId: true, isCorrect: true },
     });
@@ -208,21 +208,21 @@ router.get('/learning-path', authenticate, async (req, res) => {
         userId,
         skillType: { in: ['writing', 'WRITING'] },
       },
-      select: { topicId: true, accuracy: true },
+      select: { topicId: true, accuracy: true, isCorrect: true },
     });
 
     const writingCorrectMap = new Map<number, number>();
     const writingTotalMap = new Map<number, number>();
 
     for (const item of writingHistoryItems) {
-      const isCorrect = item.accuracy && item.accuracy >= 80; // Consider >= 80 as correct
+      const correct = item.isCorrect === true || (item.accuracy != null && item.accuracy >= 50);
 
       if (!writingTotalMap.has(item.topicId)) {
         writingTotalMap.set(item.topicId, 0);
       }
       writingTotalMap.set(item.topicId, writingTotalMap.get(item.topicId)! + 1);
 
-      if (isCorrect) {
+      if (correct) {
         if (!writingCorrectMap.has(item.topicId)) {
           writingCorrectMap.set(item.topicId, 0);
         }
@@ -234,23 +234,23 @@ router.get('/learning-path', authenticate, async (req, res) => {
     const pronunciationHistoryItems = await prisma.learningHistory.findMany({
       where: { 
         userId,
-        skillType: 'PRONUNCIATION',
+        skillType: { in: ['pronunciation', 'PRONUNCIATION'] },
       },
-      select: { topicId: true, accuracy: true },
+      select: { topicId: true, accuracy: true, isCorrect: true },
     });
 
     const pronunciationCorrectMap = new Map<number, number>();
     const pronunciationTotalMap = new Map<number, number>();
 
     for (const item of pronunciationHistoryItems) {
-      const isCorrect = item.accuracy && item.accuracy >= 80; // Consider >= 80 as correct
+      const correct = item.isCorrect === true || (item.accuracy != null && item.accuracy >= 50);
 
       if (!pronunciationTotalMap.has(item.topicId)) {
         pronunciationTotalMap.set(item.topicId, 0);
       }
       pronunciationTotalMap.set(item.topicId, pronunciationTotalMap.get(item.topicId)! + 1);
 
-      if (isCorrect) {
+      if (correct) {
         if (!pronunciationCorrectMap.has(item.topicId)) {
           pronunciationCorrectMap.set(item.topicId, 0);
         }
@@ -261,16 +261,26 @@ router.get('/learning-path', authenticate, async (req, res) => {
     // Build response with correct counts
     const topicsWithProgress = topics.map((topic) => {
       const quizCorrect = quizCorrectMap.get(topic.id) || 0;
-      const quizTotal = quizTotalMap.get(topic.id) || 0;
-      const quizDone = quizTotal > 0 && quizCorrect === quizTotal;
+      const quizTotalRaw = quizTotalMap.get(topic.id) || 0;
+      const quizTotal = Math.min(quizTotalRaw, 10); // cap at 10 questions per session
+      const quizCorrectCapped = Math.min(quizCorrect, quizTotal);
+      // Use UserProgress.completed for done status (user finished the quiz regardless of score)
+      const quizProgress = topic.userProgress.find((p: any) => p.skillType === 'QUIZ');
+      const quizDone = quizProgress?.completed === true;
 
-      const writingCorrect = writingCorrectMap.get(topic.id) || 0;
-      const writingTotal = writingTotalMap.get(topic.id) || 0;
-      const writingDone = writingTotal > 0 && writingCorrect === writingTotal;
+      const writingCorrectRaw = writingCorrectMap.get(topic.id) || 0;
+      const writingTotalRaw = writingTotalMap.get(topic.id) || 0;
+      const writingTotal = Math.min(writingTotalRaw, 10);
+      const writingCorrect = Math.min(writingCorrectRaw, writingTotal);
+      const writingProgress = topic.userProgress.find((p: any) => p.skillType === 'WRITING');
+      const writingDone = writingProgress?.completed === true;
 
-      const pronunciationCorrect = pronunciationCorrectMap.get(topic.id) || 0;
-      const pronunciationTotal = pronunciationTotalMap.get(topic.id) || 0;
-      const pronunciationDone = pronunciationTotal > 0 && pronunciationCorrect === pronunciationTotal;
+      const pronunciationCorrectRaw = pronunciationCorrectMap.get(topic.id) || 0;
+      const pronunciationTotalRaw = pronunciationTotalMap.get(topic.id) || 0;
+      const pronunciationTotal = Math.min(pronunciationTotalRaw, 10);
+      const pronunciationCorrect = Math.min(pronunciationCorrectRaw, pronunciationTotal);
+      const pronunciationProgress = topic.userProgress.find((p: any) => p.skillType === 'PRONUNCIATION');
+      const pronunciationDone = pronunciationProgress?.completed === true;
 
       return {
         id: topic.id,
@@ -279,9 +289,9 @@ router.get('/learning-path', authenticate, async (req, res) => {
         order: topic.order,
         quiz: {
           done: quizDone,
-          correct: quizCorrect,
+          correct: quizCorrectCapped,
           total: quizTotal,
-          progress: `${quizCorrect}/${quizTotal}`,
+          progress: `${quizCorrectCapped}/${quizTotal}`,
         },
         writing: {
           done: writingDone,
@@ -782,6 +792,40 @@ router.get('/vocabulary-collection', authenticate, async (req, res) => {
   } catch (error: any) {
     console.error('❌ Error fetching vocabulary collection:', error);
     res.status(500).json({ error: 'Failed to fetch collection' });
+  }
+});
+
+// ========================
+// DELETE FROM VOCABULARY COLLECTION
+// DELETE /vocabulary-collection/:id
+// ========================
+router.delete('/vocabulary-collection/:id', authenticate, async (req, res) => {
+  try {
+    const userId = (req as any).user!.id;
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid id' });
+    }
+
+    const saved = await prisma.savedVocabulary.findUnique({ where: { id } });
+
+    if (!saved) {
+      return res.status(404).json({ error: 'Vocabulary not found' });
+    }
+
+    if (saved.userId !== userId) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    await prisma.savedVocabulary.delete({ where: { id } });
+
+    console.log('✅ Deleted savedVocabulary id:', id);
+
+    res.json({ success: true, message: 'Đã xóa từ vựng khỏi bộ sưu tập' });
+  } catch (error) {
+    console.error('❌ Error deleting vocabulary:', error);
+    res.status(500).json({ error: 'Failed to delete vocabulary' });
   }
 });
 

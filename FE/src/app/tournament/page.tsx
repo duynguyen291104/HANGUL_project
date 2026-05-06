@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Link from 'next/link';
 import { io, Socket } from 'socket.io-client';
 import Footer from '@/components/Footer';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface GameMode {
   id: string;
@@ -42,6 +43,7 @@ interface UserInfo {
 
 export default function TournamentPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const socketRef = useRef<Socket | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
@@ -50,6 +52,49 @@ export default function TournamentPage() {
   const [currentRank, setCurrentRank] = useState<string>('Bronze');
   const [currentTrophy, setCurrentTrophy] = useState<number>(0);
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+  // Animation states
+  const [displayedTrophy, setDisplayedTrophy] = useState(0);
+  const [cardsVisible, setCardsVisible] = useState(false);
+  const [boardVisible, setBoardVisible] = useState(false);
+  const trophyAnimTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Animate trophy count-up whenever currentTrophy changes
+  useEffect(() => {
+    if (trophyAnimTimerRef.current) clearInterval(trophyAnimTimerRef.current);
+    const target = currentTrophy;
+    const duration = 1500;
+    const steps = 60;
+    const interval = duration / steps;
+    let step = 0;
+    const start = displayedTrophy;
+    trophyAnimTimerRef.current = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayedTrophy(Math.round(start + (target - start) * eased));
+      if (step >= steps) {
+        clearInterval(trophyAnimTimerRef.current!);
+        setDisplayedTrophy(target);
+      }
+    }, interval);
+    return () => { if (trophyAnimTimerRef.current) clearInterval(trophyAnimTimerRef.current); };
+  }, [currentTrophy]);
+
+  // Update leaderboard – Framer Motion layout handles the animation
+  const updateLeaderboardWithAnimation = (newBoard: LeaderboardEntry[]) => {
+    setLeaderboard(newBoard);
+  };
+
+  // When the game page navigates back with ?r=<timestamp>, re-fetch leaderboard
+  // so the updated data is visible without a full page reload.
+  const refreshParam = searchParams?.get('r');
+  useEffect(() => {
+    if (!refreshParam || !token) return;
+    fetchUserProfile();
+    fetchLeaderboard();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshParam]);
 
   const gameModes: GameMode[] = [
     {
@@ -98,11 +143,11 @@ export default function TournamentPage() {
     },
   ];
 
-  // Refetch user profile (called on mount and after returning from game)
   const fetchUserProfile = async () => {
     try {
       const res = await fetch('http://localhost:5000/api/user/profile', {
-        headers: { 'Authorization': `Bearer ${token}` }
+        headers: { 'Authorization': `Bearer ${token}` },
+        cache: 'no-store',
       });
       if (res.ok) {
         const userData = await res.json();
@@ -116,15 +161,19 @@ export default function TournamentPage() {
     }
   };
 
-  // Refetch leaderboard
+  // Refetch leaderboard — always bypass cache so returning from a game shows fresh data
   const fetchLeaderboard = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/tournament/leaderboard', {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await fetch(
+        `http://localhost:5000/api/tournament/leaderboard?_t=${Date.now()}`,
+        {
+          headers: { 'Authorization': `Bearer ${token}` },
+          cache: 'no-store',
+        }
+      );
       if (res.ok) {
         const data = await res.json();
-        setLeaderboard(data.leaderboard || []);
+        updateLeaderboardWithAnimation(data.leaderboard || []);
       }
     } catch (e) {
       console.error('Failed to fetch leaderboard', e);
@@ -137,73 +186,56 @@ export default function TournamentPage() {
       return;
     }
 
-    // Fetch user info and leaderboard
-    const initializeTournament = async () => {
+    // 1. Fetch data immediately — independent of socket setup so a socket error
+    //    never prevents the leaderboard from showing
+    fetchUserProfile();
+    fetchLeaderboard().then(() => {
+      setLoading(false);
+      setTimeout(() => setCardsVisible(true), 100);
+      setTimeout(() => setBoardVisible(true), 300);
+    });
+
+    // 2. Connect WebSocket
+    const socket = io('http://localhost:5000', { auth: { token } });
+    socketRef.current = socket;
+
+    socket.on('connect', async () => {
+      console.log('🎮 Socket connected / reconnected');
+      // Re-join the level room and refresh data on every (re)connect.
+      // This is the key fix: returning from the game page triggers a
+      // socket reconnect which re-fetches the latest leaderboard.
       try {
-        await fetchUserProfile();
-
-        // Connect to WebSocket
-        const socket = io('http://localhost:5000', {
-          auth: { token }
+        const profileRes = await fetch('http://localhost:5000/api/user/profile', {
+          headers: { 'Authorization': `Bearer ${token}` },
+          cache: 'no-store',
         });
+        if (profileRes.ok) {
+          const userData = await profileRes.json();
+          setUserInfo(userData);
+          setUserLevel(userData.level);
+          setCurrentRank(userData.rank || 'Bronze');
+          setCurrentTrophy(userData.totalTrophy || 0);
+          socket.emit('tournament:join', { userId: userData.id, name: userData.name });
+        }
+      } catch (_) {}
+      // Always get the freshest leaderboard after joining the room
+      fetchLeaderboard();
+    });
 
-        socketRef.current = socket;
+    // Rank update pushed immediately after submit (personal feed)
+    socket.on('rankUpdate', (data: any) => {
+      setCurrentRank(data.rank);
+      setCurrentTrophy(data.trophy);
+    });
 
-        socket.on('connect', async () => {
-          console.log('🎮 Connected to tournament WebSocket');
-
-          // Re-fetch fresh data when reconnecting (e.g. returning from game)
-          const profileRes = await fetch('http://localhost:5000/api/user/profile', {
-            headers: { 'Authorization': `Bearer ${token}` }
-          });
-          if (profileRes.ok) {
-            const userData = await profileRes.json();
-            setUserInfo(userData);
-            setUserLevel(userData.level);
-            setCurrentRank(userData.rank || 'Bronze');
-            setCurrentTrophy(userData.totalTrophy || 0);
-
-            socket.emit('tournament:join', {
-              userId: userData.id,
-              name: userData.name
-            });
-          }
-        });
-
-        // Listen for rank updates pushed by server after submit
-        socket.on('rankUpdate', (data: any) => {
-          console.log('🏆 Rank updated via WS:', data.rank, data.trophy);
-          setCurrentRank(data.rank);
-          setCurrentTrophy(data.trophy);
-        });
-
-        socket.on('tournament:leaderboard-updated', (data: any) => {
-          if (data.leaderboard) {
-            setLeaderboard(data.leaderboard);
-          }
-        });
-
-        await fetchLeaderboard();
-        setLoading(false);
-      } catch (error) {
-        console.error('❌ Failed to initialize tournament:', error);
-        setLoading(false);
+    // Real-time leaderboard pushed to the whole level room after any submit
+    socket.on('tournament:leaderboard-updated', (data: any) => {
+      if (data.leaderboard) {
+        updateLeaderboardWithAnimation(data.leaderboard);
       }
-    };
-
-    initializeTournament();
-
-    // Re-fetch when tab becomes visible (user returns from game page)
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        fetchUserProfile();
-        fetchLeaderboard();
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    });
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
       if (socketRef.current) {
         socketRef.current.disconnect();
       }
@@ -220,17 +252,17 @@ export default function TournamentPage() {
           <div className="pt-[70px] pl-[200px] pr-[90px]">
             <div className="flex items-start justify-between">
               <div>
-                <h1 className="text-5xl font-extrabold text-[#1a1c19] tracking-tight mb-0">Đấu Trường</h1>
-                <p className="text-[#504441] max-w-lg leading-relaxed mt-[20px]">
+                <h1 className="font-extrabold text-[#1a1c19] tracking-tight mb-0" style={{ fontSize: '48px' }}>Đấu Trường</h1>
+                <p className="text-[#504441] max-w-lg leading-relaxed mt-[20px]" style={{ fontSize: '20px' }}>
                   Chọn chiến trường của bạn. Rèn luyện kỹ năng của bạn chống lại các cầu thủ trên toàn thế giới và leo lên bảng xếp hạng theo mùa để nhận được phần thưởng độc quyền.
                 </p>
               </div>
               
               {/* Current Rank - Right Side */}
               <div className="border-2 border-[#72564c] rounded-[25px] p-6 mr-[300px]">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#72564c] mb-2">Current Rank</p>
-                <p className="text-2xl font-bold text-[#1a1c19]">{currentRank}</p>
-                <p className="text-sm text-[#504441] mt-2">🏆 {currentTrophy} Trophy</p>
+                <p className="font-bold uppercase tracking-widest text-[#72564c] mb-2" style={{ fontSize: '20px' }}>Hạng hiện tại</p>
+                <p className="font-bold text-[#1a1c19]" style={{ fontSize: '20px' }}>{currentRank}</p>
+                <p className="text-[#504441] mt-2" style={{ fontSize: '20px' }}>{displayedTrophy} Trophy</p>
               </div>
             </div>
           </div>
@@ -240,20 +272,22 @@ export default function TournamentPage() {
             <div className="bg-white rounded-xl p-8 shadow-lg mb-8">
               {/* Game Modes Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {gameModes.map((mode) => (
+                {gameModes.map((mode, index) => (
                   <Link
                     key={mode.id}
                     href={`/tournament/games/${mode.id}`}
                     className="group relative bg-[#f4f4ef] rounded-lg p-8 overflow-hidden transition-all hover:translate-y-[-4px] cursor-pointer hover:shadow-xl"
+                    style={{
+                      opacity: cardsVisible ? 1 : 0,
+                      transform: cardsVisible ? 'translateY(0)' : 'translateY(28px)',
+                      transition: 'opacity 0.45s ease, transform 0.45s ease',
+                      transitionDelay: cardsVisible ? `${index * 100}ms` : '0ms',
+                    }}
                   >
                     <div className="relative z-10 flex flex-col h-full">
-                      <h3 className="text-2xl font-bold mb-2 text-[#1a1c19]">{mode.title}</h3>
-                      <p className="text-sm text-[#504441] mb-6">{mode.description}</p>
-                      <div className="mt-auto flex justify-between items-end">
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs font-bold uppercase tracking-widest text-[#72564c]">{mode.status}</span>
-                          <span className="text-xs text-[#504441]">{mode.difficulty}</span>
-                        </div>
+                      <h3 className="font-bold mb-2 text-[#1a1c19]" style={{ fontSize: '20px' }}>{mode.title}</h3>
+                      <p className="text-[#504441] mb-6" style={{ fontSize: '20px' }}>{mode.description}</p>
+                      <div className="mt-auto flex justify-end items-end">
                         <div className="w-24 h-24 -mr-4 -mb-4 rounded-lg overflow-hidden">
                           <img alt={mode.mascotAlt} src={mode.mascot} className="w-full h-full object-cover brightness-0 saturate-200" style={{filter: 'sepia(0.6) hue-rotate(15deg) brightness(0.9) saturate(1.5)'}} />
                         </div>
@@ -268,49 +302,59 @@ export default function TournamentPage() {
             <div className="bg-white rounded-xl p-8 shadow-lg mb-8">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h2 className="text-2xl font-bold text-[#1a1c19]">Bảng Xếp Hạng</h2>
-                  {userLevel && <p className="text-xs text-[#72564c] mt-2">Level: <strong>{userLevel}</strong></p>}
+                  <h2 className="font-bold text-[#1a1c19]" style={{ fontSize: '20px' }}>Bảng Xếp Hạng</h2>
+                  {userLevel && <p className="text-[#72564c] mt-2" style={{ fontSize: '20px' }}>Level: <strong>{userLevel}</strong></p>}
                 </div>
               </div>
 
               {loading ? (
-                <div className="text-center py-8 text-[#504441]">
+                <div className="text-center py-8 text-[#504441]" style={{ fontSize: '20px' }}>
                   Đang tải bảng xếp hạng...
                 </div>
               ) : leaderboard.length === 0 ? (
-                <div className="text-center py-8 text-[#504441]">
+                <div className="text-center py-8 text-[#504441]" style={{ fontSize: '20px' }}>
                   Chưa có người chơi nào ở level {userLevel}
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {leaderboard.slice(0, 10).map((entry) => (
-                    <div 
-                      key={entry.userId} 
-                      className={`flex items-center gap-4 p-4 rounded-lg transition-all ${
-                        entry.userId === userInfo?.id
-                          ? 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white shadow-lg'
-                          : 'bg-[#f9f9f7] hover:shadow-md'
-                      }`}
-                    >
-                      <div className={`w-8 text-center font-black ${entry.userId === userInfo?.id ? 'text-white' : 'text-[#815300]'}`}>
-                        {entry.rank}
-                      </div>
-                      <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#ffddb5]">
-                        <div className="w-full h-full bg-gradient-to-br from-[#ff6b6b] to-[#ffd93d] flex items-center justify-center text-white font-bold">
-                          {entry.name.charAt(0).toUpperCase()}
+                <motion.div className="space-y-4" layout>
+                  <AnimatePresence initial={false}>
+                    {leaderboard.slice(0, 10).map((entry, index) => (
+                      <motion.div
+                        key={entry.userId}
+                        layout
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: boardVisible ? 1 : 0, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{
+                          layout: { type: 'spring', stiffness: 300, damping: 30 },
+                          opacity: { duration: 0.4, delay: boardVisible ? index * 0.07 : 0 },
+                        }}
+                        className={`flex items-center gap-4 p-4 rounded-lg ${
+                          entry.userId === userInfo?.id
+                            ? 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white shadow-lg'
+                            : 'bg-[#f9f9f7] hover:shadow-md'
+                        }`}
+                      >
+                        <div className={`w-8 text-center font-black ${entry.userId === userInfo?.id ? 'text-white' : 'text-[#815300]'}`} style={{ fontSize: '20px' }}>
+                          {entry.rank}
                         </div>
-                      </div>
-                      <div className="flex-1">
-                        <p className={`font-bold text-sm ${entry.userId === userInfo?.id ? 'text-white' : 'text-[#1a1c19]'}`}>
-                          {entry.name} {entry.userId === userInfo?.id && '(Bạn)'}
-                        </p>
-                        <p className={`text-xs ${entry.userId === userInfo?.id ? 'text-gray-100' : 'text-[#504441]'}`}>
-                          🏆 {entry.trophy} Trophy • ⭐ {entry.xp} XP
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                        <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-[#ffddb5]">
+                          <div className="w-full h-full bg-gradient-to-br from-[#ff6b6b] to-[#ffd93d] flex items-center justify-center text-white font-bold">
+                            {entry.name.charAt(0).toUpperCase()}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <p className={`font-bold ${entry.userId === userInfo?.id ? 'text-white' : 'text-[#1a1c19]'}`} style={{ fontSize: '20px' }}>
+                            {entry.name} {entry.userId === userInfo?.id && '(Bạn)'}
+                          </p>
+                          <p className={`${entry.userId === userInfo?.id ? 'text-gray-100' : 'text-[#504441]'}`} style={{ fontSize: '20px' }}>
+                            {entry.trophy} Trophy • {entry.xp} XP
+                          </p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
               )}
             </div>
           </div>
