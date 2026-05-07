@@ -479,6 +479,58 @@ router.delete('/saved/:id', async (req: AuthRequest, res: Response) => {
 });
 
 // ========================
+// GET VOCABULARY BY TOPIC (stable order)
+// Used by writing/pronunciation pages so F5 does not change the list.
+// ========================
+router.get('/by-topic/:topicId', async (req: AuthRequest, res: Response) => {
+  try {
+    const { topicId } = req.params;
+    const { limit = 10 } = req.query;
+
+    const topicIdNum = parseInt(topicId as string);
+    const limitNum = parseInt(limit as string);
+
+    if (isNaN(topicIdNum) || isNaN(limitNum)) {
+      return res.status(400).json({ error: 'Invalid topicId or limit' });
+    }
+
+    const totalCount = await prisma.vocabulary.count({
+      where: {
+        topicId: topicIdNum,
+        isActive: true,
+      },
+    });
+
+    if (totalCount === 0) {
+      return res.json({
+        message: 'No vocabulary found for this topic',
+        count: 0,
+        total: 0,
+        data: [],
+      });
+    }
+
+    const vocabulary = await prisma.vocabulary.findMany({
+      where: {
+        topicId: topicIdNum,
+        isActive: true,
+      },
+      orderBy: { id: 'asc' },
+      take: limitNum,
+    });
+
+    return res.json({
+      count: vocabulary.length,
+      total: totalCount,
+      data: vocabulary,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Failed to fetch vocabulary by topic' });
+  }
+});
+
+// ========================
 // GET RANDOM VOCABULARY BY TOPIC
 // ========================
 router.get('/random-by-topic/:topicId', async (req: AuthRequest, res: Response) => {
