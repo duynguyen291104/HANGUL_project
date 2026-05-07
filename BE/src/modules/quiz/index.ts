@@ -317,7 +317,7 @@ router.post('/submit', authenticate, async (req: AuthRequest, res: Response) => 
           where: {
             userId,
             topicId: actualTopicId,
-            skillType: 'quiz',
+            skillType: { in: ['quiz', 'QUIZ'] },
           },
         });
 
@@ -329,7 +329,7 @@ router.post('/submit', authenticate, async (req: AuthRequest, res: Response) => 
           correctAnswer: answer.correctAnswer || answer.answer || '',
           selectedAnswer: answer.selectedAnswer || answer.userAnswer || '',
           isCorrect: answer.isCorrect || answer.correct || false,
-          skillType: 'quiz',
+          skillType: 'QUIZ',
         }));
 
         // Create new batch
@@ -585,12 +585,13 @@ router.post('/save-learning-history', authenticate, async (req: AuthRequest, res
           isCorrect: question.isCorrect || question.correct || false,
         };
       } else if (normalizedSkillType === 'WRITING' || normalizedSkillType === 'PRONUNCIATION') {
-        // For writing/pronunciation: store only vocabulary + accuracy
+        // For writing/pronunciation: store vocabulary + accuracy + isCorrect (>= 50 passing threshold)
         return {
           ...baseData,
           korean: question.korean || '',
           vietnamese: question.vietnamese || question.meaning || '',
           accuracy: question.accuracy || question.score || null,
+          isCorrect: (question.accuracy || question.score || 0) >= 50,
         };
       } else {
         return baseData;
@@ -603,7 +604,29 @@ router.post('/save-learning-history', authenticate, async (req: AuthRequest, res
     });
 
     console.log(`💾 Learning history saved: ${createResult.count} items for topic ${actualTopicId}, skill type: ${normalizedSkillType}`);
-    console.log(`📊 Data saved:`, historyData);
+
+    // Upsert UserProgress for WRITING / PRONUNCIATION so the card shows as done
+    if (actualTopicId && (normalizedSkillType === 'WRITING' || normalizedSkillType === 'PRONUNCIATION')) {
+      const correctItems = historyData.filter((h: any) => h.accuracy >= 80).length;
+      const totalItems = historyData.length;
+      const percentage = totalItems > 0 ? Math.round((correctItems / totalItems) * 100) : 0;
+
+      const existingProgress = await prisma.userProgress.findFirst({
+        where: { userId, topicId: actualTopicId, skillType: normalizedSkillType },
+      });
+
+      if (existingProgress) {
+        await prisma.userProgress.update({
+          where: { id: existingProgress.id },
+          data: { completed: true, score: percentage, attempts: { increment: 1 } },
+        });
+      } else {
+        await prisma.userProgress.create({
+          data: { userId, topicId: actualTopicId, skillType: normalizedSkillType, completed: true, score: percentage, attempts: 1 },
+        });
+      }
+      console.log(`✅ UserProgress upserted for ${normalizedSkillType}, topic ${actualTopicId}`);
+    }
 
     res.json({
       success: true,

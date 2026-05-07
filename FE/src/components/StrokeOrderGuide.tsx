@@ -418,7 +418,7 @@ function JamoPanel({ label, jamo: _jamo, strokes, animKey, globalDelay, size }: 
 
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <span className="text-sm font-black uppercase tracking-wider text-[#8d6e63]">{label}</span>
+      <span className="font-black uppercase tracking-wider text-[#8d6e63]" style={{ fontSize: '20px' }}>{label}</span>
       <div className="rounded-xl bg-[#fdf8f5] border-2 border-[#e8dcd4] overflow-hidden">
         <svg viewBox="0 0 100 100" width={size} height={size}>
           {/* Background fill */}
@@ -541,8 +541,8 @@ export default function StrokeOrderGuide({ word }: StrokeOrderGuideProps) {
 
   return (
     <div
-      className="bg-white rounded-2xl shadow-lg border border-[#e8dcd4] p-5 flex flex-col gap-3"
-      style={{ width: '380px', minHeight: '600px' }}
+      className="bg-white rounded-2xl shadow-lg border-[3px] border-[#72564c] p-5 flex flex-col gap-3"
+      style={{ width: '380px' }}
     >
       {/* CSS keyframes */}
       <style>{`
@@ -553,14 +553,14 @@ export default function StrokeOrderGuide({ word }: StrokeOrderGuideProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-black uppercase tracking-wider text-[#72564c]">Hướng dẫn nét vẽ</p>
-          <p className="text-xs text-[#8d6e63] mt-0.5">
+          <p className="font-black uppercase tracking-wider text-[#72564c]" style={{ fontSize: '20px' }}>Hướng dẫn nét vẽ</p>
+          <p className="text-[#8d6e63] mt-0.5" style={{ fontSize: '18px' }}>
             Tổng cộng <span className="font-bold text-[#72564c]">{totalStrokes} nét</span>
           </p>
         </div>
         <button
           onClick={() => setAnimKey(k => k + 1)}
-          className="flex items-center gap-1.5 text-sm px-4 py-2 rounded-xl bg-[#f0e6e0] text-[#72564c] hover:bg-[#e8dcd4] transition-colors font-bold"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#f0e6e0] text-[#72564c] hover:bg-[#e8dcd4] transition-colors font-bold" style={{ fontSize: '18px' }}
         >
           ↺ Vẽ lại
         </button>
@@ -634,8 +634,8 @@ export default function StrokeOrderGuide({ word }: StrokeOrderGuideProps) {
       {/* Stroke color legend */}
       <div className="pt-3 border-t border-[#f0e6e0] flex flex-wrap gap-2 justify-center">
         {[...choStrokes, ...jungStrokes, ...jongStrokes].map((s, i) => (
-          <span key={i} className="text-xs font-bold px-2 py-1 rounded-lg"
-            style={{ color: s.color, backgroundColor: s.color + '22' }}
+          <span key={i} className="font-bold px-2 py-1 rounded-lg"
+            style={{ fontSize: '18px', color: s.color, backgroundColor: s.color + '22' }}
           >
             Nét {s.number}
           </span>

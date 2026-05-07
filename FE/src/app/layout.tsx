@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Nunito, Baloo_2 } from 'next/font/google';
 import './globals.css';
+import GoogleAuthProvider from '@/components/GoogleAuthProvider';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -25,9 +26,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="vi" suppressHydrationWarning className={`${nunito.variable} ${baloo.variable}`}>
-      <body className="font-nunito">
-        {children}
+    <html lang="vi" suppressHydrationWarning>
+      <body className={inter.className}>
+        <GoogleAuthProvider>
+          {children}
+        </GoogleAuthProvider>
       </body>
     </html>
   );

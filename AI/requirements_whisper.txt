@@ -16,6 +16,14 @@ librosa==0.10.0
 soundfile==0.12.1
 pydub==0.25.1
 
+setuptools<81
+wheel
+faster-whisper==1.2.1
+ctranslate2==4.6.0
+av==14.2.0
+
+
+
 # Optional: For better performance
 # numpy-mkl (Windows)
 # libblas-dev lilapack-dev (Linux)

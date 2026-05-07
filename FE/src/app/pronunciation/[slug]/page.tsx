@@ -145,9 +145,16 @@ export default function PronunciationDetailPage() {
         voices = synth.getVoices();
       }
 
-      // Phát với tốc độ hiện tại
+      // Chuyển sang tốc độ tiếp theo TRƯỚC khi phát: 0.5x → 1x → 0.5x
+      const speeds = [0.5, 1];
+      const currentSpeedIndex = speeds.indexOf(speed);
+      const nextSpeedIndex = (currentSpeedIndex + 1) % speeds.length;
+      const nextSpeed = speeds[nextSpeedIndex];
+      setSpeed(nextSpeed);
+
+      // Phát với tốc độ tiếp theo (label hiển thị = tốc độ vừa nghe)
       const speech = new SpeechSynthesisUtterance(currentWord.korean);
-      speech.rate = speed;
+      speech.rate = nextSpeed;
       speech.lang = 'ko-KR';
       speech.volume = 1;
       speech.pitch = 1;
@@ -162,7 +169,7 @@ export default function PronunciationDetailPage() {
       synth.cancel();
       
       // Log for debugging
-      console.log(`🔊 Playing: "${currentWord.korean}" at ${speed}x speed`);
+      console.log(`🔊 Playing: "${currentWord.korean}" at ${nextSpeed}x speed`);
       
       // Speak
       synth.speak(speech);
@@ -186,13 +193,6 @@ export default function PronunciationDetailPage() {
           }
         }, highlightDuration);
       }
-      
-      // Sau đó chuyển sang tốc độ tiếp theo: 0.5x → 1.5x → 0.5x
-      const speeds = [0.5, 1.5];
-      const currentSpeedIndex = speeds.indexOf(speed);
-      const nextSpeedIndex = (currentSpeedIndex + 1) % speeds.length;
-      const nextSpeed = speeds[nextSpeedIndex];
-      setSpeed(nextSpeed);
     } catch (error) {
       console.error('❌ Error playing audio:', error);
     }
@@ -273,11 +273,13 @@ export default function PronunciationDetailPage() {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({
                   audioBase64: base64Audio,
-                  correctAnswer: currentWord.romanization,
+                  correctAnswer: currentWord.korean,
+                  romanization: currentWord.romanization,
                   korean: currentWord.korean,
                   topicId,
                   vocabId: currentWord.id,
                 }),
+
               }
             );
 
@@ -290,9 +292,10 @@ export default function PronunciationDetailPage() {
                 const browserText = browserTranscriptRef.current;
                 // Convert Korean transcript to romanization for comparison if needed
                 const accuracy = levenshteinSimilarity(
-                  browserText.toLowerCase(),
-                  currentWord.romanization.toLowerCase()
-                );
+                    browserText.normalize('NFC').replace(/[^\uAC00-\uD7A3]/g, ''),
+                    currentWord.korean.normalize('NFC').replace(/[^\uAC00-\uD7A3]/g, '')
+                  );
+
                 setScore(accuracy);
                 setTranscript(browserText);
                 setScoringMethod('browser');
@@ -412,6 +415,8 @@ export default function PronunciationDetailPage() {
       isCorrect,
       xp,
       timeSpent,
+      english: currentWord.english,
+      vietnamese: currentWord.vietnamese,
     };
 
     setResults([...results, newResult]);
@@ -508,135 +513,167 @@ export default function PronunciationDetailPage() {
   const currentWord = vocabulary[currentIndex];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-surface to-surface-container">
+    <div style={{ width: '100%', minHeight: '100vh' }} className="bg-gradient-to-br from-surface to-surface-container flex flex-col">
       <Header />
-      
-      <div className="pt-[75px] flex flex-col items-center px-4 pb-8">
-        <button
-          onClick={() => router.push('/pronunciation')}
-          className="fixed top-[95px] left-[20px] z-20 flex items-center gap-2 px-4 py-2 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95"
-        >
-          <span className="text-xl">←</span>
-          <span>Quay lại</span>
-        </button>
 
-        <p className="text-on-surface-variant mb-8">
-          {currentIndex + 1} / {vocabulary.length}
-        </p>
-
-        <h1 className="text-4xl font-bold text-on-background mb-12">{topicName}</h1>
-
-        <div className="bg-surface-container rounded-2xl p-12 text-center mb-12 max-w-md w-full">
-          <p className="text-on-surface-variant text-2xl font-bold mb-4">Phát âm từ này</p>
-          
-          {/* Speaker + Speed + Korean in same row */}
-          <div className="flex items-center gap-2 justify-center mb-8">
-            <p className="text-8xl font-bold text-on-background">{currentWord.korean}</p>
-          </div>
-
-          {/* Sound Wave Animation */}
-          <div className="mb-8 h-12 flex items-center justify-center">
-            <svg width="100%" height="100%" viewBox="0 0 400 64" preserveAspectRatio="none">
-              {soundWave.length > 0 ? (
-                <polyline
-                  points={soundWave
-                    .map((point, i) => `${(i / soundWave.length) * 400},${32 - point.y / 2}`)
-                    .join(' ')}
-                  fill="none"
-                  stroke="#72564c"
-                  strokeWidth="2"
-                />
-              ) : (
-                <line x1="0" y1="32" x2="400" y2="32" stroke="#d4c3be" strokeWidth="2" />
-              )}
-            </svg>
-          </div>
-
-          {/* Speaker + Speed + Romanization */}
-          <div className="flex items-start gap-2 justify-center mb-8">
-            <div className="flex flex-col items-center gap-0.5">
-              <button
-                onClick={handlePlayAudio}
-                className="text-on-background hover:opacity-70 transition flex-shrink-0"
-                title="Click to cycle speed: 0.5x → 1.5x"
-              >
-                <Volume2 size={28} />
-              </button>
-              <p className="text-2xl font-bold text-primary">
-                {speed === 0.5 ? '0.5x' : '1.5x'}
-              </p>
-            </div>
-            <p className="text-lg font-medium">
-              {currentWord.romanization && currentWord.romanization.split('').map((char, index) => (
-                <span
-                  key={index}
-                  className={`transition-all duration-100 ${
-                    index <= activeIndex
-                      ? 'text-black font-bold'
-                      : 'text-gray-400 font-normal'
-                  }`}
-                >
-                  {char}
-                </span>
-              ))}
-            </p>
-          </div>
-
+      <div className="flex flex-col pb-8">
+        {/* Back Button */}
+        <div className="shrink-0 w-full" style={{ paddingTop: '20px', paddingLeft: '25px' }}>
           <button
-            onClick={handleMicClick}
-            className={`w-12 h-12 rounded-full mx-auto mb-8 flex items-center justify-center transition-all ${
-              isRecording
-                ? 'bg-red-500 hover:bg-red-600 animate-pulse'
-                : 'bg-[#72564c] hover:bg-[#8d6e63]'
-            }`}
-            title={isRecording ? 'Dừng ghi âm' : 'Bắt đầu ghi âm'}
+            onClick={() => router.push('/pronunciation')}
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95"
+            style={{ fontSize: '20px' }}
           >
-            <Mic size={24} className="text-white" />
+            <span>←</span>
+            <span>Quay lại</span>
           </button>
-
-          {isScoring && (
-            <div className="mt-8 p-4 bg-primary/10 rounded-lg text-center">
-              <p className="text-on-surface-variant text-2xl animate-pulse">Đang phân tích</p>
-            </div>
-          )}
-
-          {score !== null && !isScoring && (
-            <div className="mt-8 p-6 bg-primary/10 rounded-2xl text-center">
-              <p className="text-base font-semibold text-on-surface mb-1">{currentWord.english}</p>
-              <p className="text-sm text-on-surface-variant mb-4">{currentWord.vietnamese}</p>
-              <p className="text-base text-on-surface-variant mb-1">Độ chính xác</p>
-              <p className="text-6xl font-black text-primary mb-3">{score}%</p>
-              <p className="text-base font-medium text-on-surface-variant">
-                {feedback ||
-                  (score >= 80 ? 'Phát âm chuẩn.' :
-                   score >= 60 ? `Gần đúng, cần hướng tới: "${currentWord.romanization}".` :
-                   score >= 40 ? `Chưa đúng, phiên âm đúng là: "${currentWord.romanization}".` :
-                                 `Sai phiên âm, cần đọc là: "${currentWord.romanization}"`)}
-              </p>
-            </div>
-          )}
         </div>
 
-        <div className="flex gap-4 max-w-md w-full">
-          {(score !== null || isScoring) ? (
-            <>
+        <main className="flex flex-col max-w-4xl mx-auto w-full px-6" style={{ paddingTop: '8px' }}>
+          {/* Progress Section */}
+          <section className="shrink-0 w-full mb-6">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-[#72564c] tracking-tight" style={{ fontSize: '20px' }}>
+                Chủ đề bài học: {topicName}
+              </span>
+              <span className="font-bold text-[#72564c]/60" style={{ fontSize: '20px' }}>
+                {currentIndex + 1} / {vocabulary.length}
+              </span>
+            </div>
+            <div className="w-full h-2 bg-[#eeeee9] rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] rounded-full transition-all duration-500"
+                style={{ width: `${((currentIndex + 1) / (vocabulary.length || 10)) * 100}%` }}
+              />
+            </div>
+          </section>
+
+          {/* Content — centered */}
+          <div className="flex flex-col items-center">
+            <div className="bg-surface-container rounded-2xl p-12 text-center mb-12 max-w-md w-full">
+              <p className="text-on-surface-variant text-2xl font-bold mb-4">Bắt đầu ghi âm và đọc chính xác từ</p>
+              
+              {/* Speaker + Speed + Korean in same row */}
+              <div className="flex items-center gap-2 justify-center mb-8">
+                <p className="text-8xl font-bold text-on-background">{currentWord.korean}</p>
+              </div>
+
+              {/* Sound Wave Animation */}
+              <div className="mb-8 h-12 flex items-center justify-center">
+                <svg width="100%" height="100%" viewBox="0 0 400 64" preserveAspectRatio="none">
+                  {soundWave.length > 0 ? (
+                    <polyline
+                      points={soundWave
+                        .map((point, i) => `${(i / soundWave.length) * 400},${32 - point.y / 2}`)
+                        .join(' ')}
+                      fill="none"
+                      stroke="#72564c"
+                      strokeWidth="2"
+                    />
+                  ) : (
+                    <line x1="0" y1="32" x2="400" y2="32" stroke="#d4c3be" strokeWidth="2" />
+                  )}
+                </svg>
+              </div>
+
+              {/* Speaker + Speed + Romanization */}
+              <div className="flex items-start gap-2 justify-center mb-8">
+                <div className="flex flex-col items-center gap-0.5">
+                  <button
+                    onClick={handlePlayAudio}
+                    className="text-on-background hover:opacity-70 transition flex-shrink-0"
+                    title="Click to cycle speed: 0.5x → 1x"
+                  >
+                    <Volume2 size={28} />
+                  </button>
+                  <p className="text-2xl font-bold text-primary">
+                    {speed}x
+                  </p>
+                </div>
+                <p style={{ fontSize: '20px' }} className="font-medium">
+                  {currentWord.romanization && currentWord.romanization.split('').map((char, index) => (
+                    <span
+                      key={index}
+                      className={`transition-all duration-100 ${
+                        index <= activeIndex
+                          ? 'text-black font-bold'
+                          : 'text-gray-400 font-normal'
+                      }`}
+                    >
+                      {char}
+                    </span>
+                  ))}
+                </p>
+              </div>
+
               <button
-                onClick={handleRetry}
-                disabled={isScoring}
-                className="flex-1 px-6 py-3 bg-surface-container text-on-surface rounded-full font-bold hover:opacity-80 transition border border-outline-variant disabled:opacity-40"
+                onClick={handleMicClick}
+                className={`w-12 h-12 rounded-full mx-auto mb-8 flex items-center justify-center transition-all ${
+                  isRecording
+                    ? 'bg-red-500 hover:bg-red-600 animate-pulse'
+                    : 'bg-[#72564c] hover:bg-[#8d6e63]'
+                }`}
+                title={isRecording ? 'Dừng ghi âm' : 'Bắt đầu ghi âm'}
               >
-                Làm lại
+                <Mic size={24} className="text-white" />
               </button>
-              <button
-                onClick={handleNext}
-                disabled={isScoring || score === null}
-                className="flex-1 px-6 py-3 bg-primary text-on-primary rounded-full font-bold hover:opacity-90 transition disabled:opacity-40"
-              >
-                {currentIndex === vocabulary.length - 1 ? 'Hoàn tát' : 'Tiếp tục'}
-              </button>
-            </>
-          ) : null}
-        </div>
+
+              {isScoring && (
+                <div className="mt-8 p-4 bg-primary/10 rounded-lg text-center">
+                  <p className="text-on-surface-variant text-2xl animate-pulse">Đang phân tích</p>
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-4 max-w-md w-full">
+            </div>
+
+            {/* Score Modal — giống writing page */}
+            {score !== null && !isScoring && (
+              <>
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40" />
+                <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+                  <div className="bg-white rounded-2xl p-8 shadow-2xl border-[3px] border-[#72564c] w-80 pointer-events-auto">
+                    <div className="text-center mb-6">
+                      <p className="text-xs uppercase font-bold text-[#504441] tracking-wider mb-3">Điểm số</p>
+                      <p className="text-6xl font-black text-[#72564c] mb-4">{score}%</p>
+                      <p className="text-lg font-bold text-[#8d6e63]">
+                        {feedback ||
+                          (score >= 80 ? 'Phát âm chuẩn.' :
+                           score >= 60 ? `Gần đúng, cần hướng tới: "${currentWord.romanization}".` :
+                           score >= 40 ? `Chưa đúng, phiên âm đúng là: "${currentWord.romanization}".` :
+                                         `Sai phiên âm, cần đọc là: "${currentWord.romanization}"`)}
+                      </p>
+                      <div className="mt-6 pt-6 border-t-2 border-[#f0f0f0]">
+                        <p className="text-xs uppercase font-bold text-[#72564c]/60 tracking-wider mb-3">Nghĩa</p>
+                        <p className="text-sm font-semibold text-[#72564c] mb-1">
+                          Tiếng Anh: {currentWord.english}
+                        </p>
+                        <p className="text-sm font-semibold text-[#72564c]">
+                          Tiếng Việt: {currentWord.vietnamese}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <button
+                        onClick={handleNext}
+                        className="w-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white py-4 rounded-lg font-bold hover:scale-105 active:scale-95 transition-all shadow-lg"
+                      >
+                        {currentIndex === vocabulary.length - 1 ? 'Hoàn tất' : 'Tiếp tục'}
+                      </button>
+                      <button
+                        onClick={handleRetry}
+                        className="w-full bg-[#f0e6e0] text-[#72564c] py-3 rounded-lg font-bold hover:bg-[#e8dcd4] active:scale-95 transition-all"
+                      >
+                        ↩ Làm lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </main>
       </div>
       <Footer />
     </div>

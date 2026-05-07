@@ -452,7 +452,7 @@ export default function PronunciationTournament({ onComplete, onExit }: Pronunci
                 onClick={handleNextWord}
                 className="w-full py-4 rounded-2xl font-bold text-base tracking-wide transition-all active:scale-95 hover:opacity-90 shadow-md bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white"
               >
-                {currentWordIndex < vocabularyList.length - 1 ? 'Từ tiếp theo →' : '🎉 Hoàn thành'}
+                {currentWordIndex < vocabularyList.length - 1 ? 'Từ tiếp theo →' : 'Hoàn thành'}
               </button>
             </div>
           )}

@@ -142,21 +142,53 @@ router.post('/submit', authenticate, async (req: AuthRequest, res: Response) => 
     const io = getIO();
     if (io) {
       const roomName = `tournament_${updatedUser.level}`;
-      
-      // Trigger leaderboard update for this level
-      io.emit('tournament:score-update', { 
-        userId, 
-        level: updatedUser.level 
-      });
-      
+
       // Calculate and emit rank update to user's personal room
       const newRank = getRank(updatedUser.totalTrophy);
       io.to(`user_${userId}`).emit('rankUpdate', {
         trophy: updatedUser.totalTrophy,
         rank: newRank,
       });
-      
-      console.log(`🎮 Emitted score update to room ${roomName}: ${updatedUser.name} +${trophyGained} Trophy | Rank: ${newRank}`);
+
+      // Fetch current leaderboard for this level and push to everyone in the room
+      const levelLeaderboard = await prisma.user.findMany({
+        where: {
+          level: updatedUser.level,
+          role: { not: 'ADMIN' },
+          email: { not: { contains: 'test' } },
+        },
+        select: {
+          id: true,
+          name: true,
+          avatar: true,
+          totalTrophy: true,
+          level: true,
+          totalXP: true,
+        },
+        orderBy: [
+          { totalTrophy: 'desc' },
+          { totalXP: 'desc' },
+        ],
+        take: 50,
+      });
+
+      const formattedLeaderboard = levelLeaderboard.map((u: any, idx: number) => ({
+        rank: idx + 1,
+        userId: u.id,
+        name: u.name,
+        avatar: u.avatar,
+        trophy: u.totalTrophy,
+        level: u.level,
+        xp: u.totalXP,
+      }));
+
+      io.to(roomName).emit('tournament:leaderboard-updated', {
+        level: updatedUser.level,
+        leaderboard: formattedLeaderboard,
+        timestamp: new Date().toISOString(),
+      });
+
+      console.log(`🎮 Pushed leaderboard to ${roomName}: ${formattedLeaderboard.length} users | ${updatedUser.name} +${trophyGained} Trophy | Rank: ${newRank}`);
     }
 
     // Check and award achievements after trophy update

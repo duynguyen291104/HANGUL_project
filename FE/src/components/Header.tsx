@@ -9,6 +9,17 @@ export default function Header() {
   const router = useRouter();
   const { logout, user } = useAuthStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarClosing, setSidebarClosing] = useState(false);
+  const totalItems = 6; // menuItems.length + possible admin
+  const closeDuration = totalItems * 65 + 280; // last item delay + animation duration
+
+  const closeSidebar = () => {
+    setSidebarClosing(true);
+    setTimeout(() => {
+      setSidebarOpen(false);
+      setSidebarClosing(false);
+    }, closeDuration);
+  };
   const [showGif, setShowGif] = useState(false);
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   // Prevent hydration mismatch: auth state is client-only (Zustand)
@@ -17,12 +28,12 @@ export default function Header() {
   const isAdmin = mounted && user?.role === 'ADMIN';
 
   const menuItems = [
-    { label: 'Quiz', subtitle: 'Test knowledge', href: '/quiz' },
-    { label: 'Camera to Vocab', subtitle: 'Visual learning', href: '/camera' },
-    { label: 'Writing Practice', subtitle: 'Handwriting', href: '/writing' },
-    { label: 'Pronunciation', subtitle: 'Speak & listen', href: '/pronunciation' },
-    { label: 'Learning Path', subtitle: 'Adjust level', href: '/learning-map' },
-    { label: 'Tournament', subtitle: 'Compete & rank', href: '/tournament' },
+    { label: 'Trắc nghiệm', subtitle: 'Kiểm tra kiến thức', href: '/quiz' },
+    { label: 'Từ vựng qua camera', subtitle: 'Học tập trực quan', href: '/camera' },
+    { label: 'Luyện viết', subtitle: 'Viết tay', href: '/writing' },
+    { label: 'Phát âm', subtitle: 'Nói và nghe', href: '/pronunciation' },
+    { label: 'Lộ trình học tập', subtitle: 'Điều chỉnh cấp độ', href: '/learning-map' },
+    { label: 'Giải đấu', subtitle: 'Thi đấu và xếp hạng', href: '/tournament' },
   ];
 
   const handleLogout = () => {
@@ -37,12 +48,20 @@ export default function Header() {
   return (
     <>
       {/* Header */}
-      <header className="fixed top-0 h-[75px] bg-white shadow-md z-40 flex items-center justify-between px-6 transition-all duration-300 ease-in-out"
-        style={{
-          left: sidebarOpen ? '288px' : '0px',
-          right: '0px',
-        }}
-      >
+      <header className="fixed top-0 left-0 w-full h-[75px] bg-white shadow-md z-40 flex items-center justify-between px-6">
+        {/* Left - Hamburger Menu */}
+        <button
+          onClick={() => sidebarOpen ? closeSidebar() : setSidebarOpen(true)}
+          className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+          title="Menu"
+        >
+          <img
+            src="https://res.cloudinary.com/dds5jlp7e/image/upload/q_auto/f_auto/v1775570296/list-view_iu1k6k.png"
+            alt="Menu"
+            className="w-6 h-6"
+          />
+        </button>
+
         {/* Center - HANGUL Logo */}
         <div className="flex-1 flex justify-center">
           <button
@@ -59,8 +78,9 @@ export default function Header() {
                   className="w-full h-full drop-shadow-lg"
                 />
                 <span 
-                  className="absolute inset-0 flex items-center justify-center text-sm font-black text-white tracking-tight animate-pulse"
+                  className="absolute inset-0 flex items-center justify-center font-black text-white tracking-tight animate-pulse"
                   style={{
+                    fontSize: '20px',
                     animation: 'slideInRight 0.5s ease-out forwards'
                   }}
                 >
@@ -68,7 +88,7 @@ export default function Header() {
                 </span>
               </div>
             ) : (
-              <span className="text-3xl font-black text-[#72564c] tracking-tight">HANGUL</span>
+              <span className="font-black text-[#72564c] tracking-tight" style={{ fontSize: '20px' }}>HANGUL</span>
             )}
             <style>{`
               @keyframes slideInRight {
@@ -91,8 +111,9 @@ export default function Header() {
           {isAdmin && (
             <Link
               href="/admin/dashboard"
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900 text-white text-xs font-bold rounded-lg hover:bg-gray-700 transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900 text-white font-bold rounded-lg hover:bg-gray-700 transition-all"
               title="Admin Panel"
+              style={{ fontSize: '20px' }}
             >
               ⚙️ Admin
             </Link>
@@ -127,90 +148,110 @@ export default function Header() {
       </header>
 
       {/* Sidebar */}
-      <div
-        className={`fixed left-0 top-0 h-full w-72 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        {/* Sidebar Header */}
-        <div className="h-[75px] flex items-center justify-between px-6 border-b border-gray-100">
-          <span className="text-2xl font-black text-[#72564c] font-baloo">Menu</span>
-          <button
-            onClick={() => setSidebarOpen(false)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-all"
-          >
-            <img
-              src="https://res.cloudinary.com/dds5jlp7e/image/upload/q_auto/f_auto/v1775570296/list-view_iu1k6k.png"
-              alt="Close"
-              className="w-6 h-6"
-            />
-          </button>
-        </div>
+      {sidebarOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/20 z-30 top-[75px]"
+            onClick={closeSidebar}
+          />
+          
+          {/* Sidebar Menu */}
+          <nav className="fixed left-0 top-[75px] h-[calc(100vh-75px)] w-72 bg-white shadow-lg z-30 overflow-y-auto">
+            <div className="px-4 py-6 space-y-1">
+              {menuItems.map((item, index) => {
+                const n = menuItems.length + (isAdmin ? 1 : 0);
+                const outDelay = sidebarClosing ? (n - 1 - index) * 65 : 0;
+                const inDelay = !sidebarClosing ? index * 65 : 0;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={closeSidebar}
+                    className={`block px-4 py-3 rounded-lg hover:bg-[#72564c] hover:text-white transition-colors active:scale-95 text-[#72564c] font-semibold ${
+                      sidebarClosing ? 'sidebar-item-out' : 'sidebar-item'
+                    }`}
+                    style={{ animationDelay: `${sidebarClosing ? outDelay : inDelay}ms` }}
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-bold" style={{ fontSize: '22px' }}>{item.label}</span>
+                      <span className="opacity-70 font-normal" style={{ fontSize: '18px' }}>{item.subtitle}</span>
+                    </div>
+                  </Link>
+                );
+              })}
 
-        {/* Menu Items */}
-        <nav className="px-4 py-6 space-y-1 overflow-y-auto h-[calc(100vh-75px)]">
-          {menuItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setSidebarOpen(false)}
-              className="block px-4 py-3 rounded-lg hover:bg-[#72564c] hover:text-white transition-all active:scale-95 text-[#72564c] font-semibold"
-            >
-              <div className="flex flex-col">
-                <span className="font-baloo text-base">{item.label}</span>
-                <span className="text-2xl opacity-70 font-bold">{item.subtitle}</span>
-              </div>
-            </Link>
-          ))}
-
-          {isAdmin && (
-            <Link
-              href="/admin/dashboard"
-              onClick={() => setSidebarOpen(false)}
-              className="block px-4 py-3 rounded-lg bg-gray-900 text-white font-semibold hover:bg-gray-700 transition-all active:scale-95 mt-2"
-            >
-              <div className="flex flex-col">
-                <span className="font-bold">⚙️ Admin Panel</span>
-                <span className="text-xs opacity-70 font-normal">Quản trị hệ thống</span>
-              </div>
-            </Link>
-          )}
-        </nav>
-      </div>
-
-      {/* Backdrop */}
-      <div
-        className={`fixed inset-0 bg-black/30 z-40 transition-opacity duration-300 ${
-          sidebarOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setSidebarOpen(false)}
-      />
+              {/* Admin Panel — chỉ hiện cho ADMIN */}
+              {isAdmin && (() => {
+                const n = menuItems.length + 1;
+                const outDelay = sidebarClosing ? 0 : 0;
+                const inDelay = !sidebarClosing ? menuItems.length * 65 : 0;
+                return (
+                  <Link
+                    href="/admin/dashboard"
+                    onClick={closeSidebar}
+                    className={`block px-4 py-3 rounded-lg bg-gray-900 text-white font-semibold hover:bg-gray-700 transition-all active:scale-95 mt-2 ${
+                      sidebarClosing ? 'sidebar-item-out' : 'sidebar-item'
+                    }`}
+                    style={{ animationDelay: `${sidebarClosing ? outDelay : inDelay}ms` }}
+                  >
+                    <div className="flex flex-col">
+                      <span className="font-bold">⚙️ Admin Panel</span>
+                      <span className="opacity-70 font-normal" style={{ fontSize: '20px' }}>Quản trị hệ thống</span>
+                    </div>
+                  </Link>
+                );
+              })()}
+            </div>
+            <style>{`
+              @keyframes menuItemIn {
+                from { opacity: 0; transform: translateX(-22px); }
+                to   { opacity: 1; transform: translateX(0); }
+              }
+              @keyframes menuItemOut {
+                from { opacity: 1; transform: translateX(0); }
+                to   { opacity: 0; transform: translateX(-22px); }
+              }
+              .sidebar-item {
+                opacity: 0;
+                animation: menuItemIn 0.28s ease forwards;
+              }
+              .sidebar-item-out {
+                opacity: 1;
+                animation: menuItemOut 0.22s ease forwards;
+              }
+            `}</style>
+          </nav>
+        </>
+      )}
 
       {/* Padding for fixed header */}
       <div className="h-[75px]" />
 
       {/* Logout Confirmation Modal */}
       {showLogoutConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ animation: 'backdropFadeIn 0.2s ease forwards' }}>
           <div
             className="absolute inset-0 bg-black/30"
             onClick={() => setShowLogoutConfirm(false)}
           />
-          <div className="relative bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm mx-4 flex flex-col gap-6">
+          <div className="relative bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm mx-4 flex flex-col gap-6" style={{ animation: 'modalSlideIn 0.25s cubic-bezier(0.34,1.56,0.64,1) forwards' }}>
             <div className="text-center">
-              <h2 className="font-bold text-xl text-[#2b160f] mb-2">Đăng xuất</h2>
-              <p className="text-[#504441]">Bạn có muốn xác nhận đăng xuất không?</p>
+              <h2 className="font-bold text-[#2b160f] mb-2" style={{ fontSize: '20px' }}>Đăng xuất</h2>
+              <p className="text-[#504441]" style={{ fontSize: '20px' }}>Bạn có muốn xác nhận đăng xuất không?</p>
             </div>
             <div className="flex gap-3">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
                 className="flex-1 py-3 rounded-xl border-2 border-[#72564c] text-[#72564c] font-semibold hover:bg-[#f4f4ef] transition-all active:scale-95"
+                style={{ fontSize: '20px' }}
               >
                 Quay lại
               </button>
               <button
                 onClick={handleLogout}
                 className="flex-1 py-3 rounded-xl bg-[#72564c] text-white font-semibold hover:bg-[#504441] transition-all active:scale-95"
+                style={{ fontSize: '20px' }}
               >
                 Xác nhận
               </button>
@@ -234,6 +275,16 @@ export default function Header() {
       </button>
 
       <style jsx>{`
+        @keyframes backdropFadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+
+        @keyframes modalSlideIn {
+          from { opacity: 0; transform: scale(0.85) translateY(16px); }
+          to   { opacity: 1; transform: scale(1)   translateY(0); }
+        }
+
         .hangul {
           cursor: pointer;
           position: relative;
