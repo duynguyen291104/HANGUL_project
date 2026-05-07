@@ -52,7 +52,7 @@ export default function Header() {
         {/* Left - Hamburger Menu */}
         <button
           onClick={() => sidebarOpen ? closeSidebar() : setSidebarOpen(true)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-all relative z-50"
           title="Menu"
         >
           <img
@@ -154,10 +154,17 @@ export default function Header() {
           <div
             className="fixed inset-0 bg-black/20 z-30 top-[75px]"
             onClick={closeSidebar}
+            style={{ animation: 'backdropFadeIn 0.25s ease forwards' }}
           />
           
           {/* Sidebar Menu */}
-          <nav className="fixed left-0 top-[75px] h-[calc(100vh-75px)] w-72 bg-white shadow-lg z-30 overflow-y-auto">
+          <nav className="fixed left-0 top-[75px] h-[calc(100vh-75px)] w-72 bg-white shadow-lg z-30 overflow-y-auto"
+            style={{
+              animation: sidebarClosing
+                ? 'slideOut 0.3s ease forwards'
+                : 'slideIn 0.3s ease forwards'
+            }}
+          >
             <div className="px-4 py-6 space-y-1">
               {menuItems.map((item, index) => {
                 const n = menuItems.length + (isAdmin ? 1 : 0);
@@ -220,6 +227,15 @@ export default function Header() {
                 opacity: 1;
                 animation: menuItemOut 0.22s ease forwards;
               }
+              @keyframes slideIn {
+                from { transform: translateX(-100%); opacity: 0; }
+                to   { transform: translateX(0);     opacity: 1; }
+              }
+
+              @keyframes slideOut {
+                from { transform: translateX(0);     opacity: 1; }
+                to   { transform: translateX(-100%); opacity: 0; }
+              }
             `}</style>
           </nav>
         </>
@@ -259,20 +275,6 @@ export default function Header() {
           </div>
         </div>
       )}
-
-      {/* Nút mở sidebar — nằm ngoài sidebar, z-50 để không bị backdrop che */}
-      <button
-        onClick={() => setSidebarOpen(true)}
-        className={`fixed top-0 left-0 z-50 w-[75px] h-[75px] flex items-center justify-center ${
-          sidebarOpen ? 'hidden' : 'flex'
-        }`}
-      >
-        <img
-          src="https://res.cloudinary.com/dds5jlp7e/image/upload/q_auto/f_auto/v1775570296/list-view_iu1k6k.png"
-          alt="Menu"
-          className="w-6 h-6"
-        />
-      </button>
 
       <style jsx>{`
         @keyframes backdropFadeIn {
