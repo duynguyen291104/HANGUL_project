@@ -520,4 +520,4 @@ if __name__ == '__main__':
     print(f"🚀 Starting YOLO Flask Server")
     print(f"📡 Database: {DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}")
     print(f"🔗 Backend: {BACKEND_URL}")
-    app.run(host='0.0.0.0', port=5001, debug=False)
+    app.run(host='0.0.0.0', port=5002, debug=False)
