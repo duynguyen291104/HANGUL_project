@@ -1,12 +1,64 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Header from '@/components/Header';
 import { useAuthStore } from '@/store/authStore';
 import ResultSummary, { type ResultItem } from '@/components/ResultSummary';
 import StrokeOrderGuide from '@/components/StrokeOrderGuide';
 import Footer from '@/components/Footer';
+
+// Auto-fit text component: tự thu nhỏ font cho đến khi vừa container
+function AutoFitText({ text, maxFontPx = 288, minFontPx = 24 }: { text: string; maxFontPx?: number; minFontPx?: number }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const [fontPx, setFontPx] = useState(maxFontPx);
+
+  useLayoutEffect(() => {
+    const fit = () => {
+      const container = containerRef.current;
+      const span = spanRef.current;
+      if (!container || !span) return;
+      const cw = container.clientWidth;
+      const ch = container.clientHeight;
+      let lo = minFontPx;
+      let hi = maxFontPx;
+      // Binary search font size lớn nhất mà vẫn vừa
+      while (lo < hi) {
+        const mid = Math.floor((lo + hi + 1) / 2);
+        span.style.fontSize = `${mid}px`;
+        if (span.scrollWidth <= cw && span.scrollHeight <= ch) {
+          lo = mid;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      setFontPx(lo);
+      span.style.fontSize = `${lo}px`;
+    };
+    fit();
+    const ro = new ResizeObserver(fit);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, [text, maxFontPx, minFontPx]);
+
+  return (
+    <div ref={containerRef} className="w-[90%] h-[90%] flex items-center justify-center mx-auto overflow-hidden">
+      <span
+        ref={spanRef}
+        className="text-[#eeeee9] opacity-40 text-center"
+        style={{
+          fontSize: `${fontPx}px`,
+          lineHeight: 1.2,
+          fontWeight: 700,
+          whiteSpace: 'normal',
+          wordBreak: 'keep-all',
+          overflowWrap: 'break-word',
+        }}
+      >{text}</span>
+    </div>
+  );
+}
 
 interface ExercisePoint {
   x: number;
@@ -34,7 +86,9 @@ export default function WritingDetailPage() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
-  const [canvasWidth, setCanvasWidth] = useState(600);
+  const toolbarRef = useRef<HTMLDivElement>(null);
+  const strokeHistoryRef = useRef<ImageData[]>([]);
+  const [canvasWidth, setCanvasWidth] = useState(670);
   const [isDrawing, setIsDrawing] = useState(false);
   const [strokes, setStrokes] = useState<ExercisePoint[]>([]);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
@@ -52,6 +106,7 @@ export default function WritingDetailPage() {
   const [topicId, setTopicId] = useState<number | null>(null);
   const [isScoring, setIsScoring] = useState(false);
   const [_scoringMethod, setScoringMethod] = useState('');
+  const [activePanel, setActivePanel] = useState<'brush' | 'color' | 'guide' | null>(null);
 
   const colors = ['#72564c', '#8d6e63', '#5b4137', '#827470', '#504441', '#ffdbce'];
 
@@ -112,6 +167,7 @@ export default function WritingDetailPage() {
     setStrokes([]);
     setScore(null);
     setFeedback('');
+    strokeHistoryRef.current = [];
   }, [currentCharIndex]);
 
   const currentChar = characters.length > 0 ? characters[currentCharIndex]?.korean : '한';
@@ -127,11 +183,14 @@ export default function WritingDetailPage() {
         offCtx.font = `bold ${CANVAS_FONT_SIZE}px 'Plus Jakarta Sans', serif`;
         measuredWidth = Math.ceil(offCtx.measureText(currentChar).width);
       }
-      const computedWidth = Math.max(400, measuredWidth + CANVAS_PADDING_X * 2);
+      const computedWidth = Math.max(650, measuredWidth + CANVAS_PADDING_X * 2);
+      // Canvas tối đa 90% viewport, cạnh lề 5% mỗi bên
+      const maxCanvasWidth = Math.floor(window.innerWidth * 0.9);
+      const finalWidth = Math.min(computedWidth, maxCanvasWidth);
 
-      canvas.width = computedWidth;
+      canvas.width = finalWidth;
       canvas.height = CANVAS_HEIGHT;
-      setCanvasWidth(computedWidth);
+      setCanvasWidth(finalWidth);
 
       const ctx = canvas.getContext('2d');
       if (ctx) {
@@ -167,8 +226,13 @@ export default function WritingDetailPage() {
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!canvasRef.current) return;
-    setIsDrawing(true);
     const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    // Save snapshot before this stroke begins (for undo)
+    if (ctx) {
+      strokeHistoryRef.current.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+    }
+    setIsDrawing(true);
     const rect = canvas.getBoundingClientRect();
 
     const scaleX = canvas.width / rect.width;
@@ -177,7 +241,6 @@ export default function WritingDetailPage() {
     const x = (e.clientX - rect.left) * scaleX;
     const y = (e.clientY - rect.top) * scaleY;
 
-    const ctx = canvas.getContext('2d');
     if (ctx) {
       ctx.beginPath();
       ctx.moveTo(x, y);
@@ -209,6 +272,16 @@ export default function WritingDetailPage() {
 
   const stopDrawing = () => {
     setIsDrawing(false);
+  };
+
+  const undoLastStroke = () => {
+    const canvas = canvasRef.current;
+    if (!canvas || strokeHistoryRef.current.length === 0) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const snapshot = strokeHistoryRef.current.pop()!;
+    ctx.putImageData(snapshot, 0, 0);
+    setStrokes(prev => prev.slice(0, -1));
   };
 
   const clearCanvas = () => {
@@ -248,6 +321,7 @@ export default function WritingDetailPage() {
       setScore(null);
       setScoringMethod('');
       setIsDrawing(false);
+      strokeHistoryRef.current = [];
     }
   };
 
@@ -353,7 +427,9 @@ export default function WritingDetailPage() {
   };
 
   const nextChar = async () => {
-    if (score !== null) {      const currentChar = characters[currentCharIndex];
+    if (score !== null) {
+      setActivePanel(null);
+      const currentChar = characters[currentCharIndex];
       const timeSpent = Math.round((Date.now() - questionStartTime) / 1000);
       const isCorrect = score >= 50;
       const xp = isCorrect ? 10 : 0;
@@ -366,6 +442,8 @@ export default function WritingDetailPage() {
         isCorrect,
         xp,
         timeSpent,
+        english: currentChar.english,
+        vietnamese: currentChar.vietnamese,
       };
       
       // Add to results array
@@ -428,9 +506,21 @@ export default function WritingDetailPage() {
     }
   };
 
+  if (isCompleted) {
+    return (
+      <ResultSummary
+        results={results}
+        mode="writing"
+        topicName={topicName}
+        backPath="/learning-map?refresh=true"
+        continueAction={() => router.push('/writing')}
+      />
+    );
+  }
+
   return (
     <div
-      className="min-h-screen bg-[#fafaf5]"
+      className="w-full min-h-screen bg-[#fafaf5]"
       style={{
         backgroundImage: 'radial-gradient(#d4c3be 0.5px, transparent 0.5px)',
         backgroundSize: '24px 24px',
@@ -438,210 +528,294 @@ export default function WritingDetailPage() {
     >
       <Header />
 
-      {/* Loading Screen */}
       {loading ? (
-        <div className="flex flex-col items-center justify-center min-h-screen gap-4">
+        <div className="flex flex-col items-center justify-center gap-4" style={{ minHeight: 'calc(100vh - 75px)' }}>
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#72564c] border-t-transparent"></div>
           <p className="text-[#504441] font-medium">Đang tải các bài viết...</p>
         </div>
-      ) : isCompleted ? (
-        <ResultSummary
-          results={results}
-          mode="writing"
-          topicName={topicName}
-          backPath="/learning-map?refresh=true"
-          continueAction={() => router.push('/learning-map?refresh=true')}
-        />
       ) : (
-        <>
-          {/* 3-column grid: equal side columns so canvas centers with HANGUL logo */}
-          <div className="grid min-h-screen" style={{ gridTemplateColumns: '360px 1fr 360px' }}>
+        <div className="flex flex-col" style={{ minHeight: 'calc(100vh - 75px)' }}>
 
-          {/* ── LEFT SIDEBAR ─────────────────────────────── */}
-          <aside className="flex flex-col pb-10" style={{ paddingLeft: '25px', paddingTop: '20px' }}>
-            {/* Back Button — 20px below header spacer */}
+          {/* ── TOP BAR: back button + progress (full width, like quiz) ── */}
+          <div style={{ paddingTop: '20px', paddingLeft: '25px', paddingRight: '25px' }}>
             <button
               onClick={() => router.push('/writing')}
-              className="flex items-center gap-2 px-4 py-2 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95 self-start"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[#72564c] hover:text-[#504441] font-semibold transition-all hover:scale-105 active:scale-95"
+              style={{ fontSize: '20px' }}
             >
-              <span className="text-xl">←</span>
+              <span>←</span>
               <span>Quay lại</span>
             </button>
-
-            {/* Current Character Display */}
-            <div className="mt-4 bg-white rounded-xl shadow-[0_40px_100px_rgba(43,22,15,0.08)] p-8 text-left">
-              <p className="text-xs uppercase tracking-widest text-[#72564c]/60 mb-3 font-bold">Nét vẽ hiện tại</p>
-              <p className="text-7xl font-bold text-[#72564c]">{currentChar}</p>
-            </div>
-
-            {/* 50px gap then Stroke Order Guide */}
-            {currentChar && (
-              <div style={{ marginTop: '50px' }}>
-                <StrokeOrderGuide word={currentChar} />
-              </div>
-            )}
-          </aside>
-
-          {/* ── CENTER MAIN ──────────────────────────────── */}
-          <main className="flex flex-col items-center pb-12" style={{ paddingTop: '30px' }}>
-
-          {/* Topic Name — same vertical level as Quay lại button */}
-          {topicName && (
-            <div className="mb-6 text-center">
-              <h2 className="text-4xl font-bold text-[#72564c]">{topicName}</h2>
-            </div>
-          )}
-
-          {/* Canvas Container */}
-          <div
-            ref={canvasContainerRef}
-            className="bg-white rounded-xl shadow-[0_40px_100px_rgba(43,22,15,0.08)] relative overflow-hidden flex items-center justify-center group mb-10 transition-all duration-200"
-            style={{ width: `${canvasWidth}px`, height: '600px' }}
-          >
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-              <span className="text-[18rem] text-[#eeeee9] font-bold opacity-40">{currentChar}</span>
-            </div>
-
-            <canvas
-              ref={canvasRef}
-              onMouseDown={startDrawing}
-              onMouseMove={draw}
-              onMouseUp={stopDrawing}
-              onMouseLeave={stopDrawing}
-              className="absolute inset-0 w-full h-full cursor-crosshair"
-              style={{ 
-                width: '100%', 
-                height: '100%',
-                display: 'block'
-              }}
-            />
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-6 mb-8" style={{ width: '600px' }}>
-            <button
-              onClick={clearCanvas}
-              className="flex-1 bg-[#eeeee9] text-[#72564c] font-bold py-5 rounded-full border-b-4 border-[#d4c3be]/30 hover:bg-[#e8e8e3] transition-colors flex items-center justify-center gap-3"
-            >
-              Hoàn tác
-            </button>
-            <button
-              onClick={score !== null ? nextChar : handleCheckWriting}
-              disabled={isScoring}
-              className="flex-[2] bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white font-black text-lg py-5 rounded-full shadow-[0_15px_30px_rgba(114,86,76,0.25)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100"
-            >
-              {isScoring ? (
-                <><span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full" /> Đang chấm điểm...</>
-              ) : score !== null ? 'Ký tự tiếp theo' : 'Kiểm tra'}
-            </button>
-          </div>
-
-          {/* Brush Size & Color Palette */}
-          <div className="flex gap-6 mb-8" style={{ width: '600px' }}>
-            <div className="flex-1 bg-white rounded-lg p-6 shadow-md">
-              <span className="text-xs uppercase tracking-widest text-[#72564c]/60 block mb-4 font-bold">Kích cỡ bút vẽ</span>
-              <div className="flex items-center justify-between gap-3">
-                <button
-                  onClick={() => setBrushSize(2)}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                    brushSize === 2 ? 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] shadow-lg scale-105' : 'bg-[#eeeee9] border-2 border-[#72564c]/20 hover:translate-x-1'
-                  }`}
-                >
-                  <div className={`rounded-full ${brushSize === 2 ? 'w-2 h-2 bg-white' : 'w-1 h-1 bg-[#72564c]'}`}></div>
-                </button>
-                <button
-                  onClick={() => setBrushSize(3)}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                    brushSize === 3 ? 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] shadow-lg scale-105' : 'bg-[#eeeee9] border-2 border-[#72564c]/20 hover:translate-x-1'
-                  }`}
-                >
-                  <div className={`rounded-full ${brushSize === 3 ? 'w-3 h-3 bg-white' : 'w-2 h-2 bg-[#72564c]'}`}></div>
-                </button>
-                <button
-                  onClick={() => setBrushSize(4)}
-                  className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
-                    brushSize === 4 ? 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] shadow-lg scale-105' : 'bg-[#eeeee9] border-2 border-[#72564c]/20 hover:translate-x-1'
-                  }`}
-                >
-                  <div className={`rounded-full ${brushSize === 4 ? 'w-5 h-5 bg-white' : 'w-3 h-3 bg-[#72564c]'}`}></div>
-                </button>
+          <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-6 pb-4" style={{ paddingTop: '20px' }}>
+            {/* Progress bar — full width, identical to quiz */}
+            <section className="shrink-0 w-full">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-[#72564c] tracking-tight" style={{ fontSize: '20px' }}>
+                  Chủ đề bài học: {topicName || 'Luyện viết'}
+                </span>
+                <span className="font-bold text-[#72564c]/60" style={{ fontSize: '20px' }}>
+                  {currentCharIndex + 1} / {characters.length || 10}
+                </span>
               </div>
-            </div>
-
-            <div className="flex-1 bg-white rounded-lg p-6 shadow-md">
-              <span className="text-xs uppercase tracking-widest text-[#72564c]/60 block mb-4 font-bold">Màu bút vẽ</span>
-              <div className="grid grid-cols-6 gap-3">
-                {colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setBrushColor(color)}
-                    className={`aspect-square rounded-full transition-all ${
-                      brushColor === color ? 'scale-110 shadow-lg border-4 border-white' : 'border-2 border-white/50 hover:scale-105'
-                    }`}
-                    style={{ backgroundColor: color }}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Feedback Modal */}
-          {score !== null && (
-            <>
-              <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40" />
-              <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-                <div className="bg-white rounded-2xl p-8 shadow-2xl border-3 border-[#72564c] w-80 pointer-events-auto">
-                  <div className="text-center mb-6">
-                    <p className="text-xs uppercase font-bold text-[#504441] tracking-wider mb-3">Score</p>
-                    <p className="text-6xl font-black text-[#72564c] mb-4">{score}%</p>
-                    <p className="text-lg font-bold text-[#8d6e63]">{feedback}</p>
-
-                    <div className="mt-6 pt-6 border-t-2 border-[#f0f0f0]">
-                      <p className="text-xs uppercase font-bold text-[#72564c]/60 tracking-wider mb-2">Meaning</p>
-                      <p className="text-md font-semibold text-[#72564c]">
-                        {characters[currentCharIndex]?.english} - {characters[currentCharIndex]?.vietnamese}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-3">
-                    <button
-                      onClick={nextChar}
-                      className="w-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white py-4 rounded-lg font-bold hover:scale-105 active:scale-95 transition-all shadow-lg"
-                    >
-                      Next Character
-                    </button>
-                    <button
-                      onClick={clearCanvas}
-                      className="w-full bg-[#f0e6e0] text-[#72564c] py-3 rounded-lg font-bold hover:bg-[#e8dcd4] active:scale-95 transition-all"
-                    >
-                      ↩ Viết lại
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
-        </main>
-
-          {/* ── RIGHT COLUMN ── Tiến độ aligned with Nét vẽ hiện tại ── */}
-          {/* paddingTop = 20 (aside pt) + ~40 (back btn height) + 16 (mt-4) = ~76px */}
-          <div className="pb-10" style={{ paddingLeft: '32px', paddingTop: '76px', paddingRight: '32px' }}>
-            <div className="w-64 bg-white rounded-lg p-4 shadow-sm">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-xs font-bold text-[#72564c] uppercase">Tiến độ</span>
-                <span className="text-sm font-bold text-[#8d6e63]">{currentCharIndex + 1}/10</span>
-              </div>
-              <div className="w-full bg-[#e8dcd3] rounded-full h-2 overflow-hidden">
+              <div className="w-full h-2 bg-[#eeeee9] rounded-full overflow-hidden">
                 <div
-                  className="bg-gradient-to-r from-[#72564c] to-[#8d6e63] h-2 transition-all duration-300"
-                  style={{ width: `${((currentCharIndex + 1) / 10) * 100}%` }}
+                  className="h-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] rounded-full transition-all duration-500"
+                  style={{ width: `${((currentCharIndex + 1) / (characters.length || 10)) * 100}%` }}
                 />
               </div>
-            </div>
-          </div>
+            </section>
 
-          </div>{/* end grid */}
-        </>
+            {/* ── Nét vẽ hiện tại — below progress bar, centered ── */}
+            <div className="shrink-0 flex flex-col items-center" style={{ marginTop: '20px', marginBottom: '20px' }}>
+              <p className="font-bold text-[#72564c] leading-none text-center" style={{ fontSize: '36px' }}>Luyện nét chữ của bạn cho từ &ldquo;{currentChar}&rdquo;</p>
+              {characters[currentCharIndex] && (
+                <div className="flex items-center gap-4" style={{ marginTop: '20px' }}>
+                  <span className="text-[#504441]/70" style={{ fontSize: '20px' }}>
+                    Phiên âm: <span className="font-bold text-[#72564c]">{characters[currentCharIndex].romanization}</span>
+                  </span>
+                  <span className="text-[#504441]/40">·</span>
+                  <span className="text-[#504441]/70" style={{ fontSize: '20px' }}>
+                    Nghĩa: <span className="font-bold text-[#72564c]">{characters[currentCharIndex].vietnamese}</span>
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* ── CONTENT ROW: canvas centered ── */}
+            <div className="relative flex-1" style={{ minHeight: '600px' }}>
+
+              {/* Click-outside overlay to close panel */}
+              {activePanel && (
+                <div className="fixed inset-0 z-[39]" onClick={() => setActivePanel(null)} />
+              )}
+
+              {/* Overlay panel — removed (now rendered inside toolbar) */}
+
+              {/* Canvas + action buttons row — centered, 90% max width */}
+              <div className="flex flex-col items-center w-full">
+                <div
+                  ref={canvasContainerRef}
+                  className="bg-white rounded-xl shadow-[0_10px_30px_rgba(43,22,15,0.08)] relative overflow-hidden flex items-center justify-center transition-all duration-200"
+                  style={{ width: `${canvasWidth}px`, maxWidth: '90vw', height: '500px', maxHeight: '500px' }}
+                >
+                  <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
+                    <AutoFitText text={currentChar} />
+                  </div>
+                  <canvas
+                    ref={canvasRef}
+                    onMouseDown={startDrawing}
+                    onMouseMove={draw}
+                    onMouseUp={stopDrawing}
+                    onMouseLeave={stopDrawing}
+                    className="absolute inset-0 w-full h-full cursor-crosshair"
+                    style={{ width: '100%', height: '100%', display: 'block' }}
+                  />
+                </div>
+
+                {/* Buttons row: toolbar + Kiểm tra */}
+                <div className="flex items-center gap-4" style={{ marginTop: '35px' }}>
+                  {/* Toolbar — horizontal */}
+                  <div ref={toolbarRef} className="relative flex flex-row gap-1 bg-white rounded-2xl shadow-[0_10px_30px_rgba(43,22,15,0.12)] p-2">
+
+                    {/* Popup panel — absolute, above toolbar, scrolls with page */}
+                    {activePanel && (
+                      <div
+                        className={`absolute z-[50] rounded-2xl ${activePanel === 'guide' ? '' : 'bg-white border border-[#e8dbd4] p-5'}`}
+                        style={{
+                          width: activePanel === 'guide' ? 'auto' : '260px',
+                          bottom: 'calc(100% + 8px)',
+                          left: 0,
+                        }}
+                      >
+                        {activePanel !== 'guide' && (
+                          <div className="mb-4">
+                            <p className="uppercase tracking-widest text-[#72564c]/60 font-bold" style={{ fontSize: '20px' }}>
+                              {activePanel === 'brush' ? 'Kích cỡ bút vẽ' : 'Màu bút vẽ'}
+                            </p>
+                          </div>
+                        )}
+                        {activePanel === 'brush' && (
+                          <div className="flex flex-col gap-2">
+                            {[
+                              { size: 2, label: 'Nhỏ', dot: 'w-2 h-2' },
+                              { size: 3, label: 'Vừa', dot: 'w-3.5 h-3.5' },
+                              { size: 4, label: 'Lớn', dot: 'w-5 h-5' },
+                            ].map(({ size, label, dot }) => (
+                              <button
+                                key={size}
+                                onClick={() => { setBrushSize(size); setActivePanel(null); }}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-semibold ${
+                                  brushSize === size
+                                    ? 'bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white shadow-md'
+                                    : 'bg-[#f5f0ee] text-[#72564c] hover:bg-[#eee6e2]'
+                                }`}
+                                style={{ fontSize: '18px' }}
+                              >
+                                <div className={`rounded-full shrink-0 ${dot} ${brushSize === size ? 'bg-white' : 'bg-[#72564c]'}`} />
+                                {label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                        {activePanel === 'color' && (
+                          <div className="grid grid-cols-3 gap-4">
+                            {colors.map((color) => (
+                              <button
+                                key={color}
+                                onClick={() => { setBrushColor(color); setActivePanel(null); }}
+                                className={`aspect-square rounded-full transition-all ${
+                                  brushColor === color
+                                    ? 'scale-110 shadow-lg ring-4 ring-[#72564c]/30 ring-offset-2'
+                                    : 'hover:scale-105 shadow-md'
+                                }`}
+                                style={{ backgroundColor: color }}
+                              />
+                            ))}
+                          </div>
+                        )}
+                        {activePanel === 'guide' && (
+                          <StrokeOrderGuide word={currentChar} />
+                        )}
+                      </div>
+                    )}
+                    {/* Brush size */}
+                    <button
+                      onClick={() => setActivePanel(activePanel === 'brush' ? null : 'brush')}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all relative ${
+                        activePanel === 'brush'
+                          ? 'bg-gradient-to-br from-[#72564c] to-[#8d6e63] text-white shadow-lg'
+                          : 'text-[#72564c]/60 hover:text-[#72564c] hover:bg-[#f5f0ee]'
+                      }`}
+                      title="Kích cỡ bút vẽ"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                      </svg>
+                      {activePanel !== 'brush' && (
+                        <span
+                          className="absolute bottom-1 right-1 rounded-full border-2 border-white text-white font-black flex items-center justify-center shadow"
+                          style={{ width: '14px', height: '14px', fontSize: '7px', backgroundColor: brushColor }}
+                        >
+                          {brushSize}
+                        </span>
+                      )}
+                    </button>
+
+                    <div className="h-8 w-px bg-[#eeeee9] my-auto" />
+
+                    {/* Color */}
+                    <button
+                      onClick={() => setActivePanel(activePanel === 'color' ? null : 'color')}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all relative ${
+                        activePanel === 'color'
+                          ? 'bg-gradient-to-br from-[#72564c] to-[#8d6e63] text-white shadow-lg'
+                          : 'text-[#72564c]/60 hover:text-[#72564c] hover:bg-[#f5f0ee]'
+                      }`}
+                      title="Màu bút vẽ"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor" />
+                        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor" />
+                        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor" />
+                        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor" />
+                        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
+                      </svg>
+                      {activePanel !== 'color' && (
+                        <div
+                          className="absolute bottom-1.5 right-1.5 w-3 h-3 rounded-full border-2 border-white shadow"
+                          style={{ backgroundColor: brushColor }}
+                        />
+                      )}
+                    </button>
+
+                    {/* Undo / Hoàn tác */}
+                    <button
+                      onClick={undoLastStroke}
+                      className="w-12 h-12 rounded-xl flex items-center justify-center transition-all text-[#72564c]/60 hover:text-[#72564c] hover:bg-[#f5f0ee]"
+                      title="Hoàn tác"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 7v6h6" />
+                        <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13" />
+                      </svg>
+                    </button>
+
+                    <div className="h-8 w-px bg-[#eeeee9] my-auto" />
+
+                    {/* Stroke guide */}
+                    <button
+                      onClick={() => setActivePanel(activePanel === 'guide' ? null : 'guide')}
+                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${
+                        activePanel === 'guide'
+                          ? 'bg-gradient-to-br from-[#72564c] to-[#8d6e63] text-white shadow-lg'
+                          : 'text-[#72564c]/60 hover:text-[#72564c] hover:bg-[#f5f0ee]'
+                      }`}
+                      title="Hướng dẫn nét vẽ"
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={score !== null ? nextChar : handleCheckWriting}
+                    disabled={isScoring}
+                    className="bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white font-black rounded-full shadow-[0_8px_20px_rgba(114,86,76,0.25)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100"
+                    style={{ fontSize: '20px', width: '400px', height: '56px' }}
+                  >
+                    {isScoring ? (
+                      <><span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" /> Đang chấm điểm...</>
+                    ) : score !== null ? 'Ký tự tiếp theo' : 'Kiểm tra'}
+                  </button>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Feedback Modal */}
+            {score !== null && (
+              <>
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40" />
+                <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+                  <div className="bg-white rounded-2xl p-8 shadow-2xl border-[3px] border-[#72564c] w-80 pointer-events-auto">
+                    <div className="text-center mb-6">
+                      <p className="text-xs uppercase font-bold text-[#504441] tracking-wider mb-3">Điểm số</p>
+                      <p className="text-6xl font-black text-[#72564c] mb-4">{score}%</p>
+                      <p className="text-lg font-bold text-[#8d6e63]">{feedback}</p>
+                      <div className="mt-6 pt-6 border-t-2 border-[#f0f0f0]">
+                        <p className="text-xs uppercase font-bold text-[#72564c]/60 tracking-wider mb-3">Nghĩa</p>
+                        <p className="text-sm font-semibold text-[#72564c] mb-1">
+                          Tiếng Anh: {characters[currentCharIndex]?.english}
+                        </p>
+                        <p className="text-sm font-semibold text-[#72564c]">
+                          Tiếng Việt: {characters[currentCharIndex]?.vietnamese}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      <button
+                        onClick={nextChar}
+                        className="w-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white py-4 rounded-lg font-bold hover:scale-105 active:scale-95 transition-all shadow-lg"
+                      >
+                        Ký tự tiếp theo
+                      </button>
+                      <button
+                        onClick={clearCanvas}
+                        className="w-full bg-[#f0e6e0] text-[#72564c] py-3 rounded-lg font-bold hover:bg-[#e8dcd4] active:scale-95 transition-all"
+                      >
+                        ↩ Viết lại
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </main>
+        </div>
       )}
       <Footer />
     </div>

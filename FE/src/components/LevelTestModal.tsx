@@ -117,17 +117,17 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
         <div className="w-full max-w-lg rounded-2xl bg-white border border-[#e8ddd8] p-8 text-[#3d2c26] shadow-2xl">
           <div className="text-center mb-6">
 
-            <h2 className={`text-2xl font-black mb-2 ${result.passed ? 'text-green-600' : 'text-red-500'}`}>
+            <h2 className={`font-black mb-2 ${result.passed ? 'text-green-600' : 'text-red-500'}`} style={{ fontSize: '20px' }}>
               {result.passed ? 'Vượt cấp thành công!' : 'Chưa đạt'}
             </h2>
-            <p className="text-[#8d6e63] text-sm">{result.message}</p>
+            <p className="text-[#8d6e63]" style={{ fontSize: '20px' }}>{result.message}</p>
           </div>
 
           {/* Score bar */}
           <div className="mb-6">
-            <div className="flex justify-between text-sm mb-2">
-              <span className="text-[#8d6e63] font-medium">Kết quả</span>
-              <span className="font-black text-[#72564c]">{result.score} / {result.total}</span>
+            <div className="flex justify-between mb-2">
+              <span className="text-[#8d6e63] font-medium" style={{ fontSize: '20px' }}>Kết quả</span>
+              <span className="font-black text-[#72564c]" style={{ fontSize: '20px' }}>{result.score} / {result.total}</span>
             </div>
             <div className="w-full bg-[#f0e8e4] rounded-full h-3">
               <div
@@ -135,7 +135,7 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
                 style={{ width: `${(result.score / result.total) * 100}%` }}
               />
             </div>
-            <p className="text-xs text-[#a07060] mt-1">Cần ít nhất 7/11 câu đúng để vượt cấp</p>
+            <p className="text-[#a07060] mt-1" style={{ fontSize: '20px' }}>Cần ít nhất 7/11 câu đúng để vượt cấp</p>
           </div>
 
           {/* Per-question breakdown */}
@@ -143,14 +143,14 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
             {result.results.map((r) => {
               const q = questions.find(q => q.id === r.questionId);
               return (
-                <div key={r.questionId} className={`flex items-start gap-2 text-sm px-3 py-2 rounded-lg border ${
+                <div key={r.questionId} className={`flex items-start gap-2 px-3 py-2 rounded-lg border ${
                   r.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
                 }`}>
 
                   <div>
-                    <span className="font-bold text-[#3d2c26]">{q?.korean}</span>
+                    <span className="font-bold text-[#3d2c26]" style={{ fontSize: '20px' }}>{q?.korean}</span>
                     {!r.isCorrect && (
-                      <div className="text-xs text-[#8d6e63] mt-0.5">
+                      <div className="text-[#8d6e63] mt-0.5" style={{ fontSize: '20px' }}>
                         Bạn: <em className="text-red-500">{r.userAnswer || '(bỏ trống)'}</em>
                         &ensp;·&ensp;
                         Đáp án: <em className="text-green-600 font-semibold">{r.correctAnswer}</em>
@@ -163,14 +163,15 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
           </div>
 
           {result.passed && result.newLevel && (
-            <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-center text-sm mb-6">
+            <div className="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-center mb-6" style={{ fontSize: '20px' }}>
               Cấp độ mới: <span className="font-black text-green-700">{LEVEL_LABELS[result.newLevel] ?? result.newLevel}</span>
             </div>
           )}
 
           <button
             onClick={() => onFinish(result.passed, result.newLevel)}
-            className="w-full py-3 rounded-xl bg-[#c0713a] hover:bg-[#a55e2e] text-white font-bold transition shadow-md"
+            className="w-full py-3 rounded-xl bg-[#72564c] hover:bg-[#504441] text-white font-bold transition shadow-md"
+            style={{ fontSize: '20px' }}
           >
             Tiếp tục
           </button>
@@ -185,7 +186,7 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
         <div className="bg-white rounded-2xl px-10 py-8 flex flex-col items-center gap-4 shadow-2xl">
           <div className="w-10 h-10 border-4 border-[#c0713a] border-t-transparent rounded-full animate-spin" />
-          <p className="text-[#72564c] font-semibold">Đang tải câu hỏi...</p>
+          <p className="text-[#72564c] font-semibold" style={{ fontSize: '20px' }}>Đang tải câu hỏi...</p>
         </div>
       </div>
     );
@@ -196,8 +197,8 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
         <div className="w-full max-w-sm rounded-2xl bg-white border border-red-200 p-8 text-center shadow-2xl">
 
-          <p className="text-red-500 font-semibold mb-4">{error}</p>
-          <button onClick={onClose} className="px-6 py-2 rounded-xl border-2 border-[#e8ddd8] text-[#8d6e63] hover:bg-[#faf6f3] transition font-semibold">
+          <p className="text-red-500 font-semibold mb-4" style={{ fontSize: '20px' }}>{error}</p>
+          <button onClick={onClose} className="px-6 py-2 rounded-xl border-2 border-[#e8ddd8] text-[#8d6e63] hover:bg-[#faf6f3] transition font-semibold" style={{ fontSize: '20px' }}>
             Đóng
           </button>
         </div>
@@ -211,8 +212,8 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-[#e8ddd8] shadow-sm shrink-0">
         <div>
-          <h1 className="text-lg font-black text-[#72564c]">Bài kiểm tra vượt cấp</h1>
-          <p className="text-xs text-[#8d6e63]">
+          <h1 className="font-black text-[#72564c]" style={{ fontSize: '20px' }}>Bài kiểm tra vượt cấp</h1>
+          <p className="text-[#8d6e63]" style={{ fontSize: '20px' }}>
             Mục tiêu: <span className="font-bold text-[#c0713a]">{LEVEL_LABELS[targetLevel]}</span>
             &ensp;·&ensp;
             <span className="font-semibold">{questions.filter(q => (answers[q.id] ?? '').trim()).length}</span>
@@ -246,10 +247,11 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
           <button
             disabled={!allAnswered || submitting}
             onClick={handleSubmit}
-            className={`w-full py-3.5 rounded-xl font-black text-base transition shadow-md
+            className={`w-full py-3.5 rounded-xl font-black transition shadow-md
               ${allAnswered && !submitting
-                ? 'bg-[#c0713a] hover:bg-[#a55e2e] text-white'
+                ? 'bg-[#72564c] hover:bg-[#504441] text-white'
                 : 'bg-[#f0e8e4] text-[#c4a99e] cursor-not-allowed'}`}
+            style={{ fontSize: '20px' }}
           >
             {submitting ? (
               <span className="flex items-center justify-center gap-2">
@@ -259,7 +261,7 @@ export default function LevelTestModal({ targetLevel, onFinish, onClose }: Props
             ) : 'Nộp bài'}
           </button>
           {!allAnswered && (
-            <p className="text-center text-xs text-[#a07060] mt-2">
+            <p className="text-center text-[#a07060] mt-2" style={{ fontSize: '20px' }}>
               Vui lòng trả lời tất cả {questions.length} câu hỏi
             </p>
           )}
@@ -317,7 +319,7 @@ function ArrangementCard({
       `}</style>
 
       {/* Sentence prompt */}
-      <p className="text-sm font-semibold text-[#3d2c26] leading-relaxed text-center py-1 whitespace-pre-line">
+      <p className="text-[#8d6e63] font-semibold leading-relaxed text-center py-1 whitespace-pre-line" style={{ fontSize: '20px' }}>
         {prompt}
       </p>
 
@@ -340,7 +342,7 @@ function ArrangementCard({
               </button>
             </span>
           ) : (
-            <span className="text-[#c4a99e] text-base tracking-[0.3em] select-none">_ _ _</span>
+            <span className="text-[#c4a99e] tracking-[0.3em] select-none" style={{ fontSize: '20px' }}>_ _ _</span>
           )}
         </div>
       </div>
@@ -355,12 +357,12 @@ function ArrangementCard({
               key={opt}
               onClick={() => handleChipClick(opt)}
               disabled={isSelected}
-              className={`px-5 py-2.5 rounded-xl text-lg font-black border-2 transition-all
+              className={`px-5 py-2.5 rounded-xl font-black border-2 transition-all
                 ${isSelected
                   ? 'opacity-0 pointer-events-none'
                   : 'border-[#e8ddd8] bg-white text-[#3d2c26] shadow-sm hover:border-[#c0713a]/50 hover:bg-[#fff8f4] hover:shadow active:scale-95'
                 }`}
-              style={isLaunching ? { animation: 'chipLaunch 0.32s ease-out forwards' } : undefined}
+              style={{ ...(isLaunching ? { animation: 'chipLaunch 0.32s ease-out forwards' } : {}), fontSize: '20px' }}
             >
               {opt}
             </button>
@@ -571,7 +573,7 @@ function PronunciationCard({
   }[stage];
 
   const micColor = {
-    idle:       'bg-[#c0713a] hover:bg-[#a55e2e]',
+    idle:       'bg-[#72564c] hover:bg-[#504441]',
     recording:  'bg-red-500 hover:bg-red-600 animate-pulse',
     processing: 'bg-gray-400 cursor-not-allowed',
     correct:    exhausted ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600',
@@ -580,14 +582,14 @@ function PronunciationCard({
 
   return (
     <>
-      <p className="text-xs text-[#8d6e63] font-medium mb-1">Đọc to từ tiếng Hàn sau:</p>
-      <p className="text-4xl font-black text-center py-4 text-[#3d2c26] tracking-wider">
+      <p className="text-[#8d6e63] font-medium mb-1" style={{ fontSize: '20px' }}>Đọc to từ tiếng Hàn sau:</p>
+      <p className="font-black text-center py-4 text-[#3d2c26] tracking-wider" style={{ fontSize: '20px' }}>
         {question.korean}
       </p>
       {question.romanization && (
-        <p className="text-center text-sm text-[#a07060] mb-1">[{question.romanization}]</p>
+        <p className="text-center text-[#a07060] mb-1" style={{ fontSize: '20px' }}>[{question.romanization}]</p>
       )}
-      <p className="text-center text-xs text-[#b09088] mb-3">({question.english})</p>
+      <p className="text-center text-[#b09088] mb-3" style={{ fontSize: '20px' }}>({question.english})</p>
 
       {/* Live waveform */}
       <div className="flex items-end justify-center gap-[2px] h-12 my-3 px-2">
@@ -608,6 +610,7 @@ function PronunciationCard({
           onClick={handleMicClick}
           disabled={stage === 'processing' || exhausted}
           className={`flex items-center gap-2 px-8 py-3 rounded-full font-bold text-white transition shadow-md ${micColor}`}
+          style={{ fontSize: '20px' }}
         >
           {micLabel}
         </button>
@@ -615,7 +618,7 @@ function PronunciationCard({
 
       {/* Attempts indicator */}
       {stage !== 'idle' && stage !== 'recording' && (
-        <p className="text-center text-xs text-[#a07060] mt-1">
+        <p className="text-center text-[#a07060] mt-1" style={{ fontSize: '20px' }}>
           {exhausted ? 'Đã dùng hết 3 lần ghi âm' : `Còn ${attemptsLeft}/${MAX_ATTEMPTS} lần ghi âm`}
         </p>
       )}
@@ -623,21 +626,21 @@ function PronunciationCard({
       {/* Result feedback */}
       {stage === 'correct' && (
         <div className="mt-3 flex items-center justify-center gap-2 py-2 px-4 bg-green-50 border border-green-200 rounded-xl">
-          <span className="text-green-600 font-black text-lg">+</span>
-          <span className="text-green-700 text-sm font-semibold">Phát âm xác nhận!</span>
-          {transcript && <span className="text-green-500 text-xs ml-1">"{transcript}"</span>}
+          <span className="text-green-600 font-black" style={{ fontSize: '20px' }}>+</span>
+          <span className="text-green-700 font-semibold" style={{ fontSize: '20px' }}>Phát âm xác nhận!</span>
+          {transcript && <span className="text-green-500 ml-1" style={{ fontSize: '20px' }}>"{transcript}"</span>}
         </div>
       )}
       {stage === 'wrong' && (
         <div className="mt-3 py-2 px-4 bg-orange-50 border border-orange-200 rounded-xl text-center">
-          <p className="text-orange-700 text-sm font-semibold">Hệ thống nghe được: <em className="not-italic font-bold">{transcript}</em></p>
-          <p className="text-orange-500 text-xs mt-0.5">Nhấn "Thử lại" để ghi âm lại</p>
+          <p className="text-orange-700 font-semibold" style={{ fontSize: '20px' }}>Hệ thống nghe được: <em className="not-italic font-bold">{transcript}</em></p>
+          <p className="text-orange-500 mt-0.5" style={{ fontSize: '20px' }}>Nhấn &ldquo;Thử lại&rdquo; để ghi âm lại</p>
         </div>
       )}
       {stage === 'processing' && (
         <div className="mt-3 flex items-center justify-center gap-2">
           <div className="w-4 h-4 border-2 border-[#c0713a] border-t-transparent rounded-full animate-spin" />
-          <span className="text-xs text-[#8d6e63]">Đang nhận dạng giọng nói...</span>
+          <span className="text-[#8d6e63]" style={{ fontSize: '20px' }}>Đang nhận dạng giọng nói...</span>
         </div>
       )}
 
@@ -645,7 +648,8 @@ function PronunciationCard({
       {(stage === 'wrong') && (
         <button
           onClick={() => { onChange(question.romanization ?? question.korean); setStage('correct'); }}
-          className="mt-2 w-full py-2 rounded-xl border border-[#e8ddd8] text-xs text-[#a07060] hover:bg-[#faf8f6] transition"
+          className="mt-2 w-full py-2 rounded-xl border border-[#e8ddd8] text-[#a07060] hover:bg-[#faf8f6] transition"
+          style={{ fontSize: '20px' }}
         >
           Chấp nhận thủ công (bỏ qua đánh giá)
         </button>
@@ -669,21 +673,22 @@ function QuestionCard({
     }`}>
       {/* Badge row */}
       <div className="flex items-center gap-2 mb-3 flex-wrap">
-        <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#f0e8e4] text-[#8d6e63] font-semibold">
+        <span className="px-2.5 py-0.5 rounded-full bg-[#f0e8e4] text-[#8d6e63] font-semibold" style={{ fontSize: '20px' }}>
           Câu {index}
         </span>
-        <span className={`text-xs px-2.5 py-0.5 rounded-full font-semibold
-          ${question.type === 'quiz' ? 'bg-blue-100 text-blue-700' :
+        <span className={`px-2.5 py-0.5 rounded-full font-semibold
+          ${ question.type === 'quiz' ? 'bg-blue-100 text-blue-700' :
             question.type === 'writing' ? 'bg-purple-100 text-purple-700' :
             question.type === 'arrangement' ? 'bg-amber-100 text-amber-700' :
-            'bg-green-100 text-green-700'}`}>
+            'bg-green-100 text-green-700'}`}
+          style={{ fontSize: '20px' }}>
           {question.type === 'quiz' ? 'Trắc nghiệm'
             : question.type === 'writing' ? 'Viết'
             : question.type === 'arrangement' ? 'Sắp xếp'
             : 'Phát âm'}
         </span>
         {question.isTargetLevel && (
-          <span className="text-xs px-2.5 py-0.5 rounded-full bg-[#fff1e6] text-[#c0713a] font-semibold border border-[#c0713a]/30">
+          <span className="px-2.5 py-0.5 rounded-full bg-[#fff1e6] text-[#c0713a] font-semibold border border-[#c0713a]/30" style={{ fontSize: '20px' }}>
             Cấp mục tiêu
           </span>
         )}
@@ -692,20 +697,21 @@ function QuestionCard({
       {/* Prompt */}
       {question.type === 'quiz' ? (
         <>
-          <p className="text-xs text-[#8d6e63] font-medium mb-1">Nghĩa tiếng Việt của từ:</p>
-          <p className="text-4xl font-black text-center py-4 text-[#3d2c26] tracking-wider">{question.korean}</p>
+          <p className="text-[#8d6e63] font-medium mb-1" style={{ fontSize: '20px' }}>Nghĩa tiếng Việt của từ:</p>
+          <p className="font-black text-center py-4 text-[#3d2c26] tracking-wider" style={{ fontSize: '20px' }}>{question.korean}</p>
           {question.romanization && (
-            <p className="text-center text-xs text-[#a07060] mb-3">{question.romanization}</p>
+            <p className="text-center text-[#a07060] mb-3" style={{ fontSize: '20px' }}>{question.romanization}</p>
           )}
           <div className="grid grid-cols-2 gap-2 mt-2">
             {(question.options ?? []).map(opt => (
               <button
                 key={opt}
                 onClick={() => onChange(opt)}
-                className={`py-2.5 px-3 rounded-xl text-sm border-2 transition font-medium text-left
+                className={`py-2.5 px-3 rounded-xl border-2 transition font-medium text-left
                   ${answer === opt
                     ? 'border-[#c0713a] bg-[#fff1e6] text-[#72564c] font-bold'
                     : 'border-[#e8ddd8] bg-[#faf8f6] text-[#504441] hover:border-[#c0713a]/50 hover:bg-[#fff8f4]'}`}
+                style={{ fontSize: '20px' }}
               >
                 {opt}
               </button>
@@ -714,10 +720,10 @@ function QuestionCard({
         </>
       ) : question.type === 'writing' ? (
         <>
-          <p className="text-xs text-[#8d6e63] font-medium mb-1">Nghĩa tiếng Việt của từ tiếng Hàn sau là gì?</p>
-          <p className="text-4xl font-black text-center py-4 text-[#3d2c26] tracking-wider">{question.korean}</p>
+          <p className="text-[#8d6e63] font-medium mb-1" style={{ fontSize: '20px' }}>Nghĩa tiếng Việt của từ tiếng Hàn sau là gì?</p>
+          <p className="font-black text-center py-4 text-[#3d2c26] tracking-wider" style={{ fontSize: '20px' }}>{question.korean}</p>
           {question.romanization && (
-            <p className="text-center text-xs text-[#a07060] mb-3">[{question.romanization}]</p>
+            <p className="text-center text-[#a07060] mb-3" style={{ fontSize: '20px' }}>[{question.romanization}]</p>
           )}
           <input
             type="text"
@@ -725,6 +731,7 @@ function QuestionCard({
             onChange={e => onChange(e.target.value)}
             placeholder="Nhập nghĩa tiếng Việt..."
             className="w-full bg-[#faf8f6] border-2 border-[#e8ddd8] rounded-xl px-4 py-2.5 text-[#3d2c26] placeholder-[#c4a99e] focus:outline-none focus:border-[#c0713a] transition"
+            style={{ fontSize: '20px' }}
           />
         </>
       ) : question.type === 'arrangement' ? (

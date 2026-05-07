@@ -65,6 +65,7 @@ userRouter.get('/profile', async (req: any, res: any) => {
       where: { id: userId },
       select: {
         id: true,
+        publicId: true,
         email: true,
         name: true,
         avatar: true,
@@ -75,6 +76,7 @@ userRouter.get('/profile', async (req: any, res: any) => {
         totalTrophy: true,
         currentStreak: true,
         lastCheckinDate: true,
+        provider: true,
       },
     });
 
@@ -92,6 +94,38 @@ userRouter.get('/profile', async (req: any, res: any) => {
   } catch (error) {
     console.error(' USER PROFILE ERROR:', error);
     res.status(500).json({ error: 'Failed to load user profile' });
+  }
+});
+
+// ========================
+// UPDATE USER PROFILE (name, email)
+// ========================
+userRouter.put('/profile', async (req: any, res: any) => {
+  try {
+    const userId = req.user.id;
+    const { name, email } = req.body;
+
+    if (!name && !email) {
+      return res.status(400).json({ error: 'At least one field (name or email) is required' });
+    }
+
+    const data: any = {};
+    if (name) data.name = name.trim();
+    if (email) data.email = email.trim();
+
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data,
+      select: { id: true, name: true, email: true },
+    });
+
+    res.json({ message: 'Profile updated successfully', name: user.name, email: user.email });
+  } catch (error: any) {
+    if (error.code === 'P2002') {
+      return res.status(409).json({ error: 'Email đã được sử dụng bởi tài khoản khác.' });
+    }
+    console.error('UPDATE PROFILE ERROR:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
   }
 });
 

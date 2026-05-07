@@ -11,10 +11,10 @@ import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 
 const NAV_ITEMS = [
-  { href: '/admin/dashboard',  icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/admin/vocabulary', icon: BookOpen,        label: 'Vocabulary' },
-  { href: '/admin/users',      icon: Users,           label: 'Users' },
-  { href: '/admin/tournament', icon: Trophy,          label: 'Tournament' },
+  { href: '/admin/dashboard',  icon: LayoutDashboard, label: 'Bảng điều khiển' },
+  { href: '/admin/vocabulary', icon: BookOpen,        label: 'Từ vựng' },
+  { href: '/admin/users',      icon: Users,           label: 'Người dùng' },
+  { href: '/admin/tournament', icon: Trophy,          label: 'Giải đấu' },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -80,11 +80,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={href}
                 className={`flex items-center ${
                   sidebarOpen ? 'gap-3 px-3' : 'justify-center px-2'
-                } py-2.5 rounded-lg transition-all text-sm font-medium ${
+                } py-2.5 rounded-lg transition-all font-medium ${
                   active
                     ? 'bg-[#72564c] text-white'
                     : 'text-[#a09080] hover:bg-white/10 hover:text-[#fafaf5]'
                 }`}
+                style={{ fontSize: '20px' }}
               >
                 <Icon size={18} className="flex-shrink-0" />
                 {sidebarOpen && <span>{label}</span>}
@@ -99,7 +100,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             onClick={handleLogout}
             className={`w-full flex items-center ${
               sidebarOpen ? 'gap-3 px-3' : 'justify-center px-2'
-            } py-2.5 rounded-lg hover:bg-white/10 transition text-sm text-[#a09080] hover:text-[#fafaf5]`}
+            } py-2.5 rounded-lg hover:bg-white/10 transition text-[#a09080] hover:text-[#fafaf5]`}
+            style={{ fontSize: '20px' }}
           >
             <LogOut size={18} className="flex-shrink-0" />
             {sidebarOpen && <span>Đăng xuất</span>}
@@ -113,8 +115,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <header className="h-14 bg-[#fafaf5] border-b border-[#e8dcd4] px-6 flex items-center justify-end flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="text-right">
-              <p className="text-sm font-semibold text-[#1a1c19]">{user?.name}</p>
-              <p className="text-[11px] uppercase tracking-widest text-[#8d6e63] font-bold">Admin</p>
+              <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '20px' }}>{user?.name}</p>
+              <p className="uppercase tracking-widest text-[#8d6e63] font-bold" style={{ fontSize: '20px' }}>Admin</p>
             </div>
             <div className="w-9 h-9 rounded-full bg-[#72564c] flex items-center justify-center text-white font-bold text-sm">
               {user?.name?.[0]?.toUpperCase() || 'A'}

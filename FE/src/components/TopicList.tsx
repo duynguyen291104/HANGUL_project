@@ -6,6 +6,33 @@ import { useAuthStore } from '@/store/authStore';
 import Header from '@/components/Header';
 import TopicCard from '@/components/TopicCard';
 
+// Map topic slug → image URL. Add entries here as you assign images to topics.
+const TOPIC_IMAGES: Record<string, string> = {
+  'cho-hi-c-bn': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777342433/Screenshot_from_2026-04-28_09-13-20_mf4vxm.png',
+  '-ni-tht': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777342920/Screenshot_from_2026-04-28_09-21-39_dsnj7f.png',
+  'thng': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777343054/Screenshot_from_2026-04-28_09-23-59_qszm1o.png',
+  's-m': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777356835/numbers_zco29i.png',
+  'ngh-nghip': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777343455/Screenshot_from_2026-04-28_09-30-44_vzcizh.png',
+  'cc-phng-trong-nh': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777343754/Screenshot_from_2026-04-28_09-35-44_w3rrda.png',
+  'ng-vt': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777344849/Screenshot_from_2026-04-28_09-53-59_jlbyoa.png',
+  'cc-b-phn-c-th': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777345020/Screenshot_from_2026-04-28_09-56-47_mejdgx.png',
+  'qun-o': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777345185/Screenshot_from_2026-04-28_09-59-26_cpdcgl.png',
+  'mu-sc': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777345272/Screenshot_from_2026-04-28_10-01-01_jkglic.png',
+  'th-trong-tun': 'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777357034/Screenshot_from_2026-04-28_13-16-53_shuwdm.png',
+};
+
+// Topics with multiple images (displayed side by side)
+const TOPIC_IMAGES_MULTI: Record<string, string[]> = {
+  'ng-t-c-bn': [
+    'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777343975/Screenshot_from_2026-04-28_09-39-23_kfq34s.png',
+    'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777344539/Screenshot_from_2026-04-28_09-48-19_uimgpn.png',
+  ],
+  'tnh-t-c-bn': [
+    'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777343975/Screenshot_from_2026-04-28_09-39-23_kfq34s.png',
+    'https://res.cloudinary.com/dds5jlp7e/image/upload/v1777344638/Screenshot_from_2026-04-28_09-50-20_keie21.png',
+  ],
+};
+
 interface Topic {
   id: number;
   name: string;
@@ -171,9 +198,9 @@ export default function TopicList({ mode }: TopicListProps) {
         <h1 className="text-4xl md:text-5xl font-extrabold font-headline text-on-background leading-tight tracking-tight">
           {modeInfo.title}
         </h1>
-        <p className="text-on-surface-variant font-medium font-body mt-[20px]">{modeInfo.subtitle}</p>
+        <p className="text-on-surface-variant font-medium font-body mt-[20px]" style={{ fontSize: '20px' }}>{modeInfo.subtitle}</p>
         {mounted && (
-          <div className="inline-block text-on-surface-variant font-semibold text-sm mt-4 font-headline">
+          <div className="inline-block text-on-surface-variant font-semibold mt-4 font-headline" style={{ fontSize: '20px' }}>
             Cấp độ: {user?.level || 'N/A'}
           </div>
         )}
@@ -202,25 +229,42 @@ export default function TopicList({ mode }: TopicListProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {topics.map((topic) => (
-              <TopicCard
+            {topics.map((topic, index) => (
+              <div
                 key={topic.id}
-                id={topic.id}
-                name={topic.name}
-                description={topic.description}
-                level={topic.level}
-                order={topic.order}
-                mode={mode === 'speak' ? 'pronunciation' : mode}
-                completedQuestions={progressData[topic.id]?.completed || 0}
-                totalQuestions={progressData[topic.id]?.total || 0}
-                done={progressData[topic.id]?.done || false} // NEW: Pass done status
-                score={progressData[topic.id]?.score}
-                onClick={() => handleStartTopic(topic.slug)}
-              />
+                style={{
+                  opacity: 0,
+                  animation: 'cardFadeUp 0.45s ease forwards',
+                  animationDelay: `${index * 80}ms`,
+                }}
+              >
+                <TopicCard
+                  id={topic.id}
+                  name={topic.name}
+                  description={topic.description}
+                  level={topic.level}
+                  order={topic.order}
+                  mode={mode === 'speak' ? 'pronunciation' : mode}
+                  completedQuestions={progressData[topic.id]?.completed || 0}
+                  totalQuestions={progressData[topic.id]?.total || 0}
+                  done={progressData[topic.id]?.done || false}
+                  score={progressData[topic.id]?.score}
+                  image={TOPIC_IMAGES[topic.slug]}
+                  images={TOPIC_IMAGES_MULTI[topic.slug]}
+                  onClick={() => handleStartTopic(topic.slug)}
+                />
+              </div>
             ))}
           </div>
         )}
       </div>
+
+      <style>{`
+        @keyframes cardFadeUp {
+          from { opacity: 0; transform: translateY(32px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }

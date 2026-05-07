@@ -18,6 +18,70 @@ const LEVEL_LABELS: Record<string, string> = {
   ADVANCED:     'ADVANCED',
 };
 
+const DESCRIPTION_VI: Record<string, string> = {
+  'Architecture': 'Kiến trúc',
+  'Art history': 'Lịch sử nghệ thuật',
+  'Art': 'Nghệ thuật',
+  'Astronomy': 'Thiên văn học',
+  'Basic adjectives': 'Tính từ cơ bản',
+  'Basic colors': 'Màu sắc cơ bản',
+  'Basic greetings and polite phrases': 'Chào hỏi và lịch sự cơ bản',
+  'Basic verbs': 'Động từ cơ bản',
+  'Body parts': 'Bộ phận cơ thể',
+  'Business and commerce': 'Kinh doanh và thương mại',
+  'Career and employment': 'Nghề nghiệp và việc làm',
+  'Classical music': 'Nhạc cổ điển',
+  'Clothing items': 'Trang phục',
+  'Common animals': 'Động vật phổ biến',
+  'Common professions': 'Nghề nghiệp phổ biến',
+  'Communication': 'Giao tiếp',
+  'Comparative religion': 'Tôn giáo so sánh',
+  'Cooking': 'Nấu ăn',
+  'Days of the week': 'Các ngày trong tuần',
+  'Directions': 'Phương hướng',
+  'Economics': 'Kinh tế học',
+  'Education and learning': 'Giáo dục và học tập',
+  'Emotions and feelings': 'Cảm xúc',
+  'Entertainment': 'Giải trí',
+  'Environment and ecology': 'Môi trường và sinh thái',
+  'Family members': 'Thành viên gia đình',
+  'Food and drinks': 'Đồ ăn và thức uống',
+  'Food culture': 'Văn hóa ẩm thực',
+  'Furniture': 'Đồ nội thất',
+  'Geography': 'Địa lý',
+  'Health and medicine': 'Sức khỏe và y học',
+  'History': 'Lịch sử',
+  'Hobbies and interests': 'Sở thích',
+  'Law and legal system': 'Luật pháp và hệ thống pháp luật',
+  'Linguistics': 'Ngôn ngữ học',
+  'Literature and writing': 'Văn học và viết lách',
+  'Molecular biology': 'Sinh học phân tử',
+  'Months of the year': 'Các tháng trong năm',
+  'Music': 'Âm nhạc',
+  'Neuroscience': 'Khoa học thần kinh',
+  'Numbers 1-10': 'Số đếm 1-10',
+  'Philosophy and abstract concepts': 'Triết học và khái niệm trừu tượng',
+  'Political theory': 'Lý thuyết chính trị',
+  'Politics and government': 'Chính trị và chính phủ',
+  'Professional sports': 'Thể thao chuyên nghiệp',
+  'Psychology': 'Tâm lý học',
+  'Quantum physics': 'Vật lý lượng tử',
+  'Relationships': 'Các mối quan hệ',
+  'Restaurant vocabulary': 'Từ vựng nhà hàng',
+  'Rooms in a house': 'Các phòng trong nhà',
+  'School subjects': 'Môn học',
+  'Shopping and commerce': 'Mua sắm và thương mại',
+  'Shopping items': 'Đồ mua sắm',
+  'Social issues': 'Các vấn đề xã hội',
+  'Sports and games': 'Thể thao và trò chơi',
+  'Technology and computing': 'Công nghệ và máy tính',
+  'Theology': 'Thần học',
+  'Time expressions': 'Cách diễn đạt thời gian',
+  'Transportation': 'Phương tiện giao thông',
+  'Travel and tourism': 'Du lịch',
+  'Weather and seasons': 'Thời tiết và mùa',
+};
+
 interface SkillProgress {
   done: boolean;
   correct?: number; // NEW: Add correct count
@@ -65,6 +129,12 @@ export default function LearningMapPage() {
   const [data, setData] = useState<LearningPathData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // Animation states
+  const [animatedXP, setAnimatedXP] = useState(0);
+  const [animatedTrophy, setAnimatedTrophy] = useState(0);
+  const [animatedProgress, setAnimatedProgress] = useState(0);
+  const [cardsVisible, setCardsVisible] = useState(false);
   
   // Track if we've already cleared storage to prevent infinite loop
   const hasCleared = useRef(false);
@@ -142,6 +212,31 @@ export default function LearningMapPage() {
         if (isRefresh) {
           window.history.replaceState({}, '', '/learning-map');
         }
+
+        // Trigger animations after data loads
+        setTimeout(() => {
+          setAnimatedProgress(learningPath.progressPercentage ?? 0);
+          setCardsVisible(true);
+          // Count-up XP
+          const xpTarget = learningPath.xp ?? 0;
+          const trophyTarget = learningPath.trophy ?? 0;
+          const duration = 1500;
+          const steps = 60;
+          const interval = duration / steps;
+          let step = 0;
+          const timer = setInterval(() => {
+            step++;
+            const progress = step / steps;
+            const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+            setAnimatedXP(Math.round(xpTarget * eased));
+            setAnimatedTrophy(Math.round(trophyTarget * eased));
+            if (step >= steps) {
+              clearInterval(timer);
+              setAnimatedXP(xpTarget);
+              setAnimatedTrophy(trophyTarget);
+            }
+          }, interval);
+        }, 100);
       } catch (error: any) {
         console.error('❌ Error fetching learning path:', error);
         
@@ -271,7 +366,7 @@ export default function LearningMapPage() {
         <div className="flex items-center justify-center h-screen">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#72564c] mx-auto mb-4"></div>
-            <p className="text-[#504441]">Loading your learning path...</p>
+            <p className="text-[#504441]">Đang tải lộ trình học tập...</p>
           </div>
         </div>
       </div>
@@ -306,19 +401,19 @@ export default function LearningMapPage() {
           <h1 className="text-5xl font-extrabold text-[#1a1c19] tracking-tight mb-0">
             Lộ Trình Học Tập
           </h1>
-          <p className="text-[#504441] mt-[20px]">
-            {LEVEL_LABELS[data.level] ?? data.level} •  {data.completedSkills}/{data.totalSkills} kỹ náng hoàn thành
+          <p className="text-[#504441] mt-[20px]" style={{ fontSize: '20px' }}>
+            {LEVEL_LABELS[data.level] ?? data.level} •  {data.completedSkills}/{data.totalSkills} kỹ năng hoàn thành
           </p>
           
           {/* XP & Trophy Stats */}
           <div className="grid grid-cols-2 gap-8 max-w-xs mt-4 p-6 border border-[#e8e8e3] rounded-[25px]">
             <div className="text-center">
-              <p className="text-sm font-semibold text-[#72564c] mb-2">XP</p>
-              <p className="text-3xl font-black text-[#72564c]">{data.xp}</p>
+              <p className="font-semibold text-[#72564c] mb-2" style={{ fontSize: '20px' }}>XP</p>
+              <p className="font-black text-[#72564c]" style={{ fontSize: '20px' }}>{animatedXP}</p>
             </div>
             <div className="text-center">
-              <p className="text-sm font-semibold text-[#72564c] mb-2">Trophy</p>
-              <p className="text-3xl font-black text-[#72564c]">{data.trophy}</p>
+              <p className="font-semibold text-[#72564c] mb-2" style={{ fontSize: '20px' }}>Trophy</p>
+              <p className="font-black text-[#72564c]" style={{ fontSize: '20px' }}>{animatedTrophy}</p>
             </div>
           </div>
         </div>
@@ -329,26 +424,35 @@ export default function LearningMapPage() {
           <div className="my-12">
             <div className="w-full h-4 bg-[#e8e8e3] rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] transition-all duration-300"
-                style={{ width: `${data.progressPercentage}%` }}
+                className="h-full bg-gradient-to-r from-[#72564c] to-[#8d6e63] rounded-full"
+                style={{
+                  width: `${animatedProgress}%`,
+                  transition: 'width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                }}
               />
             </div>
-            <p className="text-sm text-[#504441] mt-2">
+            <p className="text-[#504441] mt-2" style={{ fontSize: '20px' }}>
               {data.progressPercentage}% hoàn thành
             </p>
           </div>
 
           {/* Topics */}
           <div className="space-y-6 my-12">
-          {data.topics.map((topic) => (
+          {data.topics.map((topic, index) => (
             <div
               key={topic.id}
               className="bg-white p-6 rounded-lg border border-[#e8e8e3] hover:shadow-md transition-shadow"
+              style={{
+                opacity: cardsVisible ? 1 : 0,
+                transform: cardsVisible ? 'translateY(0)' : 'translateY(28px)',
+                transition: `opacity 0.45s ease, transform 0.45s ease`,
+                transitionDelay: cardsVisible ? `${index * 80}ms` : '0ms',
+              }}
             >
-              <h3 className="text-xl font-bold text-[#72564c] mb-2">
+              <h3 className="font-bold text-[#72564c] mb-2" style={{ fontSize: '20px' }}>
                 {topic.name}
               </h3>
-              <p className="text-[#504441] text-sm mb-4">{topic.description}</p>
+
 
               {/* Skills Row */}
               <div className="flex gap-4 flex-wrap">
@@ -364,16 +468,16 @@ export default function LearningMapPage() {
                   >
                     <div className="flex items-center justify-center gap-1">
                       {topic.quiz.done && <Check size={16} />}
-                      <span>Quiz</span>
+                      <span style={{ fontSize: '20px' }}>Trắc nghiệm</span>
                       <span className="text-sm">{expandedSkill === `${topic.id}-QUIZ` ? '▼' : '▶'}</span>
                     </div>
                     {/* Show correct/total format NEW */}
                     {topic.quiz.total && topic.quiz.total > 0 ? (
-                      <div className="text-xs mt-1">
+                      <div className="mt-1" style={{ fontSize: '20px' }}>
                         {topic.quiz.correct || 0}/{topic.quiz.total}
                       </div>
                     ) : (
-                      <div className="text-xs mt-1 text-[#504441]">tiến độ: chưa làm</div>
+                      <div className="mt-1 text-[#504441]" style={{ fontSize: '20px' }}>tiến độ: chưa làm</div>
                     )}
                   </button>
 
@@ -381,19 +485,19 @@ export default function LearningMapPage() {
                   {expandedSkill === `${topic.id}-QUIZ` && (
                     <div className="mt-2 bg-white border border-[#e8e8e3] rounded-lg p-4 space-y-3 max-h-80 overflow-y-auto">
                       {loadingHistory ? (
-                        <p className="text-[#504441] text-sm">Loading...</p>
+                        <p className="text-[#504441]" style={{ fontSize: '20px' }}>Đang tải...</p>
                       ) : history[`${topic.id}-QUIZ`]?.length > 0 ? (
                         history[`${topic.id}-QUIZ`].map((item: LearningHistoryItem) => (
-                          <div key={item.id} className="pb-3 border-b border-[#e8e8e3] last:border-0">
-                            <p className="text-sm font-semibold text-[#72564c]">{item.questionText}</p>
-                            <p className="text-xs text-[#504441] mt-1">
+                          <div key={item.id} className="pb-3">
+                            <p className="font-semibold text-[#72564c]" style={{ fontSize: '18px' }}>{item.questionText}</p>
+                            <p className="text-[#504441] mt-1" style={{ fontSize: '18px' }}>
                               <span className={item.isCorrect ? 'text-green-600' : 'text-red-600'}>
-                                Your answer: {item.selectedAnswer} {item.isCorrect ? '(Đúng)' : '(Sai)'}
+                                Câu trả lời của bạn: {item.selectedAnswer} {item.isCorrect ? '(Đúng)' : '(Sai)'}
                               </span>
                             </p>
                             {!item.isCorrect && (
-                              <p className="text-xs text-[#504441] mt-1">
-                                <span className="text-green-600">Correct: {item.correctAnswer}</span>
+                              <p className="text-[#504441] mt-1" style={{ fontSize: '18px' }}>
+                                <span className="text-green-600">Đáp án đúng: {item.correctAnswer}</span>
                               </p>
                             )}
                             {/* Save Vocabulary Button */}
@@ -404,22 +508,24 @@ export default function LearningMapPage() {
                                 <button
                                   onClick={() => handleSaveVocabulary(item, 'QUIZ', item.id)}
                                   disabled={savingVocab[item.id] || isSaved}
-                                  className={`mt-2 px-3 py-1 text-xs rounded font-semibold transition-all ${
+                                  className={`mt-2 px-3 py-1 rounded font-semibold transition-all ${
                                     isSaved
                                       ? 'bg-green-100 text-green-700 cursor-default'
                                       : savingVocab[item.id]
                                       ? 'bg-gray-300 text-gray-600 cursor-wait'
-                                      : 'bg-blue-500 text-white hover:bg-blue-600 cursor-pointer'
+                                      : 'bg-[#72564c] text-white hover:bg-[#504441] cursor-pointer'
                                   }`}
+                                  style={{ fontSize: '18px' }}
                                 >
-                                  {isSaved ? '✓ Saved' : savingVocab[item.id] ? 'Saving...' : 'Save'}
+                                  {isSaved ? '✓ Đã lưu' : savingVocab[item.id] ? 'Đang lưu...' : 'Lưu'}
                                 </button>
                               );
                             })()}
+                            <hr className="mt-3 border-t border-black" />
                           </div>
                         ))
                       ) : (
-                        <p className="text-[#504441] text-sm">No quiz history yet</p>
+                        <p className="text-[#504441]" style={{ fontSize: '20px' }}>Chưa có lịch sử trắc nghiệm</p>
                       )}
                     </div>
                   )}
@@ -437,15 +543,15 @@ export default function LearningMapPage() {
                   >
                     <div className="flex items-center justify-center gap-1">
                       {topic.writing.done && <Check size={16} />}
-                      <span>Writing</span>
+                      <span style={{ fontSize: '20px' }}>Luyện viết</span>
                       <span className="text-sm">{expandedSkill === `${topic.id}-WRITING` ? '▼' : '▶'}</span>
                     </div>
                     {topic.writing.total && topic.writing.total > 0 ? (
-                      <div className="text-xs mt-1">
+                      <div className="mt-1" style={{ fontSize: '20px' }}>
                         {topic.writing.correct || 0}/{topic.writing.total}
                       </div>
                     ) : (
-                      <div className="text-xs mt-1 text-[#504441]">tiến độ: chưa làm</div>
+                      <div className="mt-1 text-[#504441]" style={{ fontSize: '20px' }}>tiến độ: chưa làm</div>
                     )}
                   </button>
 
@@ -453,19 +559,21 @@ export default function LearningMapPage() {
                   {expandedSkill === `${topic.id}-WRITING` && (
                     <div className="mt-2 bg-white border border-[#e8e8e3] rounded-lg p-4 space-y-3 max-h-80 overflow-y-auto">
                       {loadingHistory ? (
-                        <p className="text-[#504441] text-sm">Loading...</p>
+                        <p className="text-[#504441]" style={{ fontSize: '20px' }}>Đang tải...</p>
                       ) : history[`${topic.id}-WRITING`]?.length > 0 ? (
                         history[`${topic.id}-WRITING`].map((item: any, idx) => (
-                          <div key={idx} className="pb-3 border-b border-[#e8e8e3] last:border-0">
-                            <p className="text-sm font-semibold text-[#72564c]">
-                              {item.korean || item.word}
+                          <div key={idx} className="pb-3">
+                            <p className="font-semibold text-[#72564c]" style={{ fontSize: '18px' }}>
+                              Đề bài: {item.korean || item.word}
                             </p>
-                            <p className="text-xs text-[#504441] mt-1">
-                              {item.vietnamese || item.meaning}
-                            </p>
+                            {(item.vietnamese || item.meaning) && (
+                              <p className="text-[#504441] mt-1" style={{ fontSize: '18px' }}>
+                                Nghĩa tiếng việt: <span className="font-semibold">{item.vietnamese || item.meaning}</span>
+                              </p>
+                            )}
                             {item.accuracy !== null && item.accuracy !== undefined && (
-                              <p className="text-xs text-blue-600 font-semibold mt-2">
-                                Accuracy: {item.accuracy}%
+                              <p className="text-blue-600 font-semibold mt-1" style={{ fontSize: '18px' }}>
+                                Tiến độ: {item.accuracy}%
                               </p>
                             )}
                             {/* Save Vocabulary Button */}
@@ -477,22 +585,24 @@ export default function LearningMapPage() {
                                 <button
                                   onClick={() => handleSaveVocabulary(item, 'WRITING', writingKey)}
                                   disabled={savingVocab[writingKey] || isSaved}
-                                  className={`mt-2 px-3 py-1 text-xs rounded font-semibold transition-all ${
+                                  className={`mt-2 px-3 py-1 rounded font-semibold transition-all ${
                                     isSaved
                                       ? 'bg-green-100 text-green-700 cursor-default'
                                       : savingVocab[writingKey]
                                       ? 'bg-gray-300 text-gray-600 cursor-wait'
-                                      : 'bg-blue-500 text-white hover:bg-blue-600 cursor-pointer'
+                                      : 'bg-[#72564c] text-white hover:bg-[#504441] cursor-pointer'
                                   }`}
+                                  style={{ fontSize: '18px' }}
                                 >
-                                  {isSaved ? '✓ Saved' : savingVocab[writingKey] ? 'Saving...' : 'Save'}
+                                  {isSaved ? '✓ Đã lưu' : savingVocab[writingKey] ? 'Đang lưu...' : 'Lưu'}
                                 </button>
                               );
                             })()}
+                            <hr className="mt-3 border-t border-black" />
                           </div>
                         ))
                       ) : (
-                        <p className="text-[#504441] text-sm">No writing history yet</p>
+                        <p className="text-[#504441]" style={{ fontSize: '20px' }}>Chưa có lịch sử luyện viết</p>
                       )}
                     </div>
                   )}
@@ -510,15 +620,15 @@ export default function LearningMapPage() {
                   >
                     <div className="flex items-center justify-center gap-1">
                       {topic.pronunciation.done && <Check size={16} />}
-                      <span>Speak</span>
+                      <span style={{ fontSize: '20px' }}>Phát âm</span>
                       <span className="text-sm">{expandedSkill === `${topic.id}-PRONUNCIATION` ? '▼' : '▶'}</span>
                     </div>
                     {topic.pronunciation.total && topic.pronunciation.total > 0 ? (
-                      <div className="text-xs mt-1">
+                      <div className="mt-1" style={{ fontSize: '20px' }}>
                         {topic.pronunciation.correct || 0}/{topic.pronunciation.total}
                       </div>
                     ) : (
-                      <div className="text-xs mt-1 text-[#504441]">tiến độ: chưa làm</div>
+                      <div className="mt-1 text-[#504441]" style={{ fontSize: '20px' }}>tiến độ: chưa làm</div>
                     )}
                   </button>
 
@@ -526,19 +636,21 @@ export default function LearningMapPage() {
                   {expandedSkill === `${topic.id}-PRONUNCIATION` && (
                     <div className="mt-2 bg-white border border-[#e8e8e3] rounded-lg p-4 space-y-3 max-h-80 overflow-y-auto">
                       {loadingHistory ? (
-                        <p className="text-[#504441] text-sm">Loading...</p>
+                        <p className="text-[#504441]" style={{ fontSize: '20px' }}>Đang tải...</p>
                       ) : history[`${topic.id}-PRONUNCIATION`]?.length > 0 ? (
                         history[`${topic.id}-PRONUNCIATION`].map((item: any, idx) => (
-                          <div key={idx} className="pb-3 border-b border-[#e8e8e3] last:border-0">
-                            <p className="text-sm font-semibold text-[#72564c]">
-                              {item.korean || item.word}
+                          <div key={idx} className="pb-3">
+                            <p className="font-semibold text-[#72564c]" style={{ fontSize: '18px' }}>
+                              Đề bài: {item.korean || item.word}
                             </p>
-                            <p className="text-xs text-[#504441] mt-1">
-                              {item.vietnamese || item.meaning}
-                            </p>
+                            {(item.vietnamese || item.meaning) && (
+                              <p className="text-[#504441] mt-1" style={{ fontSize: '18px' }}>
+                                Nghĩa tiếng việt: <span className="font-semibold">{item.vietnamese || item.meaning}</span>
+                              </p>
+                            )}
                             {item.accuracy !== null && item.accuracy !== undefined && (
-                              <p className="text-xs text-blue-600 font-semibold mt-2">
-                                Accuracy: {item.accuracy}%
+                              <p className="text-blue-600 font-semibold mt-1" style={{ fontSize: '18px' }}>
+                                Tiến độ: {item.accuracy}%
                               </p>
                             )}
                             {/* Save Vocabulary Button */}
@@ -550,22 +662,24 @@ export default function LearningMapPage() {
                                 <button
                                   onClick={() => handleSaveVocabulary(item, 'PRONUNCIATION', pronounceKey)}
                                   disabled={savingVocab[pronounceKey] || isSaved}
-                                  className={`mt-2 px-3 py-1 text-xs rounded font-semibold transition-all ${
+                                  className={`mt-2 px-3 py-1 rounded font-semibold transition-all ${
                                     isSaved
                                       ? 'bg-green-100 text-green-700 cursor-default'
                                       : savingVocab[pronounceKey]
                                       ? 'bg-gray-300 text-gray-600 cursor-wait'
-                                      : 'bg-blue-500 text-white hover:bg-blue-600 cursor-pointer'
+                                      : 'bg-[#72564c] text-white hover:bg-[#504441] cursor-pointer'
                                   }`}
+                                  style={{ fontSize: '18px' }}
                                 >
-                                  {isSaved ? '✓ Saved' : savingVocab[pronounceKey] ? 'Saving...' : 'Save'}
+                                  {isSaved ? '✓ Đã lưu' : savingVocab[pronounceKey] ? 'Đang lưu...' : 'Lưu'}
                                 </button>
                               );
                             })()}
+                            <hr className="mt-3 border-t border-black" />
                           </div>
                         ))
                       ) : (
-                        <p className="text-[#504441] text-sm">No speaking history yet</p>
+                        <p className="text-[#504441]" style={{ fontSize: '20px' }}>Chưa có lịch sử luyện nói</p>
                       )}
                     </div>
                   )}
@@ -581,7 +695,8 @@ export default function LearningMapPage() {
           {/* Learn Beyond Button */}
           <button
             onClick={() => setShowSkipModal(true)}
-            className="px-12 py-4 bg-[#72564c] text-white rounded-lg font-bold text-lg hover:bg-[#504441] transition-all duration-300 shadow-sm hover:shadow-md"
+            className="px-12 py-4 bg-[#72564c] text-white rounded-lg font-bold hover:bg-[#504441] transition-all duration-300 shadow-sm hover:shadow-md"
+            style={{ fontSize: '20px' }}
           >
             Học vượt
           </button>

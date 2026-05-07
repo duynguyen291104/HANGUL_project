@@ -273,6 +273,14 @@ router.post('/users/:id/reset-score', async (req: AuthRequest, res: Response) =>
 });
 
 // POST set level manually
+const ADMIN_LEVEL_STATS: Record<string, { totalXP: number; totalTrophy: number }> = {
+  NEWBIE:       { totalXP: 0,    totalTrophy: 0    },
+  BEGINNER:     { totalXP: 1000, totalTrophy: 500  },
+  INTERMEDIATE: { totalXP: 2000, totalTrophy: 1000 },
+  UPPER:        { totalXP: 3000, totalTrophy: 2000 },
+  ADVANCED:     { totalXP: 4000, totalTrophy: 4000 },
+};
+
 router.post('/users/:id/set-level', async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user || req.user.role !== 'ADMIN') {
@@ -282,14 +290,15 @@ router.post('/users/:id/set-level', async (req: AuthRequest, res: Response) => {
     const userId = parseInt(req.params.id);
     const { level } = req.body;
 
-    if (!level) {
-      return res.status(400).json({ error: 'level is required' });
+    if (!level || !ADMIN_LEVEL_STATS[level]) {
+      return res.status(400).json({ error: 'Invalid level' });
     }
 
+    const stats = ADMIN_LEVEL_STATS[level];
     const user = await prisma.user.update({
       where: { id: userId },
-      data: { level },
-      select: { id: true, email: true, level: true },
+      data: { level, ...stats },
+      select: { id: true, email: true, level: true, totalXP: true, totalTrophy: true },
     });
 
     console.log(`📈 Admin ${req.user.id} set level for user ${userId} to ${level}`);

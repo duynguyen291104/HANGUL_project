@@ -86,11 +86,11 @@ export default function AdminVocabulary() {
         const err = await res.json();
         alert(err.error);
       }
-    } catch { alert('Luu that bai'); }
+    } catch { alert('Lưu thất bại'); }
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Xoa tu vung nay?')) return;
+    if (!confirm('Xóa từ vựng này?')) return;
     await fetch(`http://localhost:5000/api/admin/vocabulary/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` },
@@ -107,14 +107,15 @@ export default function AdminVocabulary() {
     <div>
       <div className="flex items-end justify-between mb-8">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.25em] font-bold text-[#8d6e63] mb-1">Noi dung</p>
-          <h1 className="text-3xl font-bold text-[#1a1c19]">Vocabulary</h1>
+          <p className="uppercase tracking-[0.25em] font-bold text-[#8d6e63] mb-1" style={{ fontSize: '20px' }}>Nội dung</p>
+          <h1 className="font-bold text-[#1a1c19]" style={{ fontSize: '20px' }}>Từ vựng</h1>
         </div>
         <button
           onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ korean: '', english: '', vietnamese: '', level: 'NEWBIE', topicId: 0 }); }}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#72564c] text-white text-sm font-semibold rounded-lg hover:bg-[#5b4137] transition"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#72564c] text-white font-semibold rounded-lg hover:bg-[#5b4137] transition"
+          style={{ fontSize: '20px' }}
         >
-          <Plus size={16} /> Them moi
+          <Plus size={16} /> Thêm mới
         </button>
       </div>
 
@@ -122,33 +123,33 @@ export default function AdminVocabulary() {
       {showForm && (
         <div className="bg-[#fafaf5] border border-[#e8dcd4] rounded-xl p-6 mb-6">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg font-bold text-[#1a1c19]">{editingId ? 'Chinh sua' : 'Them moi'} tu vung</h2>
+            <h2 className="font-bold text-[#1a1c19]" style={{ fontSize: '20px' }}>{editingId ? 'Chỉnh sửa' : 'Thêm mới'} từ vựng</h2>
             <button onClick={() => setShowForm(false)} className="p-1 text-[#8d6e63] hover:text-[#1a1c19]"><X size={18} /></button>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <input type="text" placeholder="Tieng Han" value={formData.korean}
+              <input type="text" placeholder="Tiếng Hàn" value={formData.korean}
                 onChange={e => setFormData({ ...formData, korean: e.target.value })} required
-                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 text-sm bg-white focus:border-[#72564c] focus:outline-none transition" />
-              <input type="text" placeholder="Tieng Anh" value={formData.english}
+                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-white focus:border-[#72564c] focus:outline-none transition" style={{ fontSize: '20px' }} />
+              <input type="text" placeholder="Tiếng Anh" value={formData.english}
                 onChange={e => setFormData({ ...formData, english: e.target.value })} required
-                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 text-sm bg-white focus:border-[#72564c] focus:outline-none transition" />
-              <input type="text" placeholder="Tieng Viet" value={formData.vietnamese}
+                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-white focus:border-[#72564c] focus:outline-none transition" style={{ fontSize: '20px' }} />
+              <input type="text" placeholder="Tiếng Việt" value={formData.vietnamese}
                 onChange={e => setFormData({ ...formData, vietnamese: e.target.value })}
-                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 text-sm bg-white focus:border-[#72564c] focus:outline-none transition" />
+                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-white focus:border-[#72564c] focus:outline-none transition" style={{ fontSize: '20px' }} />
               <select value={formData.level} onChange={e => setFormData({ ...formData, level: e.target.value })}
-                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 text-sm bg-white focus:border-[#72564c] focus:outline-none transition">
+                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-white focus:border-[#72564c] focus:outline-none transition" style={{ fontSize: '20px' }}>
                 {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
               </select>
               <select value={formData.topicId} onChange={e => setFormData({ ...formData, topicId: parseInt(e.target.value) })} required
-                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 text-sm bg-white focus:border-[#72564c] focus:outline-none transition col-span-2">
-                <option value="">Chon chu de</option>
+                className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-white focus:border-[#72564c] focus:outline-none transition col-span-2" style={{ fontSize: '20px' }}>
+                <option value="">Chọn chủ đề</option>
                 {topics.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
               </select>
             </div>
             <div className="flex gap-2">
-              <button type="submit" className="px-5 py-2.5 bg-[#72564c] text-white text-sm font-semibold rounded-lg hover:bg-[#5b4137] transition">Luu</button>
-              <button type="button" onClick={() => setShowForm(false)} className="px-5 py-2.5 border border-[#e8dcd4] text-sm font-medium text-[#504441] rounded-lg hover:bg-white transition">Huy</button>
+              <button type="submit" className="px-5 py-2.5 bg-[#72564c] text-white font-semibold rounded-lg hover:bg-[#5b4137] transition" style={{ fontSize: '20px' }}>Lưu</button>
+              <button type="button" onClick={() => setShowForm(false)} className="px-5 py-2.5 border border-[#e8dcd4] font-medium text-[#504441] rounded-lg hover:bg-white transition" style={{ fontSize: '20px' }}>Hủy</button>
             </div>
           </form>
         </div>
@@ -158,13 +159,13 @@ export default function AdminVocabulary() {
       <div className="flex gap-3 mb-5">
         <div className="flex-1 flex items-center gap-2 border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-[#fafaf5]">
           <Search size={16} className="text-[#8d6e63]" />
-          <input type="text" placeholder="Tim tu vung..." value={searchTerm}
+          <input type="text" placeholder="Tìm từ vựng..." value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="bg-transparent flex-1 text-sm outline-none text-[#1a1c19] placeholder:text-[#b0a098]" />
+            className="bg-transparent flex-1 outline-none text-[#1a1c19] placeholder:text-[#b0a098]" style={{ fontSize: '20px' }} />
         </div>
         <select value={filterLevel} onChange={e => setFilterLevel(e.target.value)}
-          className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 text-sm bg-[#fafaf5] focus:border-[#72564c] focus:outline-none">
-          <option value="">Tat ca cap do</option>
+          className="border border-[#e8dcd4] rounded-lg px-3 py-2.5 bg-[#fafaf5] focus:border-[#72564c] focus:outline-none" style={{ fontSize: '20px' }}>
+          <option value="">Tất cả cấp độ</option>
           {LEVELS.map(l => <option key={l} value={l}>{l}</option>)}
         </select>
       </div>
@@ -176,28 +177,28 @@ export default function AdminVocabulary() {
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#72564c] mx-auto" />
           </div>
         ) : filtered.length === 0 ? (
-          <div className="p-12 text-center text-sm text-[#8d6e63]">Khong co tu vung nao</div>
+          <div className="p-12 text-center text-[#8d6e63]" style={{ fontSize: '20px' }}>Không có từ vựng nào</div>
         ) : (
           <table className="w-full">
             <thead className="border-b border-[#e8dcd4]">
               <tr>
-                {['Tieng Han', 'Tieng Anh', 'Tieng Viet', 'Cap do', 'Chu de', ''].map(h => (
-                  <th key={h} className="px-5 py-3 text-left text-[10px] uppercase tracking-widest font-bold text-[#8d6e63]">{h}</th>
+                {['Tiếng Hàn', 'Tiếng Anh', 'Tiếng Việt', 'Cấp độ', 'Chủ đề', ''].map(h => (
+                  <th key={h} className="px-5 py-3 text-left uppercase tracking-widest font-bold text-[#8d6e63]" style={{ fontSize: '20px' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {filtered.map(item => (
                 <tr key={item.id} className="border-b border-[#e8dcd4]/50 last:border-0 hover:bg-white transition">
-                  <td className="px-5 py-3.5 text-sm font-semibold text-[#1a1c19]">{item.korean}</td>
-                  <td className="px-5 py-3.5 text-sm text-[#1a1c19]">{item.english}</td>
-                  <td className="px-5 py-3.5 text-sm text-[#504441]">{item.vietnamese}</td>
+                  <td className="px-5 py-3.5 font-semibold text-[#1a1c19]" style={{ fontSize: '20px' }}>{item.korean}</td>
+                  <td className="px-5 py-3.5 text-[#1a1c19]" style={{ fontSize: '20px' }}>{item.english}</td>
+                  <td className="px-5 py-3.5 text-[#504441]" style={{ fontSize: '20px' }}>{item.vietnamese}</td>
                   <td className="px-5 py-3.5">
-                    <span className={`text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full border ${LEVEL_COLORS[item.level] || 'bg-gray-100 text-gray-600 border-gray-200'}`}>
+                    <span className={`uppercase tracking-wider font-bold px-2.5 py-1 rounded-full border ${LEVEL_COLORS[item.level] || 'bg-gray-100 text-gray-600 border-gray-200'}`} style={{ fontSize: '20px' }}>
                       {item.level}
                     </span>
                   </td>
-                  <td className="px-5 py-3.5 text-sm text-[#504441]">
+                  <td className="px-5 py-3.5 text-[#504441]" style={{ fontSize: '20px' }}>
                     {topics.find(t => t.id === item.topicId)?.name || '—'}
                   </td>
                   <td className="px-5 py-3.5">
@@ -214,7 +215,7 @@ export default function AdminVocabulary() {
           </table>
         )}
       </div>
-      <p className="mt-4 text-xs text-[#8d6e63]">{filtered.length} tu vung</p>
+      <p className="mt-4 text-[#8d6e63]" style={{ fontSize: '20px' }}>{filtered.length} từ vựng</p>
     </div>
   );
 }

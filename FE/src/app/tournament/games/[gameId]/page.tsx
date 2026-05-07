@@ -78,11 +78,11 @@ export default function GamePage() {
 
   // Effect: redirect after achievements have been shown (or immediately if none)
   useEffect(() => {
-    if (gameCompleted && !submitting) {
-      const delay = newAchievements.length > 0 ? 4500 : 500;
-      const t = setTimeout(() => router.push('/tournament'), delay);
-      return () => clearTimeout(t);
-    }
+    if (!gameCompleted || submitting) return;
+    const delay = newAchievements.length > 0 ? 4500 : 500;
+    // Pass ?r=<timestamp> so tournament page re-fetches without a reload
+    const t = setTimeout(() => router.push(`/tournament?r=${Date.now()}`), delay);
+    return () => clearTimeout(t);
   }, [submitting, gameCompleted]);
 
   const handleExit = () => {
