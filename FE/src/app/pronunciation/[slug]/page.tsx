@@ -273,11 +273,13 @@ export default function PronunciationDetailPage() {
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify({
                   audioBase64: base64Audio,
-                  correctAnswer: currentWord.romanization,
+                  correctAnswer: currentWord.korean,
+                  romanization: currentWord.romanization,
                   korean: currentWord.korean,
                   topicId,
                   vocabId: currentWord.id,
                 }),
+
               }
             );
 
@@ -290,9 +292,10 @@ export default function PronunciationDetailPage() {
                 const browserText = browserTranscriptRef.current;
                 // Convert Korean transcript to romanization for comparison if needed
                 const accuracy = levenshteinSimilarity(
-                  browserText.toLowerCase(),
-                  currentWord.romanization.toLowerCase()
-                );
+                    browserText.normalize('NFC').replace(/[^\uAC00-\uD7A3]/g, ''),
+                    currentWord.korean.normalize('NFC').replace(/[^\uAC00-\uD7A3]/g, '')
+                  );
+
                 setScore(accuracy);
                 setTranscript(browserText);
                 setScoringMethod('browser');

@@ -4,7 +4,8 @@
   "private": true,
   "main": "src/app.ts",
   "scripts": {
-    "dev": "kill -9 $(lsof -t -i:5000) 2>/dev/null || true && ts-node-dev --respawn --transpile-only src/app.ts",
+    "predev": "npx kill-port 5000",
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
     "prisma:generate": "prisma generate",
@@ -46,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.50.0",
+    "kill-port": "^2.0.1",
     "prisma": "^5.22.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.0"
