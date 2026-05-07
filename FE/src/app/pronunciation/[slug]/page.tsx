@@ -56,6 +56,7 @@ export default function PronunciationDetailPage() {
   const audioChunksRef = useRef<Blob[]>([]);
   const browserTranscriptRef = useRef<string>('');
   const speechRecognitionRef = useRef<any>(null);
+  const maxInputLevelRef = useRef(0);
 
   /** Levenshtein similarity 0-100 (browser fallback) */
   const levenshteinSimilarity = (a: string, b: string): number => {
@@ -209,6 +210,7 @@ export default function PronunciationDetailPage() {
         setTranscript('');
         setFeedback('');
         audioChunksRef.current = [];
+        maxInputLevelRef.current = 0;
 
         // Sound wave visualizer
         const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -222,10 +224,13 @@ export default function PronunciationDetailPage() {
           animationFrameRef.current = requestAnimationFrame(visualize);
           const dataArray = new Uint8Array(analyser.frequencyBinCount);
           analyser.getByteFrequencyData(dataArray);
+          let frameMax = 0;
           const points: SoundWavePoint[] = [];
           for (let i = 0; i < dataArray.length; i++) {
+            frameMax = Math.max(frameMax, dataArray[i]);
             points.push({ x: (i / dataArray.length) * 100, y: (dataArray[i] / 255) * 100 });
           }
+          maxInputLevelRef.current = Math.max(maxInputLevelRef.current, frameMax / 255);
           setSoundWave(points);
         };
         visualize();
@@ -258,7 +263,21 @@ export default function PronunciationDetailPage() {
           const currentWord = vocabulary[currentIndex];
           if (!currentWord) return;
 
+          if (audioChunksRef.current.length === 0) {
+            setScore(0);
+            setFeedback('Không thu được âm thanh. Hãy kiểm tra micro và thử ghi âm lại.');
+            setScoringMethod('no-audio');
+            return;
+          }
+
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+          if (audioBlob.size < 1500 || maxInputLevelRef.current < 0.03) {
+            setScore(0);
+            setFeedback('Không thu được giọng nói rõ ràng. Hãy nói to hơn và kiểm tra micro.');
+            setScoringMethod('no-audio');
+            return;
+          }
+
           const arrayBuffer = await audioBlob.arrayBuffer();
           const base64Audio = btoa(
             new Uint8Array(arrayBuffer).reduce((d, b) => d + String.fromCharCode(b), '')

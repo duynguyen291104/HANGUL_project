@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { Trash2, Ban, CheckCircle, TrendingUp, Trophy, RotateCcw, Edit3, X, Check, Search } from 'lucide-react';
+import ActionDialog from '@/components/ui/ActionDialog';
 
 interface AdminUser {
   id: number;
@@ -41,6 +42,12 @@ export default function AdminUsers() {
   const [modalLevel, setModalLevel] = useState('');
   const [notice, setNotice] = useState<{ id: number; type: 'success' | 'error'; message: string } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    danger?: boolean;
+  } | null>(null);
 
   useEffect(() => { fetchUsers(); }, [token]);
   useEffect(() => {
@@ -92,15 +99,20 @@ export default function AdminUsers() {
       return;
     }
     const action = user.isBanned ? 'unban' : 'ban';
-    const confirmed = window.confirm(
-      user.isBanned ? `Mo khoa tai khoan "${user.name}"?` : `Khoa tai khoan "${user.name}"? User se khong dang nhap duoc.`
-    );
-    if (!confirmed) return;
-    const ok = await doAction(user.id, action);
-    if (ok) {
-      setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isBanned: !u.isBanned } : u));
-      notify('success', user.isBanned ? 'Mo khoa tai khoan thanh cong' : 'Khoa tai khoan thanh cong');
-    }
+    setConfirmDialog({
+      title: user.isBanned ? 'Mở khóa tài khoản' : 'Khóa tài khoản',
+      message: user.isBanned
+        ? `Bạn muốn mở khóa tài khoản "${user.name}"?`
+        : `Bạn muốn khóa tài khoản "${user.name}"? User sẽ không đăng nhập được.`,
+      danger: !user.isBanned,
+      onConfirm: async () => {
+        const ok = await doAction(user.id, action);
+        if (ok) {
+          setUsers(prev => prev.map(u => u.id === user.id ? { ...u, isBanned: !u.isBanned } : u));
+          notify('success', user.isBanned ? 'Mo khoa tai khoan thanh cong' : 'Khoa tai khoan thanh cong');
+        }
+      },
+    });
   };
 
   const handleDelete = async (user: AdminUser) => {
@@ -108,13 +120,18 @@ export default function AdminUsers() {
       notify('error', 'Khong the thao tac voi tai khoan admin');
       return;
     }
-    const confirmed = window.confirm(`Xoa vinh vien tai khoan "${user.name}" (${user.email})? Khong the hoan tac.`);
-    if (!confirmed) return;
-    const ok = await doAction(user.id, '', 'DELETE');
-    if (ok) {
-      setUsers(prev => prev.filter(u => u.id !== user.id));
-      notify('success', 'Xoa tai khoan thanh cong');
-    }
+    setConfirmDialog({
+      title: 'Xóa tài khoản',
+      message: `Xóa vĩnh viễn tài khoản "${user.name}" (${user.email})? Hành động này không thể hoàn tác.`,
+      danger: true,
+      onConfirm: async () => {
+        const ok = await doAction(user.id, '', 'DELETE');
+        if (ok) {
+          setUsers(prev => prev.filter(u => u.id !== user.id));
+          notify('success', 'Xoa tai khoan thanh cong');
+        }
+      },
+    });
   };
 
   const handleResetScore = async (user: AdminUser) => {
@@ -122,13 +139,18 @@ export default function AdminUsers() {
       notify('error', 'Khong the thao tac voi tai khoan admin');
       return;
     }
-    const confirmed = window.confirm(`Reset toan bo XP, Trophy va Streak cua "${user.name}" ve 0?`);
-    if (!confirmed) return;
-    const ok = await doAction(user.id, 'reset-score');
-    if (ok) {
-      setUsers(prev => prev.map(u => u.id === user.id ? { ...u, totalXP: 0, totalTrophy: 0, currentStreak: 0 } : u));
-      notify('success', 'Reset diem thanh cong');
-    }
+    setConfirmDialog({
+      title: 'Reset điểm',
+      message: `Reset toàn bộ XP, Trophy và Streak của "${user.name}" về 0?`,
+      danger: true,
+      onConfirm: async () => {
+        const ok = await doAction(user.id, 'reset-score');
+        if (ok) {
+          setUsers(prev => prev.map(u => u.id === user.id ? { ...u, totalXP: 0, totalTrophy: 0, currentStreak: 0 } : u));
+          notify('success', 'Reset diem thanh cong');
+        }
+      },
+    });
   };
 
   const handleModalSubmit = async () => {
@@ -377,6 +399,19 @@ export default function AdminUsers() {
           </div>
         </div>
       )}
+      <ActionDialog
+        open={!!confirmDialog}
+        title={confirmDialog?.title || ''}
+        message={confirmDialog?.message || ''}
+        confirmText="Xác nhận"
+        danger={!!confirmDialog?.danger}
+        onClose={() => setConfirmDialog(null)}
+        onConfirm={() => {
+          const action = confirmDialog?.onConfirm;
+          setConfirmDialog(null);
+          if (action) void action();
+        }}
+      />
     </div>
   );
 }

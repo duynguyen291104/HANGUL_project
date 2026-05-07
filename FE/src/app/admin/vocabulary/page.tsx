@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { Plus, Pencil, Trash2, Search, X } from 'lucide-react';
+import ActionDialog from '@/components/ui/ActionDialog';
 
 interface Vocabulary {
   id: number;
@@ -41,6 +42,7 @@ export default function AdminVocabulary() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [notice, setNotice] = useState<{ id: number; type: 'success' | 'error'; message: string } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
     korean: '', english: '', vietnamese: '', level: 'NEWBIE', topicId: 0,
@@ -113,7 +115,6 @@ export default function AdminVocabulary() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Xoa tu vung nay?')) return;
     try {
       const res = await fetch(`http://localhost:5000/api/admin/vocabulary/${id}`, {
         method: 'DELETE',
@@ -244,7 +245,7 @@ export default function AdminVocabulary() {
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => { setFormData(item); setEditingId(item.id); setShowForm(true); }}
                         className="p-1.5 rounded-lg hover:bg-[#e8dcd4] text-[#72564c] transition"><Pencil size={15} /></button>
-                      <button onClick={() => handleDelete(item.id)}
+                      <button onClick={() => setConfirmDeleteId(item.id)}
                         className="p-1.5 rounded-lg hover:bg-red-50 text-red-400 transition"><Trash2 size={15} /></button>
                     </div>
                   </td>
@@ -345,6 +346,20 @@ export default function AdminVocabulary() {
           </div>
         </div>
       )}
+      <ActionDialog
+        open={confirmDeleteId !== null}
+        title="Xác nhận xóa"
+        message="Bạn có chắc muốn xóa từ vựng này?"
+        confirmText="Xóa"
+        danger
+        onClose={() => setConfirmDeleteId(null)}
+        onConfirm={() => {
+          if (confirmDeleteId !== null) {
+            void handleDelete(confirmDeleteId);
+          }
+          setConfirmDeleteId(null);
+        }}
+      />
     </div>
   );
 }

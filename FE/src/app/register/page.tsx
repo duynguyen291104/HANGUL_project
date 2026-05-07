@@ -60,6 +60,15 @@ export default function RegisterPage() {
       return;
     }
 
+    const hasUppercase = /[A-Z]/.test(formData.password);
+    const hasNumber = /\d/.test(formData.password);
+    const hasSpecialChar = /[^A-Za-z0-9]/.test(formData.password);
+    if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+      setError('Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ số và 1 ký tự đặc biệt');
+      setLoading(false);
+      return;
+    }
+
     try {
       await register(normalizedEmail, formData.name.trim(), formData.password);
       router.push('/login?registered=true');
@@ -177,7 +186,9 @@ export default function RegisterPage() {
                 required
                 className="w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50"
               />
-              <p className="text-xs text-[#504441] px-1">Minimum 8 characters</p>
+              <p className="text-xs text-[#504441] px-1">
+                Tối thiểu 8 ký tự, gồm chữ hoa, số và ký tự đặc biệt
+              </p>
             </div>
 
             {/* Confirm Password Field */}

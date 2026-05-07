@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { BookOpen, Zap, Flame, Library, Trophy, Lock, ChevronDown, ChevronUp } from 'lucide-react';
+import ActionDialog from '@/components/ui/ActionDialog';
 
 interface UserProfile {
   id: number;
@@ -43,6 +44,7 @@ export default function ProfilePage() {
     confirmPassword: '',
   });
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState('');
   const [profileData, setProfileData] = useState<UserProfile>({
     id: 0,
     name: user?.name || '',
@@ -126,10 +128,10 @@ export default function ProfilePage() {
       setSaving(true);
       // TODO: Implement API call to update profile
       setIsEditing(false);
-      alert('Hồ sơ đã được cập nhật thành công!');
+      setDialogMessage('Hồ sơ đã được cập nhật thành công!');
     } catch (error) {
       console.error('Lỗi cập nhật hồ sơ:', error);
-      alert('Không thể cập nhật hồ sơ. Vui lòng thử lại!');
+      setDialogMessage('Không thể cập nhật hồ sơ. Vui lòng thử lại!');
     } finally {
       setSaving(false);
     }
@@ -137,7 +139,7 @@ export default function ProfilePage() {
 
   const handlePasswordNext = async () => {
     if (!passwordData.currentPassword) {
-      alert('Vui lòng nhập mật khẩu hiện tại');
+      setDialogMessage('Vui lòng nhập mật khẩu hiện tại');
       return;
     }
 
@@ -155,7 +157,7 @@ export default function ProfilePage() {
       });
 
       if (response.status === 401) {
-        alert('Mật khẩu hiện tại không chính xác');
+        setDialogMessage('Mật khẩu hiện tại không chính xác');
         setPasswordData({ ...passwordData, currentPassword: '' });
         return;
       }
@@ -168,7 +170,7 @@ export default function ProfilePage() {
       // If password is correct, move to step 2
       setPasswordStep(2);
     } catch (error: any) {
-      alert(`Lỗi: ${error.message}`);
+      setDialogMessage(`Lỗi: ${error.message}`);
     } finally {
       setPasswordLoading(false);
     }
@@ -177,17 +179,17 @@ export default function ProfilePage() {
   const handlePasswordChange = async () => {
     try {
       if (!passwordData.newPassword || !passwordData.confirmPassword) {
-        alert('Vui lòng nhập mật khẩu mới');
+        setDialogMessage('Vui lòng nhập mật khẩu mới');
         return;
       }
 
       if (passwordData.newPassword !== passwordData.confirmPassword) {
-        alert('Mật khẩu mới không khớp');
+        setDialogMessage('Mật khẩu mới không khớp');
         return;
       }
 
       if (passwordData.newPassword.length < 6) {
-        alert('Mật khẩu mới phải có ít nhất 6 ký tự');
+        setDialogMessage('Mật khẩu mới phải có ít nhất 6 ký tự');
         return;
       }
 
@@ -211,12 +213,12 @@ export default function ProfilePage() {
         throw new Error(error.error || 'Không thể đổi mật khẩu');
       }
 
-      alert('Đổi mật khẩu thành công!');
+      setDialogMessage('Đổi mật khẩu thành công!');
       setShowPasswordModal(false);
       setPasswordStep(1);
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error: any) {
-      alert(`Lỗi: ${error.message}`);
+      setDialogMessage(`Lỗi: ${error.message}`);
     } finally {
       setPasswordLoading(false);
     }
@@ -527,6 +529,15 @@ export default function ProfilePage() {
           </div>
         </div>
       )}
+      <ActionDialog
+        open={!!dialogMessage}
+        title="Thông báo"
+        message={dialogMessage}
+        confirmText="Đóng"
+        hideCancel
+        onClose={() => setDialogMessage('')}
+        onConfirm={() => setDialogMessage('')}
+      />
       <Footer />
     </div>
   );

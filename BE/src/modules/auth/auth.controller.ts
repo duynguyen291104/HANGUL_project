@@ -33,6 +33,15 @@ export class AuthController {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasNumber = /\d/.test(password);
+      const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+      if (!hasUppercase || !hasNumber || !hasSpecialChar) {
+        return res.status(400).json({
+          error: 'Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ số và 1 ký tự đặc biệt',
+        });
+      }
+
       // Check if user exists
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser) {

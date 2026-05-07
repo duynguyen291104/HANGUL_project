@@ -6,6 +6,7 @@ import { useAuthStore } from '@/store/authStore';
 import Header from '@/components/Header';
 import { Trash2, BookOpen } from 'lucide-react';
 import Footer from '@/components/Footer';
+import ActionDialog from '@/components/ui/ActionDialog';
 
 interface SavedWord {
   id: number;
@@ -31,6 +32,8 @@ export default function VocabularyCollectionPage() {
   const [selectedType, setSelectedType] = useState<'all' | 'quiz' | 'writing' | 'pronunciation' | 'camera'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
+  const [dialogMessage, setDialogMessage] = useState('');
 
   // Fetch ALL vocabulary (no type filter) — filter client-side so counts stay correct
   useEffect(() => {
@@ -100,18 +103,14 @@ export default function VocabularyCollectionPage() {
   };
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm('Bạn chắc chắn muốn xóa từ này?')) {
-      return;
-    }
-
     setDeletingId(id);
     try {
       setData(prev => prev.filter(item => item.id !== id));
       console.log('✅ Word removed from collection');
-      alert('✅ Đã xóa khỏi bộ sưu tập');
+      setDialogMessage('Đã xóa khỏi bộ sưu tập.');
     } catch (error) {
       console.error('❌ Error deleting:', error);
-      alert('Lỗi khi xóa từ vựng');
+      setDialogMessage('Lỗi khi xóa từ vựng.');
     } finally {
       setDeletingId(null);
     }
@@ -267,7 +266,7 @@ export default function VocabularyCollectionPage() {
                     </div>
                   </div>
                   <button
-                    onClick={() => handleDelete(item.id)}
+                    onClick={() => setConfirmDeleteId(item.id)}
                     disabled={deletingId === item.id}
                     className="ml-4 p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all disabled:opacity-50"
                     title="Delete from collection"
@@ -280,6 +279,29 @@ export default function VocabularyCollectionPage() {
           )}
         </div>
       </main>
+      <ActionDialog
+        open={confirmDeleteId !== null}
+        title="Xác nhận xóa"
+        message="Bạn chắc chắn muốn xóa từ này khỏi bộ sưu tập?"
+        confirmText="Xóa"
+        danger
+        onClose={() => setConfirmDeleteId(null)}
+        onConfirm={() => {
+          if (confirmDeleteId !== null) {
+            void handleDelete(confirmDeleteId);
+          }
+          setConfirmDeleteId(null);
+        }}
+      />
+      <ActionDialog
+        open={!!dialogMessage}
+        title="Thông báo"
+        message={dialogMessage}
+        confirmText="Đóng"
+        hideCancel
+        onClose={() => setDialogMessage('')}
+        onConfirm={() => setDialogMessage('')}
+      />
       <Footer />
     </div>
   );

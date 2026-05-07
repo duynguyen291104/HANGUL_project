@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '@/store/authStore';
 import { Ban, CheckCircle, RefreshCw, Trophy, AlertTriangle } from 'lucide-react';
+import ActionDialog from '@/components/ui/ActionDialog';
 
 interface LeaderboardEntry {
   id: number;
@@ -22,6 +23,13 @@ export default function AdminTournament() {
   const [loading, setLoading] = useState(true);
   const [resetting, setResetting] = useState(false);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
+  const [dialogMessage, setDialogMessage] = useState('');
+  const [confirmDialog, setConfirmDialog] = useState<{
+    title: string;
+    message: string;
+    onConfirm: () => void;
+    danger?: boolean;
+  } | null>(null);
 
   useEffect(() => { fetchLeaderboard(); }, [token]);
 
@@ -38,33 +46,56 @@ export default function AdminTournament() {
   };
 
   const handleResetLeaderboard = async () => {
-    const confirmed = window.confirm('Reset toan bo Trophy cua tat ca user ve 0?\n\nHanh dong nay bat dau mua giai moi va KHONG THE HOAN TAC.');
-    if (!confirmed) return;
-    const reconfirm = window.confirm('Xac nhan lan 2: Ban chac chan muon reset leaderboard?');
-    if (!reconfirm) return;
-    setResetting(true);
-    try {
-      const res = await fetch(`${API}/admin/tournament/reset-leaderboard`, {
-        method: 'POST', headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) { alert('Leaderboard da duoc reset. Mua giai moi bat dau!'); fetchLeaderboard(); }
-      else { alert('Reset that bai'); }
-    } catch { alert('Loi ket noi'); }
-    finally { setResetting(false); }
+    setConfirmDialog({
+      title: 'Reset leaderboard',
+      message: 'Reset toàn bộ Trophy của tất cả user về 0? Hành động này không thể hoàn tác.',
+      danger: true,
+      onConfirm: async () => {
+        setResetting(true);
+        try {
+          const res = await fetch(`${API}/admin/tournament/reset-leaderboard`, {
+            method: 'POST', headers: { Authorization: `Bearer ${token}` },
+          });
+          if (res.ok) {
+            setDialogMessage('Leaderboard đã được reset. Mùa giải mới bắt đầu!');
+            fetchLeaderboard();
+          } else {
+            setDialogMessage('Reset thất bại.');
+          }
+        } catch {
+          setDialogMessage('Lỗi kết nối.');
+        } finally {
+          setResetting(false);
+        }
+      },
+    });
   };
 
   const handleBanToggle = async (entry: LeaderboardEntry) => {
     const action = entry.isBanned ? 'unban' : 'ban';
     const label = entry.isBanned ? 'Mo khoa' : 'Khoa';
-    if (!window.confirm(`${label} user "${entry.name}" khoi tournament?`)) return;
-    setActionLoading(entry.id);
-    try {
-      const res = await fetch(`${API}/admin/users/${entry.id}/${action}`, {
-        method: 'POST', headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.ok) setLeaderboard(prev => prev.map(e => e.id === entry.id ? { ...e, isBanned: !e.isBanned } : e));
-    } catch { alert('Thao tac that bai'); }
-    finally { setActionLoading(null); }
+    setConfirmDialog({
+      title: `${label} user`,
+      message: `${label} user "${entry.name}" khỏi tournament?`,
+      danger: !entry.isBanned,
+      onConfirm: async () => {
+        setActionLoading(entry.id);
+        try {
+          const res = await fetch(`${API}/admin/users/${entry.id}/${action}`, {
+            method: 'POST', headers: { Authorization: `Bearer ${token}` },
+          });
+          if (res.ok) {
+            setLeaderboard(prev => prev.map(e => e.id === entry.id ? { ...e, isBanned: !e.isBanned } : e));
+          } else {
+            setDialogMessage('Thao tác thất bại.');
+          }
+        } catch {
+          setDialogMessage('Thao tác thất bại.');
+        } finally {
+          setActionLoading(null);
+        }
+      },
+    });
   };
 
   const rankDisplay = (i: number) => {
@@ -157,6 +188,28 @@ export default function AdminTournament() {
         )}
       </div>
       <p className="mt-4 text-xs text-[#8d6e63]">{leaderboard.length} nguoi tham gia</p>
+      <ActionDialog
+        open={!!confirmDialog}
+        title={confirmDialog?.title || ''}
+        message={confirmDialog?.message || ''}
+        confirmText="Xác nhận"
+        danger={!!confirmDialog?.danger}
+        onClose={() => setConfirmDialog(null)}
+        onConfirm={() => {
+          const action = confirmDialog?.onConfirm;
+          setConfirmDialog(null);
+          if (action) void action();
+        }}
+      />
+      <ActionDialog
+        open={!!dialogMessage}
+        title="Thông báo"
+        message={dialogMessage}
+        confirmText="Đóng"
+        hideCancel
+        onClose={() => setDialogMessage('')}
+        onConfirm={() => setDialogMessage('')}
+      />
     </div>
   );
 }
