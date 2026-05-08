@@ -263,281 +263,216 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-[#fafaf5]">
       <Header />
-
-      <header className="pt-[70px] pl-[200px] mb-12">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-[#504441] tracking-tight leading-tight">
+      <header className="pt-[70px] pl-[150px] mb-12">
+        <h1 className="text-4xl md:text-5xl font-nunito text-[#504441] tracking-tight leading-tight">
           Hồ sơ cá nhân
         </h1>
       </header>
-
-      <main className="pl-[240px] pr-10 pb-20">
+      <main className="px-6 md:px-16 xl:px-[100px] py-12 pb-20">
         {loading ? (
           <div className="flex justify-center items-center py-24">
             <div className="w-8 h-8 border-2 border-[#72564c] border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
-          <div className="flex justify-center">
-          <div className="w-full max-w-5xl">
+          <div className="flex flex-col xl:flex-row gap-10 items-start">
 
-            {/* ── Identity block ── */}
-            <div className={`pb-10 border-b border-[#e8dcd4] ${pageVisible ? 'visible' : ''}`} data-animate data-delay="1">
-              <div className="flex items-center gap-5 mb-6">
-                <div className="w-16 h-16 rounded-full bg-[#72564c] flex items-center justify-center shrink-0">
-                  <span className="text-2xl font-black text-white">
-                    {profileData.name ? profileData.name[0].toUpperCase() : '?'}
-                  </span>
-                </div>
-                <div>
-                  <h1 className="font-extrabold text-[#1a1c19] leading-tight" style={{ fontSize: '20px' }}>{profileData.name}</h1>
-                  <p className="text-[#8d6e63]" style={{ fontSize: '20px' }}>{profileData.email}</p>
-                </div>
-              </div>
+            {/* ── LEFT: Hồ sơ + Chỉnh sửa + Cài đặt ── */}
+            <div className="w-full xl:w-[420px] xl:flex-shrink-0 flex flex-col gap-6">
 
-              {/* Stats row */}
-              <div className="flex gap-8">
-                <div>
-                  <p className="uppercase tracking-widest font-bold text-[#8d6e63] mb-0.5" style={{ fontSize: '20px' }}>Cấp độ</p>
-                  <p className="font-black text-[#1a1c19]" style={{ fontSize: '20px' }}>{profileData.level}</p>
+              {/* Identity block */}
+              <div className="bg-white border border-[#c4a99e] rounded-2xl p-6">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 rounded-full bg-[#72564c] flex items-center justify-center shrink-0">
+                    <span className="text-2xl font-baloo font-black text-white">
+                      {profileData.name ? profileData.name[0].toUpperCase() : '?'}
+                    </span>
+                  </div>
+                  <div>
+                    <h1 className="font-baloo text-[#1a1c19] leading-tight" style={{ fontSize: '20px' }}>{profileData.name}</h1>
+                    <p className="text-[#8d6e63] font-baloo" style={{ fontSize: '20px' }}>{profileData.email}</p>
+                  </div>
                 </div>
-                <div className="w-px bg-[#e8dcd4]" />
-                <div>
-                  <p className="uppercase tracking-widest font-bold text-[#8d6e63] mb-0.5" style={{ fontSize: '20px' }}>Tổng XP</p>
-                  <p className="font-black text-[#1a1c19]" style={{ fontSize: '20px' }}>{profileData.totalXP}</p>
+
+                {/* Stats */}
+                <div className="flex gap-6 mb-6">
+                  <div>
+                    <p className="uppercase tracking-widest font-bold font-baloo text-[#8d6e63] mb-0.5" style={{ fontSize: '14px' }}>Cấp độ</p>
+                    <p className="font-black font-baloo text-[#1a1c19]" style={{ fontSize: '20px' }}>{profileData.level}</p>
+                  </div>
+                  <div className="w-px bg-[#e8dcd4]" />
+                  <div>
+                    <p className="uppercase tracking-widest font-bold font-baloo text-[#8d6e63] mb-0.5" style={{ fontSize: '14px' }}>Tổng XP</p>
+                    <p className="font-black font-baloo text-[#1a1c19]" style={{ fontSize: '20px' }}>{profileData.totalXP}</p>
+                  </div>
+                  <div className="w-px bg-[#e8dcd4]" />
+                  <button onClick={() => router.push('/vocabulary-collection')} className="text-left group">
+                    <p className="uppercase tracking-widest font-bold font-baloo text-[#8d6e63] mb-0.5" style={{ fontSize: '14px' }}>Từ đã lưu</p>
+                    <p className="font-black font-baloo text-[#1a1c19] group-hover:text-[#72564c] transition-colors" style={{ fontSize: '20px' }}>{savedVocabCount}</p>
+                  </button>
                 </div>
-                <div className="w-px bg-[#e8dcd4]" />
+
                 <button
-                  onClick={() => router.push('/vocabulary-collection')}
-                  className="text-left group"
+                  onClick={() => setIsEditing(!isEditing)}
+                  className="w-full font-semibold text-[#72564c] border border-[#c4a99e] px-4 py-2 rounded-lg hover:bg-[#f4ede9] transition-colors"
+                  style={{ fontSize: '16px' }}
                 >
-                  <p className="uppercase tracking-widest font-bold text-[#8d6e63] mb-0.5" style={{ fontSize: '20px' }}>Từ đã lưu</p>
-                  <p className="font-black text-[#1a1c19] group-hover:text-[#72564c] transition-colors" style={{ fontSize: '20px' }}>
-                    {savedVocabCount}
-                  </p>
+                  {isEditing ? 'Hủy chỉnh sửa' : 'Chỉnh sửa hồ sơ'}
                 </button>
               </div>
 
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="mt-6 font-semibold text-[#72564c] border border-[#c4a99e] px-4 py-1.5 rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '20px' }}
-              >
-                {isEditing ? 'Hủy chỉnh sửa' : 'Chỉnh sửa hồ sơ'}
-              </button>
-            </div>
-
-            {/* ── Edit form ── */}
-            {isEditing && (
-              <div className="py-8 border-b border-[#e8dcd4]">
-                <h2 className="font-bold uppercase tracking-widest text-[#8d6e63] mb-5" style={{ fontSize: '20px' }}>Chỉnh sửa hồ sơ</h2>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '20px' }}>Tên</label>
-                    <input
-                      type="text"
-                      value={profileData.name}
-                      onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-white border border-[#d6c8c2] rounded-lg text-[#1a1c19] focus:outline-none focus:border-[#72564c] transition-colors" style={{ fontSize: '20px' }}
-                    />
-                  </div>
-                  {profileData.publicId && (
+              {/* Edit form */}
+              {isEditing && (
+                <div className="bg-white border border-[#c4a99e] rounded-2xl p-6">
+                  <h2 className="font-bold uppercase tracking-widest text-[#8d6e63] mb-5" style={{ fontSize: '14px' }}>Chỉnh sửa hồ sơ</h2>
+                  <div className="space-y-4">
                     <div>
-                      <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '20px' }}>User ID</label>
-                      <div
-                        className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] flex items-center gap-2 cursor-not-allowed select-none"
-                        style={{ fontSize: '20px' }}
-                        title="ID công khai của bạn — không thể thay đổi"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 flex-shrink-0 text-[#b09488]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" /></svg>
-                        <span className="flex-1 font-bold tracking-wider">{profileData.publicId}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 flex-shrink-0 text-[#b09488]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                        </svg>
-                      </div>
-                      <p className="mt-1 text-[#b09488]" style={{ fontSize: '18px' }}>ID công khai dùng trên bảng xếp hạng — không thể thay đổi.</p>
-                    </div>
-                  )}
-                  <div>
-                    <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '20px' }}>Email</label>
-                    <div
-                      className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] flex items-center gap-2 cursor-not-allowed select-none"
-                      style={{ fontSize: '20px' }}
-                      title="Email không thể thay đổi sau khi đăng ký"
-                    >
-                      <span className="flex-1 truncate">{profileData.email}</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 flex-shrink-0 text-[#b09488]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                      </svg>
-                    </div>
-                    <p className="mt-1 text-[#b09488]" style={{ fontSize: '18px' }}>Email không thể thay đổi sau khi đăng ký.</p>
-                  </div>
-                  <div className="flex gap-3 pt-1">
-                    <button
-                      onClick={handleSave}
-                      disabled={saving}
-                      className="px-5 py-2 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '20px' }}
-                    >
-                      {saving ? 'Đang lưu...' : 'Lưu'}
-                    </button>
-                    <button
-                      onClick={() => { setIsEditing(false); setProfileMsg(null); }}
-                      className="px-5 py-2 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '20px' }}
-                    >
-                      Hủy
-                    </button>
-                  </div>
-                  {profileMsg && (
-                    <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${
-                      profileMsg.type === 'error' ? 'bg-[#ffdad6] text-red-700' : 'bg-[#c2ebe5]/40 text-[#406561]'
-                    }`} style={{ fontSize: '20px' }}>
-                      {profileMsg.text}
-                    </p>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* ── Two-column: Achievements + Settings ── */}
-            <div className="grid grid-cols-2 gap-8 py-8 items-start">
-
-              {/* ── Left: Achievements ── */}
-              <div className={`border border-[#c4a99e] rounded-2xl p-6 bg-white ${pageVisible ? 'visible' : ''}`} data-animate data-delay="2">
-                {/* Header row */}
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-bold uppercase tracking-widest text-[#8d6e63]" style={{ fontSize: '20px' }}>Thành tích</h2>
-                  {achievementStats.totalAchievements > 0 && (
-                    <span className="text-[#8d6e63] font-medium" style={{ fontSize: '20px' }}>
-                      {achievementStats.unlockedCount}/{achievementStats.totalAchievements} đã mở khóa
-                    </span>
-                  )}
-                </div>
-
-                {/* Progress bar */}
-                {achievementStats.totalAchievements > 0 && (
-                  <div className="mb-4">
-                    <div className="flex justify-between text-[#8d6e63] mb-1.5" style={{ fontSize: '20px' }}>
-                      <span>{achievementStats.completionPercentage}% hoàn thành</span>
-                    </div>
-                    <div className="h-1.5 w-full bg-[#e8dcd4] rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-[#72564c] rounded-full transition-all duration-700"
-                        style={{ width: `${achievementStats.completionPercentage}%` }}
+                      <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '16px' }}>Tên</label>
+                      <input
+                        type="text"
+                        value={profileData.name}
+                        onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-white border border-[#d6c8c2] rounded-lg text-[#1a1c19] focus:outline-none focus:border-[#72564c] transition-colors"
+                        style={{ fontSize: '16px' }}
                       />
                     </div>
-                  </div>
-                )}
-
-                {achievements.length === 0 ? (
-                  <p className="text-[#8d6e63] text-center py-8" style={{ fontSize: '20px' }}>Đang tải thành tích...</p>
-                ) : (() => {
-                  const INITIAL_SHOW = 2;
-                  const visible = showAllAchievements ? achievements : achievements.slice(0, INITIAL_SHOW);
-                  const criteriaIcon = (criteria: string, unlocked: boolean) => {
-                    const cls = `w-5 h-5 ${unlocked ? 'text-[#72564c]' : 'text-[#b0a49f]'}`;
-                    if (criteria === 'QUIZ_COUNT') return <BookOpen className={cls} />;
-                    if (criteria === 'XP') return <Zap className={cls} />;
-                    if (criteria === 'STREAK') return <Flame className={cls} />;
-                    if (criteria === 'VOCAB_COUNT') return <Library className={cls} />;
-                    if (criteria === 'TROPHY') return <Trophy className={cls} />;
-                    return <BookOpen className={cls} />;
-                  };
-                  return (
-                    <>
-                      <div className="grid grid-cols-1 gap-2">
-                        {visible.map(ach => (
-                          <div
-                            key={ach.id}
-                            className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
-                              ach.unlocked
-                                ? 'bg-[#fafaf5] border-[#e8dcd4]'
-                                : 'bg-[#fafaf5] border-[#f0ebe6] opacity-55'
-                            }`}
-                          >
-                            <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${
-                              ach.unlocked ? 'bg-[#f4ede9]' : 'bg-[#ece8e4]'
-                            }`}>
-                              {ach.unlocked
-                                ? criteriaIcon(ach.criteria, true)
-                                : <Lock className="w-4 h-4 text-[#b0a49f]" />}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap">
-                                <p className={`font-semibold leading-tight ${
-                                  ach.unlocked ? 'text-[#1a1c19]' : 'text-[#8d6e63]'
-                                }`} style={{ fontSize: '20px' }}>{ach.name}</p>
-                                {ach.unlocked && (
-                                  <span className="uppercase tracking-wider font-bold text-[#406561] bg-[#c2ebe5]/40 border border-[#c2ebe5] px-1.5 py-0.5 rounded-full" style={{ fontSize: '20px' }}>Đạt được</span>
-                                )}
-                              </div>
-                              <p className="text-[#8d6e63] mt-0.5 truncate" style={{ fontSize: '20px' }}>{ach.description}</p>
-                            </div>
-                          </div>
-                        ))}
+                    {profileData.publicId && (
+                      <div>
+                        <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '16px' }}>User ID</label>
+                        <div className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] flex items-center gap-2 cursor-not-allowed" style={{ fontSize: '16px' }}>
+                          <span className="flex-1 font-bold tracking-wider">{profileData.publicId}</span>
+                        </div>
+                        <p className="mt-1 text-[#b09488]" style={{ fontSize: '13px' }}>ID công khai — không thể thay đổi.</p>
                       </div>
-
-                      {achievements.length > INITIAL_SHOW && (
-                        <button
-                          onClick={() => setShowAllAchievements(v => !v)}
-                          className="mt-3 w-full flex items-center justify-center gap-1.5 font-semibold text-[#72564c] hover:text-[#5b4137] py-2.5 border border-[#e8dcd4] rounded-xl hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '20px' }}
-                        >
-                          {showAllAchievements ? (
-                            <><ChevronUp className="w-3.5 h-3.5" /> Thu gọn</>
-                          ) : (
-                            <><ChevronDown className="w-3.5 h-3.5" /> Xem thêm ({achievements.length - INITIAL_SHOW})</>
-                          )}
-                        </button>
-                      )}
-                    </>
-                  );
-                })()}
-              </div>
-
-              {/* ── Right: Settings ── */}
-              <div className={`border border-[#c4a99e] rounded-2xl p-6 bg-white ${pageVisible ? 'visible' : ''}`} data-animate data-delay="3">
-                <h2 className="font-bold uppercase tracking-widest text-[#8d6e63] mb-5" style={{ fontSize: '20px' }}>Cài đặt</h2>
-                {profileData.provider === 'google' ? (
-                  /* Google account — cannot change password */
-                  <div className="flex items-start gap-4 py-4 px-4 rounded-xl bg-[#f4f0ec] border border-[#e8dcd4]">
-                    <div className="mt-0.5 shrink-0">
-                      <svg className="w-5 h-5 text-[#8d6e63]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-                      </svg>
-                    </div>
+                    )}
                     <div>
-                      <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '20px' }}>Đăng nhập bằng Google</p>
-                      <p className="text-[#8d6e63] mt-1 leading-relaxed" style={{ fontSize: '20px' }}>
-                        Mật khẩu của bạn được quản lý bởi Google.<br />
-                        Để đổi mật khẩu, vui lòng thực hiện tại{' '}
-                        <a
-                          href="https://myaccount.google.com/security"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[#72564c] underline hover:text-[#504441] transition-colors"
-                        >
+                      <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '16px' }}>Email</label>
+                      <div className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] cursor-not-allowed" style={{ fontSize: '16px' }}>
+                        {profileData.email}
+                      </div>
+                      <p className="mt-1 text-[#b09488]" style={{ fontSize: '13px' }}>Email không thể thay đổi.</p>
+                    </div>
+                    <div className="flex gap-3 pt-1">
+                      <button onClick={handleSave} disabled={saving} className="px-5 py-2 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '16px' }}>
+                        {saving ? 'Đang lưu...' : 'Lưu'}
+                      </button>
+                      <button onClick={() => { setIsEditing(false); setProfileMsg(null); }} className="px-5 py-2 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '16px' }}>
+                        Hủy
+                      </button>
+                    </div>
+                    {profileMsg && (
+                      <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${profileMsg.type === 'error' ? 'bg-[#ffdad6] text-red-700' : 'bg-[#c2ebe5]/40 text-[#406561]'}`} style={{ fontSize: '16px' }}>
+                        {profileMsg.text}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Cài đặt — gộp vào cột trái */}
+              <div className="bg-white border border-[#c4a99e] rounded-2xl p-6">
+                <h2 className="font-bold uppercase tracking-widest text-[#8d6e63] mb-4" style={{ fontSize: '14px' }}>Cài đặt</h2>
+                {profileData.provider === 'google' ? (
+                  <div className="flex items-start gap-3 py-3 px-4 rounded-xl bg-[#f4f0ec] border border-[#e8dcd4]">
+                    <div>
+                      <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '16px' }}>Đăng nhập bằng Google</p>
+                      <p className="text-[#8d6e63] mt-1 leading-relaxed" style={{ fontSize: '14px' }}>
+                        Đổi mật khẩu tại{' '}
+                        <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-[#72564c] underline hover:text-[#504441]">
                           myaccount.google.com
                         </a>
-                        .
                       </p>
                     </div>
                   </div>
                 ) : (
-                  /* Local account — show change password */
-                  <div className="flex justify-between items-center py-4">
+                  <div className="flex justify-between items-center">
                     <div>
-                      <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '20px' }}>Đổi mật khẩu</p>
-                      <p className="text-[#8d6e63] mt-0.5" style={{ fontSize: '20px' }}>Cập nhật mật khẩu tài khoản</p>
+                      <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '16px' }}>Đổi mật khẩu</p>
+                      <p className="text-[#8d6e63] mt-0.5" style={{ fontSize: '14px' }}>Cập nhật mật khẩu tài khoản</p>
                     </div>
-                    <button
-                      onClick={() => setShowPasswordModal(true)}
-                      className="font-semibold text-[#72564c] border border-[#c4a99e] px-4 py-1.5 rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '20px' }}
-                    >
+                    <button onClick={() => setShowPasswordModal(true)} className="font-semibold text-[#72564c] border border-[#c4a99e] px-4 py-1.5 rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '15px' }}>
                       Thay đổi
                     </button>
                   </div>
                 )}
               </div>
-
             </div>
 
-          </div>
+            {/* ── RIGHT: Thành tích ── */}
+            <div className="flex-1 bg-white border border-[#c4a99e] rounded-2xl p-6" style={{ minWidth: 0 }}>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="font-bold uppercase tracking-widest text-[#8d6e63]" style={{ fontSize: '14px' }}>Thành tích</h2>
+                {achievementStats.totalAchievements > 0 && (
+                  <span className="text-[#8d6e63] font-medium" style={{ fontSize: '15px' }}>
+                    {achievementStats.unlockedCount}/{achievementStats.totalAchievements} đã mở khóa
+                  </span>
+                )}
+              </div>
+
+              {achievementStats.totalAchievements > 0 && (
+                <div className="mb-5">
+                  <div className="flex justify-between text-[#8d6e63] mb-1.5" style={{ fontSize: '14px' }}>
+                    <span>{achievementStats.completionPercentage}% hoàn thành</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-[#e8dcd4] rounded-full overflow-hidden">
+                    <div className="h-full bg-[#72564c] rounded-full transition-all duration-700" style={{ width: `${achievementStats.completionPercentage}%` }} />
+                  </div>
+                </div>
+              )}
+
+              {achievements.length === 0 ? (
+                <p className="text-[#8d6e63] text-center py-12" style={{ fontSize: '16px' }}>Đang tải thành tích...</p>
+              ) : (() => {
+                const INITIAL_SHOW = 6;
+                const visible = showAllAchievements ? achievements : achievements.slice(0, INITIAL_SHOW);
+                const criteriaIcon = (criteria: string, unlocked: boolean) => {
+                  const cls = `w-5 h-5 ${unlocked ? 'text-[#72564c]' : 'text-[#b0a49f]'}`;
+                  if (criteria === 'QUIZ_COUNT') return <BookOpen className={cls} />;
+                  if (criteria === 'XP') return <Zap className={cls} />;
+                  if (criteria === 'STREAK') return <Flame className={cls} />;
+                  if (criteria === 'VOCAB_COUNT') return <Library className={cls} />;
+                  if (criteria === 'TROPHY') return <Trophy className={cls} />;
+                  return <BookOpen className={cls} />;
+                };
+                return (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {visible.map(ach => (
+                        <div
+                          key={ach.id}
+                          className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
+                            ach.unlocked ? 'bg-[#fafaf5] border-[#e8dcd4]' : 'bg-[#fafaf5] border-[#f0ebe6] opacity-55'
+                          }`}
+                        >
+                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 ${ach.unlocked ? 'bg-[#f4ede9]' : 'bg-[#ece8e4]'}`}>
+                            {ach.unlocked ? criteriaIcon(ach.criteria, true) : <Lock className="w-4 h-4 text-[#b0a49f]" />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <p className={`font-semibold leading-tight ${ach.unlocked ? 'text-[#1a1c19]' : 'text-[#8d6e63]'}`} style={{ fontSize: '15px' }}>{ach.name}</p>
+                              {ach.unlocked && (
+                                <span className="uppercase tracking-wider font-bold text-[#406561] bg-[#c2ebe5]/40 border border-[#c2ebe5] px-1.5 py-0.5 rounded-full" style={{ fontSize: '11px' }}>Đạt được</span>
+                              )}
+                            </div>
+                            <p className="text-[#8d6e63] mt-0.5 truncate" style={{ fontSize: '13px' }}>{ach.description}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {achievements.length > INITIAL_SHOW && (
+                      <button
+                        onClick={() => setShowAllAchievements(v => !v)}
+                        className="mt-4 w-full flex items-center justify-center gap-1.5 font-semibold text-[#72564c] hover:text-[#5b4137] py-2.5 border border-[#e8dcd4] rounded-xl hover:bg-[#f4ede9] transition-colors"
+                        style={{ fontSize: '15px' }}
+                      >
+                        {showAllAchievements ? <><ChevronUp className="w-4 h-4" /> Thu gọn</> : <><ChevronDown className="w-4 h-4" /> Xem thêm ({achievements.length - INITIAL_SHOW})</>}
+                      </button>
+                    )}
+                  </>
+                );
+              })()}
+            </div>
+
           </div>
         )}
       </main>

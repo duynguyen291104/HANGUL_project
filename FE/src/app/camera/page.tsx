@@ -208,15 +208,15 @@ export default function CameraPage() {
     <div className="min-h-screen flex flex-col" style={{ background: '#f7f4ef' }}>
       <Header />
 
-      <main className="flex-1 px-[100px] py-14 flex flex-col gap-12">
+      <main className="flex-1 px-4 md:px-10 xl:px-[100px] py-14 flex flex-col gap-12">
 
         {/* ── Title row ── */}
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-4xl md:text-5xl font-extrabold font-headline text-on-background leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-nunito font-headline text-on-background leading-tight tracking-tight">
               Camera Thông Minh
             </h1>
-            <p className="text-3xl font-medium font-bold mt-[20px]">
+            <p className="text-3xl font-medium font-baloo font-bold mt-[20px]">
               Hướng camera vào bất kỳ vật thể — AI nhận diện và gợi ý từ tiếng Hàn ngay lập tức
             </p>
           </div>
@@ -241,15 +241,15 @@ export default function CameraPage() {
         </div>
 
         {/* ── Core layout: viewport left, sidebar right ── */}
-        <div className="flex gap-10 items-start">
+        <div className="flex flex-col xl:flex-row gap-10 items-start">
 
           {/* ── Camera block ── */}
-          <div style={{ flex: '0 0 960px' }}>
+          <div className="w-full xl:w-[960px] xl:flex-shrink-0">
             {/* viewport */}
             <div
-              className="relative rounded-[20px] overflow-hidden"
+              className="relative rounded-[20px] overflow-hidden w-full"
               style={{
-                height: '620px',
+                aspectRatio: '16/10',
                 background: '#141412',
                 boxShadow: '0 0 0 1px rgba(0,0,0,0.12), 0 24px 60px rgba(0,0,0,0.22)',
               }}
@@ -328,7 +328,7 @@ export default function CameraPage() {
           </div>
 
           {/* ── Sidebar ── */}
-          <div className="flex-1 flex flex-col gap-5" style={{ minWidth: 0 }}>
+          <div className="w-full xl:flex-1 flex flex-col gap-5" style={{ minWidth: 0 }}>
             {/* detection list */}
             <div
               className="rounded-2xl bg-white flex flex-col overflow-hidden"
@@ -340,13 +340,13 @@ export default function CameraPage() {
             >
               {/* header */}
               <div className="px-5 pt-5 pb-4 flex items-center justify-between border-b border-[#f0ece6]">
-                <h2 className="text-[30px] font-black text-[#1a1c19] tracking-tight">Kết quả</h2>
+                <h2 className="text-[30px] font-black font-nunito text-[#1a1c19] tracking-tight">Kết quả</h2>
                 <div className="flex items-center gap-2">
-                  <span className="text-[30px] font-bold text-[#b89a8a]">
+                  <span className="text-[25px] font-bold font-baloo text-[#b89a8a]">
                     Số vật thể đang nhận diện:
                   </span>
                   {detections.length > 0 && (
-                    <span className="text-[24px] font-bold text-[#8d6e63] bg-[#f5ede9] px-2.5 py-0.5 rounded-full">
+                    <span className="text-[24px] font-bold font-baloo text-[#8d6e63] bg-[#f5ede9] px-2.5 py-0.5 rounded-full">
                       {detections.length}
                     </span>
                   )}
@@ -372,10 +372,10 @@ export default function CameraPage() {
                         <li key={i} className="px-5 py-3.5 hover:bg-[#faf7f4] transition-colors duration-100">
                           <div className="flex items-start justify-between mb-1">
                             <div>
-                              <span className="font-bold text-[#1a1c19] text-[30px] leading-none block">{d.label}</span>
-                              <span className="text-[20px] text-[#8d6e63] mt-0.5 block">{vi}</span>
+                              <span className="font-bold text-[#1a1c19] text-[30px] leading-none block font-nunito">{d.label}</span>
+                              <span className="font-normal text-[20px] text-[#8d6e63] mt-0.5 block font-baloo">{vi}</span>
                             </div>
-                            <span className="text-[30px] font-black text-[#72564c] flex-shrink-0 ml-2 mt-0.5">
+                            <span className="text-[22px] font-black font-baloo text-[#72564c] flex-shrink-0 ml-2 mt-0.5">
                               {Math.round(d.confidence * 100)}%
                             </span>
                           </div>
