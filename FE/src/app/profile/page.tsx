@@ -38,7 +38,7 @@ export default function ProfilePage() {
   const [achievementStats, setAchievementStats] = useState({ unlockedCount: 0, totalAchievements: 0, completionPercentage: 0 });
   const [showAllAchievements, setShowAllAchievements] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [passwordStep, setPasswordStep] = useState(1); // 1: current password, 2: new password
+  const [passwordStep, setPasswordStep] = useState(1);
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -47,14 +47,7 @@ export default function ProfilePage() {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordMsg, setPasswordMsg] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const [profileMsg, setProfileMsg] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
-  const [pageVisible, setPageVisible] = useState(false);
-
-  useEffect(() => {
-    if (!loading) {
-      const t = setTimeout(() => setPageVisible(true), 60);
-      return () => clearTimeout(t);
-    }
-  }, [loading]);
+  const [achievementsLoaded, setAchievementsLoaded] = useState(false);
   const [profileData, setProfileData] = useState<UserProfile>({
     id: 0,
     name: user?.name || '',
@@ -77,15 +70,14 @@ export default function ProfilePage() {
   const loadProfileData = async () => {
     try {
       setLoading(true);
-      // Fetch fresh user data from API to get updated profile
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (!response.ok) throw new Error('Failed to fetch profile');
-      
+
       const userData = await response.json();
-      
+
       setProfileData({
         id: userData.id || 0,
         publicId: userData.publicId || '',
@@ -99,7 +91,6 @@ export default function ProfilePage() {
         provider: userData.provider || 'local',
       });
 
-      // Fetch achievements progress
       try {
         const achRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/achievements/progress`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -113,9 +104,12 @@ export default function ProfilePage() {
             completionPercentage: achData.completionPercentage || 0,
           });
         }
-      } catch { /* silent */ }
+        setAchievementsLoaded(true);
+      } catch (err: unknown) {
+        console.error('Achievements error:', err);
+        setAchievementsLoaded(true);
+      }
 
-      // Fetch saved vocabulary count
       try {
         const vocabResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/vocabulary/saved/collection`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -152,7 +146,6 @@ export default function ProfilePage() {
         throw new Error((err as any).error || 'Không thể cập nhật hồ sơ');
       }
 
-      // Sync name/email into authStore so all pages (tournament, etc.) see the new name
       if (user) {
         useAuthStore.getState().setUser({ ...user, name: profileData.name });
       }
@@ -177,7 +170,6 @@ export default function ProfilePage() {
       setPasswordMsg(null);
       setPasswordLoading(true);
 
-      // Verify current password with backend
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-password`, {
         method: 'POST',
         headers: {
@@ -198,7 +190,6 @@ export default function ProfilePage() {
         throw new Error((err as any).error || 'Không thể xác minh mật khẩu');
       }
 
-      // If password is correct, move to step 2
       setPasswordMsg(null);
       setPasswordStep(2);
     } catch (error: any) {
@@ -246,7 +237,7 @@ export default function ProfilePage() {
         throw new Error(error.error || 'Không thể đổi mật khẩu');
       }
 
-      setPasswordMsg({ type: 'success', text: 'Đổi mật khẩu thành công! Bạn có thể đóng cử sổ này.' });
+      setPasswordMsg({ type: 'success', text: 'Đổi mật khẩu thành công! Bạn có thể đóng cửa sổ này.' });
       setTimeout(() => {
         setShowPasswordModal(false);
         setPasswordStep(1);
@@ -276,12 +267,12 @@ export default function ProfilePage() {
         ) : (
           <div className="flex flex-col xl:flex-row gap-10 items-start">
 
-            {/* ── LEFT: Hồ sơ + Chỉnh sửa + Cài đặt ── */}
+            {/* ── LEFT ── */}
             <div className="w-full xl:w-[420px] xl:flex-shrink-0 flex flex-col gap-6">
 
               {/* Identity block */}
               <div className="bg-white border border-[#c4a99e] rounded-2xl p-6">
-                <div className="flex items-center gap-4 mb-6">
+                <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-full bg-[#72564c] flex items-center justify-center shrink-0">
                     <span className="text-2xl font-baloo font-black text-white">
                       {profileData.name ? profileData.name[0].toUpperCase() : '?'}
@@ -289,12 +280,11 @@ export default function ProfilePage() {
                   </div>
                   <div>
                     <h1 className="font-baloo text-[#1a1c19] leading-tight" style={{ fontSize: '20px' }}>{profileData.name}</h1>
-                    <p className="text-[#8d6e63] font-baloo" style={{ fontSize: '20px' }}>{profileData.email}</p>
+                    <p className="text-[#8d6e63] font-baloo" style={{ fontSize: '16px' }}>{profileData.email}</p>
                   </div>
                 </div>
 
-                {/* Stats */}
-                <div className="flex gap-6 mb-6">
+                <div className="flex gap-6 mt-6">
                   <div>
                     <p className="uppercase tracking-widest font-bold font-baloo text-[#8d6e63] mb-0.5" style={{ fontSize: '14px' }}>Cấp độ</p>
                     <p className="font-black font-baloo text-[#1a1c19]" style={{ fontSize: '20px' }}>{profileData.level}</p>
@@ -310,97 +300,109 @@ export default function ProfilePage() {
                     <p className="font-black font-baloo text-[#1a1c19] group-hover:text-[#72564c] transition-colors" style={{ fontSize: '20px' }}>{savedVocabCount}</p>
                   </button>
                 </div>
-
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="w-full font-semibold text-[#72564c] border border-[#c4a99e] px-4 py-2 rounded-lg hover:bg-[#f4ede9] transition-colors"
-                  style={{ fontSize: '16px' }}
-                >
-                  {isEditing ? 'Hủy chỉnh sửa' : 'Chỉnh sửa hồ sơ'}
-                </button>
               </div>
 
-              {/* Edit form */}
-              {isEditing && (
-                <div className="bg-white border border-[#c4a99e] rounded-2xl p-6">
-                  <h2 className="font-bold uppercase tracking-widest text-[#8d6e63] mb-5" style={{ fontSize: '14px' }}>Chỉnh sửa hồ sơ</h2>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '16px' }}>Tên</label>
-                      <input
-                        type="text"
-                        value={profileData.name}
-                        onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-white border border-[#d6c8c2] rounded-lg text-[#1a1c19] focus:outline-none focus:border-[#72564c] transition-colors"
-                        style={{ fontSize: '16px' }}
-                      />
-                    </div>
-                    {profileData.publicId && (
-                      <div>
-                        <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '16px' }}>User ID</label>
-                        <div className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] flex items-center gap-2 cursor-not-allowed" style={{ fontSize: '16px' }}>
-                          <span className="flex-1 font-bold tracking-wider">{profileData.publicId}</span>
-                        </div>
-                        <p className="mt-1 text-[#b09488]" style={{ fontSize: '13px' }}>ID công khai — không thể thay đổi.</p>
-                      </div>
-                    )}
-                    <div>
-                      <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '16px' }}>Email</label>
-                      <div className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] cursor-not-allowed" style={{ fontSize: '16px' }}>
-                        {profileData.email}
-                      </div>
-                      <p className="mt-1 text-[#b09488]" style={{ fontSize: '13px' }}>Email không thể thay đổi.</p>
-                    </div>
-                    <div className="flex gap-3 pt-1">
-                      <button onClick={handleSave} disabled={saving} className="px-5 py-2 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '16px' }}>
-                        {saving ? 'Đang lưu...' : 'Lưu'}
-                      </button>
-                      <button onClick={() => { setIsEditing(false); setProfileMsg(null); }} className="px-5 py-2 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '16px' }}>
-                        Hủy
-                      </button>
-                    </div>
-                    {profileMsg && (
-                      <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${profileMsg.type === 'error' ? 'bg-[#ffdad6] text-red-700' : 'bg-[#c2ebe5]/40 text-[#406561]'}`} style={{ fontSize: '16px' }}>
-                        {profileMsg.text}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Cài đặt — gộp vào cột trái */}
+              {/* Cài đặt */}
               <div className="bg-white border border-[#c4a99e] rounded-2xl p-6">
-                <h2 className="font-bold uppercase tracking-widest text-[#8d6e63] mb-4" style={{ fontSize: '14px' }}>Cài đặt</h2>
-                {profileData.provider === 'google' ? (
-                  <div className="flex items-start gap-3 py-3 px-4 rounded-xl bg-[#f4f0ec] border border-[#e8dcd4]">
+                <h2 className="font-bold font-nunito uppercase tracking-widest text-[#8d6e63] mb-4" style={{ fontSize: '14px' }}>Cài đặt</h2>
+
+                <div className="flex flex-col gap-4">
+
+                  {/* Tên hiển thị */}
+                  <div className="flex justify-between items-center">
                     <div>
+                      <p className="font-semibold font-baloo text-[#1a1c19]" style={{ fontSize: '16px' }}>Tên hiển thị</p>
+                      <p className="text-[#8d6e63] font-baloo mt-0.5" style={{ fontSize: '14px' }}>{profileData.name}</p>
+                    </div>
+                    <button
+                      onClick={() => { setIsEditing(!isEditing); setProfileMsg(null); }}
+                      className="font-semibold font-baloo text-[#72564c] border border-[#c4a99e] px-4 py-1.5 rounded-lg hover:bg-[#f4ede9] transition-colors"
+                      style={{ fontSize: '15px' }}
+                    >
+                      {isEditing ? 'Hủy' : 'Chỉnh sửa'}
+                    </button>
+                  </div>
+
+                  {/* Inline edit form */}
+                  {isEditing && (
+                    <div className="flex flex-col gap-3 pt-1 border-t border-[#e8dcd4]">
+                      <div>
+                        <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '14px' }}>Tên</label>
+                        <input
+                          type="text"
+                          value={profileData.name}
+                          onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+                          className="w-full px-4 py-2.5 bg-white border border-[#d6c8c2] rounded-lg text-[#1a1c19] focus:outline-none focus:border-[#72564c] transition-colors"
+                          style={{ fontSize: '15px' }}
+                        />
+                      </div>
+                      {profileData.publicId && (
+                        <div>
+                          <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '14px' }}>User ID</label>
+                          <div className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] cursor-not-allowed" style={{ fontSize: '15px' }}>
+                            {profileData.publicId}
+                          </div>
+                          <p className="mt-1 text-[#b09488]" style={{ fontSize: '12px' }}>ID công khai — không thể thay đổi.</p>
+                        </div>
+                      )}
+                      <div>
+                        <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '14px' }}>Email</label>
+                        <div className="w-full px-4 py-2.5 bg-[#f4ede9] border border-[#d6c8c2] rounded-lg text-[#8d6e63] cursor-not-allowed" style={{ fontSize: '15px' }}>
+                          {profileData.email}
+                        </div>
+                        <p className="mt-1 text-[#b09488]" style={{ fontSize: '12px' }}>Email không thể thay đổi.</p>
+                      </div>
+                      <div className="flex gap-3">
+                        <button onClick={handleSave} disabled={saving} className="px-5 py-2 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '15px' }}>
+                          {saving ? 'Đang lưu...' : 'Lưu'}
+                        </button>
+                        <button onClick={() => { setIsEditing(false); setProfileMsg(null); }} className="px-5 py-2 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '15px' }}>
+                          Hủy
+                        </button>
+                      </div>
+                      {profileMsg && (
+                        <p className={`px-3 py-2 rounded-lg font-medium ${profileMsg.type === 'error' ? 'bg-[#ffdad6] text-red-700' : 'bg-[#c2ebe5]/40 text-[#406561]'}`} style={{ fontSize: '14px' }}>
+                          {profileMsg.text}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="border-t border-[#e8dcd4]" />
+
+                  {/* Đổi mật khẩu / Google */}
+                  {profileData.provider === 'google' ? (
+                    <div className="py-2 px-4 rounded-xl bg-[#f4f0ec] border border-[#e8dcd4]">
                       <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '16px' }}>Đăng nhập bằng Google</p>
-                      <p className="text-[#8d6e63] mt-1 leading-relaxed" style={{ fontSize: '14px' }}>
+                      <p className="text-[#8d6e63] mt-1" style={{ fontSize: '14px' }}>
                         Đổi mật khẩu tại{' '}
                         <a href="https://myaccount.google.com/security" target="_blank" rel="noopener noreferrer" className="text-[#72564c] underline hover:text-[#504441]">
                           myaccount.google.com
                         </a>
                       </p>
                     </div>
-                  </div>
-                ) : (
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-semibold text-[#1a1c19]" style={{ fontSize: '16px' }}>Đổi mật khẩu</p>
-                      <p className="text-[#8d6e63] mt-0.5" style={{ fontSize: '14px' }}>Cập nhật mật khẩu tài khoản</p>
+                  ) : (
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <p className="font-semibold font-baloo text-[#1a1c19]" style={{ fontSize: '16px' }}>Đổi mật khẩu</p>
+                        <p className="text-[#8d6e63] font-baloo mt-0.5" style={{ fontSize: '14px' }}>Cập nhật mật khẩu tài khoản</p>
+                      </div>
+                      <button onClick={() => setShowPasswordModal(true)} className="font-semibold font-baloo text-[#72564c] border border-[#c4a99e] px-4 py-1.5 rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '15px' }}>
+                        Thay đổi
+                      </button>
                     </div>
-                    <button onClick={() => setShowPasswordModal(true)} className="font-semibold text-[#72564c] border border-[#c4a99e] px-4 py-1.5 rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '15px' }}>
-                      Thay đổi
-                    </button>
-                  </div>
-                )}
+                  )}
+
+                </div>
               </div>
+
             </div>
+            {/* ── END LEFT ── */}
 
             {/* ── RIGHT: Thành tích ── */}
             <div className="flex-1 bg-white border border-[#c4a99e] rounded-2xl p-6" style={{ minWidth: 0 }}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-bold uppercase tracking-widest text-[#8d6e63]" style={{ fontSize: '14px' }}>Thành tích</h2>
+                <h2 className="font-bold uppercase font-nunito tracking-widest text-[#8d6e63]" style={{ fontSize: '14px' }}>Thành tích</h2>
                 {achievementStats.totalAchievements > 0 && (
                   <span className="text-[#8d6e63] font-medium" style={{ fontSize: '15px' }}>
                     {achievementStats.unlockedCount}/{achievementStats.totalAchievements} đã mở khóa
@@ -419,8 +421,12 @@ export default function ProfilePage() {
                 </div>
               )}
 
-              {achievements.length === 0 ? (
+              {!achievementsLoaded ? (
                 <p className="text-[#8d6e63] text-center py-12" style={{ fontSize: '16px' }}>Đang tải thành tích...</p>
+              ) : achievements.length === 0 ? (
+                <p className="text-[#8d6e63] font-baloo text-center py-12" style={{ fontSize: '16px' }}>
+                  Chưa có thành tựu nào. Hãy bắt đầu học để mở khóa!
+                </p>
               ) : (() => {
                 const INITIAL_SHOW = 6;
                 const visible = showAllAchievements ? achievements : achievements.slice(0, INITIAL_SHOW);
@@ -477,12 +483,12 @@ export default function ProfilePage() {
         )}
       </main>
 
-      {/* ── Password modal — only for local accounts ── */}
+      {/* ── Password modal ── */}
       {showPasswordModal && profileData.provider !== 'google' && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
           <div className="bg-[#fafaf5] rounded-2xl w-full max-w-sm p-8 shadow-xl">
             <div className="mb-6">
-              <p className="uppercase tracking-widest font-bold text-[#8d6e63] mb-1" style={{ fontSize: '20px' }}>
+              <p className="uppercase tracking-widest font-bold text-[#8d6e63] mb-1" style={{ fontSize: '13px' }}>
                 Bước {passwordStep} / 2
               </p>
               <h3 className="font-extrabold text-[#1a1c19]" style={{ fontSize: '20px' }}>Đổi mật khẩu</h3>
@@ -491,8 +497,8 @@ export default function ProfilePage() {
             {passwordStep === 1 ? (
               <div className="space-y-4">
                 <div>
-                  <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '20px' }}>Mật khẩu hiện tại</label>
-                  <p className="text-[#8d6e63] mb-2" style={{ fontSize: '20px' }}>Nhập mật khẩu bạn đang dùng để xác nhận danh tính trước khi đổi.</p>
+                  <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '15px' }}>Mật khẩu hiện tại</label>
+                  <p className="text-[#8d6e63] mb-2" style={{ fontSize: '14px' }}>Nhập mật khẩu bạn đang dùng để xác nhận danh tính trước khi đổi.</p>
                   <input
                     type="password"
                     value={passwordData.currentPassword}
@@ -500,29 +506,23 @@ export default function ProfilePage() {
                     placeholder="Nhập mật khẩu hiện tại"
                     className={`w-full px-4 py-2.5 bg-white border rounded-lg text-[#1a1c19] focus:outline-none transition-colors ${
                       passwordMsg?.type === 'error' ? 'border-red-400 focus:border-red-500' : 'border-[#d6c8c2] focus:border-[#72564c]'
-                    }`} style={{ fontSize: '20px' }}
+                    }`}
+                    style={{ fontSize: '15px' }}
                   />
                   {passwordMsg && (
-                    <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${
-                      passwordMsg.type === 'error'
-                        ? 'bg-[#ffdad6] text-red-700'
-                        : 'bg-[#c2ebe5]/40 text-[#406561]'
-                    }`} style={{ fontSize: '20px' }}>
+                    <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${passwordMsg.type === 'error' ? 'bg-[#ffdad6] text-red-700' : 'bg-[#c2ebe5]/40 text-[#406561]'}`} style={{ fontSize: '14px' }}>
                       {passwordMsg.text}
                     </p>
                   )}
                 </div>
                 <div className="flex gap-3 pt-1">
-                  <button
-                    onClick={handlePasswordNext}
-                    disabled={passwordLoading}
-                    className="flex-1 py-2.5 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '20px' }}
-                  >
+                  <button onClick={handlePasswordNext} disabled={passwordLoading} className="flex-1 py-2.5 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '15px' }}>
                     {passwordLoading ? 'Đang xác minh...' : 'Tiếp theo'}
                   </button>
                   <button
                     onClick={() => { setShowPasswordModal(false); setPasswordStep(1); setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' }); setPasswordMsg(null); }}
-                    className="px-4 py-2.5 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '20px' }}
+                    className="px-4 py-2.5 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors"
+                    style={{ fontSize: '15px' }}
                   >
                     Hủy
                   </button>
@@ -531,8 +531,8 @@ export default function ProfilePage() {
             ) : (
               <div className="space-y-4">
                 <div>
-                  <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '20px' }}>Mật khẩu mới</label>
-                  <p className="text-[#8d6e63] mb-2" style={{ fontSize: '20px' }}>Tối thiểu 6 ký tự. Nên kết hợp chữ hoa, số và ký tự đặc biệt.</p>
+                  <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '15px' }}>Mật khẩu mới</label>
+                  <p className="text-[#8d6e63] mb-2" style={{ fontSize: '14px' }}>Tối thiểu 6 ký tự. Nên kết hợp chữ hoa, số và ký tự đặc biệt.</p>
                   <input
                     type="password"
                     value={passwordData.newPassword}
@@ -540,11 +540,12 @@ export default function ProfilePage() {
                     placeholder="Nhập mật khẩu mới"
                     className={`w-full px-4 py-2.5 bg-white border rounded-lg text-[#1a1c19] focus:outline-none transition-colors ${
                       passwordMsg?.type === 'error' ? 'border-red-400 focus:border-red-500' : 'border-[#d6c8c2] focus:border-[#72564c]'
-                    }`} style={{ fontSize: '20px' }}
+                    }`}
+                    style={{ fontSize: '15px' }}
                   />
                 </div>
                 <div>
-                  <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '20px' }}>Xác nhận mật khẩu mới</label>
+                  <label className="block font-semibold text-[#504441] mb-1.5" style={{ fontSize: '15px' }}>Xác nhận mật khẩu mới</label>
                   <input
                     type="password"
                     value={passwordData.confirmPassword}
@@ -552,30 +553,20 @@ export default function ProfilePage() {
                     placeholder="Nhập lại mật khẩu mới"
                     className={`w-full px-4 py-2.5 bg-white border rounded-lg text-[#1a1c19] focus:outline-none transition-colors ${
                       passwordMsg?.type === 'error' ? 'border-red-400 focus:border-red-500' : 'border-[#d6c8c2] focus:border-[#72564c]'
-                    }`} style={{ fontSize: '20px' }}
+                    }`}
+                    style={{ fontSize: '15px' }}
                   />
                   {passwordMsg && (
-                    <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${
-                      passwordMsg.type === 'error'
-                        ? 'bg-[#ffdad6] text-red-700'
-                        : 'bg-[#c2ebe5]/40 text-[#406561]'
-                    }`} style={{ fontSize: '20px' }}>
+                    <p className={`mt-2 px-3 py-2 rounded-lg font-medium ${passwordMsg.type === 'error' ? 'bg-[#ffdad6] text-red-700' : 'bg-[#c2ebe5]/40 text-[#406561]'}`} style={{ fontSize: '14px' }}>
                       {passwordMsg.text}
                     </p>
                   )}
                 </div>
                 <div className="flex gap-3 pt-1">
-                  <button
-                    onClick={handlePasswordChange}
-                    disabled={passwordLoading || passwordMsg?.type === 'success'}
-                    className="flex-1 py-2.5 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '20px' }}
-                  >
+                  <button onClick={handlePasswordChange} disabled={passwordLoading || passwordMsg?.type === 'success'} className="flex-1 py-2.5 bg-[#72564c] text-white font-bold rounded-lg hover:bg-[#504441] disabled:opacity-50 transition-colors" style={{ fontSize: '15px' }}>
                     {passwordLoading ? 'Đang xử lý...' : 'Xác nhận'}
                   </button>
-                  <button
-                    onClick={() => { setPasswordStep(1); setPasswordMsg(null); }}
-                    className="px-4 py-2.5 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '20px' }}
-                  >
+                  <button onClick={() => { setPasswordStep(1); setPasswordMsg(null); }} className="px-4 py-2.5 font-bold text-[#504441] border border-[#d6c8c2] rounded-lg hover:bg-[#f4ede9] transition-colors" style={{ fontSize: '15px' }}>
                     Quay lại
                   </button>
                 </div>

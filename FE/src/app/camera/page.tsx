@@ -392,7 +392,7 @@ export default function CameraPage() {
                           <button
                             onClick={() => handleSave(d.label)}
                             disabled={isSaved || isSaving}
-                            className={`w-full text-center text-[20px] font-bold py-1.5 rounded-lg transition-all duration-150 ${
+                            className={`w-full text-center text-[17px] font-bold font-baloo py-1.5 rounded-lg transition-all duration-150 ${
                               isSaved
                                 ? 'bg-[#eaf6ef] text-[#2d7a50] cursor-default'
                                 : isSaving

@@ -154,7 +154,11 @@ export default function Header() {
           <div
             className="fixed inset-0 bg-black/20 z-30 top-[75px]"
             onClick={closeSidebar}
-            style={{ animation: 'backdropFadeIn 0.25s ease forwards' }}
+            style={{
+              animation: sidebarClosing
+              ? 'backdropFadeOut 0.2s ease forwards'
+              : 'backdropFadeIn 0.25s ease forwards'
+            }}
           />
           
           {/* Sidebar Menu */}
@@ -181,8 +185,8 @@ export default function Header() {
                     style={{ animationDelay: `${sidebarClosing ? outDelay : inDelay}ms` }}
                   >
                     <div className="flex flex-col">
-                      <span className="font-bold" style={{ fontSize: '22px' }}>{item.label}</span>
-                      <span className="opacity-70 font-normal" style={{ fontSize: '18px' }}>{item.subtitle}</span>
+                      <span className="font-bold font-baloo" style={{ fontSize: '25px' }}>{item.label}</span>
+                      <span className="opacity-70 font-normal font-baloo" style={{ fontSize: '20px' }}>{item.subtitle}</span>
                     </div>
                   </Link>
                 );
@@ -235,6 +239,10 @@ export default function Header() {
               @keyframes slideOut {
                 from { transform: translateX(0);     opacity: 1; }
                 to   { transform: translateX(-100%); opacity: 0; }
+              }
+              @keyframes backdropFadeOut {
+                from { opacity: 1; }
+                to   { opacity: 0; }
               }
             `}</style>
           </nav>
