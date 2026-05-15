@@ -5,12 +5,9 @@ import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-interface Props {
-  redirectTo?: string;
-}
-
-export default function GoogleLoginButton({ redirectTo = '/level-selection' }: Props) {
-  const { googleLogin } = useAuthStore();
+// Component bên trong — chỉ render khi có Provider
+function GoogleLoginButtonInner({ redirectTo }: { redirectTo: string }) {
+  const googleLogin = useAuthStore((s) => s.googleLogin);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -29,13 +26,9 @@ export default function GoogleLoginButton({ redirectTo = '/level-selection' }: P
         setLoading(false);
       }
     },
-    onError: () => {
-      setError('Đăng nhập Google bị huỷ hoặc thất bại');
-    },
+    onError: () => setError('Đăng nhập Google bị huỷ hoặc thất bại'),
     flow: 'implicit',
   });
-
-  if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return null;
 
   return (
     <div className="space-y-2">
@@ -69,9 +62,13 @@ export default function GoogleLoginButton({ redirectTo = '/level-selection' }: P
         )}
         {loading ? 'Đang xử lý...' : 'Tiếp tục với Google'}
       </button>
-      {error && (
-        <p className="text-[#93000a] text-xs text-center px-1">{error}</p>
-      )}
+      {error && <p className="text-[#93000a] text-xs text-center px-1">{error}</p>}
     </div>
   );
+}
+
+// Component ngoài — kiểm tra clientId trước
+export default function GoogleLoginButton({ redirectTo = '/level-selection' }: { redirectTo?: string }) {
+  if (!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID) return null;
+  return <GoogleLoginButtonInner redirectTo={redirectTo} />;
 }

@@ -52,7 +52,7 @@ export default function Header() {
         {/* Left - Hamburger Menu */}
         <button
           onClick={() => sidebarOpen ? closeSidebar() : setSidebarOpen(true)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-all"
+          className="p-2 hover:bg-gray-100 rounded-lg transition-all relative z-50"
           title="Menu"
         >
           <img
@@ -154,10 +154,21 @@ export default function Header() {
           <div
             className="fixed inset-0 bg-black/20 z-30 top-[75px]"
             onClick={closeSidebar}
+            style={{
+              animation: sidebarClosing
+              ? 'backdropFadeOut 0.2s ease forwards'
+              : 'backdropFadeIn 0.25s ease forwards'
+            }}
           />
           
           {/* Sidebar Menu */}
-          <nav className="fixed left-0 top-[75px] h-[calc(100vh-75px)] w-72 bg-white shadow-lg z-30 overflow-y-auto">
+          <nav className="fixed left-0 top-[75px] h-[calc(100vh-75px)] w-72 bg-white shadow-lg z-30 overflow-y-auto"
+            style={{
+              animation: sidebarClosing
+                ? 'slideOut 0.3s ease forwards'
+                : 'slideIn 0.3s ease forwards'
+            }}
+          >
             <div className="px-4 py-6 space-y-1">
               {menuItems.map((item, index) => {
                 const n = menuItems.length + (isAdmin ? 1 : 0);
@@ -174,8 +185,8 @@ export default function Header() {
                     style={{ animationDelay: `${sidebarClosing ? outDelay : inDelay}ms` }}
                   >
                     <div className="flex flex-col">
-                      <span className="font-bold" style={{ fontSize: '22px' }}>{item.label}</span>
-                      <span className="opacity-70 font-normal" style={{ fontSize: '18px' }}>{item.subtitle}</span>
+                      <span className="font-bold font-baloo" style={{ fontSize: '25px' }}>{item.label}</span>
+                      <span className="opacity-70 font-normal font-baloo" style={{ fontSize: '20px' }}>{item.subtitle}</span>
                     </div>
                   </Link>
                 );
@@ -219,6 +230,19 @@ export default function Header() {
               .sidebar-item-out {
                 opacity: 1;
                 animation: menuItemOut 0.22s ease forwards;
+              }
+              @keyframes slideIn {
+                from { transform: translateX(-100%); opacity: 0; }
+                to   { transform: translateX(0);     opacity: 1; }
+              }
+
+              @keyframes slideOut {
+                from { transform: translateX(0);     opacity: 1; }
+                to   { transform: translateX(-100%); opacity: 0; }
+              }
+              @keyframes backdropFadeOut {
+                from { opacity: 1; }
+                to   { opacity: 0; }
               }
             `}</style>
           </nav>

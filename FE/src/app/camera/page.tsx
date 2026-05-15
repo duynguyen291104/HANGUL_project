@@ -47,7 +47,41 @@ export default function CameraPage() {
   const { token } = useAuthStore();
   const router = useRouter();
   const [isStreamActive, setIsStreamActive] = useState(false);
-  const [detections, setDetections] = useState<Detection[]>([]);
+  const [detections, setDetections] = useState<Detection[]>([
+    // Mock data for dêtcions during development:
+    { id: 1,
+      label: '고양이',
+      confidence: 0.87,
+      bbox: [100, 150, 300, 400],
+      age: 0,
+    },
+    { id: 2,
+      label: '책',
+      confidence: 0.76,
+      bbox: [400, 200, 550, 350],
+      age: 0,
+    },
+    { id: 3,
+      label: '의자',
+      confidence: 0.65,
+      bbox: [600, 250, 750, 400],
+      age: 0,
+    },
+    {
+      id: 4,
+      label: '사람',
+      confidence: 0.92,
+      bbox: [200, 100, 350, 450],
+      age: 0,
+    },
+    {
+      id: 5,
+      label: '컵',
+      confidence: 0.78,
+      bbox: [500, 300, 650, 450],
+      age: 0,
+    },
+  ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [serverStatus, setServerStatus] = useState<'connected' | 'disconnected' | 'checking'>('checking');
@@ -174,15 +208,15 @@ export default function CameraPage() {
     <div className="min-h-screen flex flex-col" style={{ background: '#f7f4ef' }}>
       <Header />
 
-      <main className="flex-1 px-[100px] py-14 flex flex-col gap-12">
+      <main className="flex-1 px-4 md:px-10 xl:px-[100px] py-14 flex flex-col gap-12">
 
         {/* ── Title row ── */}
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-4xl md:text-5xl font-extrabold font-headline text-on-background leading-tight tracking-tight">
+            <h1 className="text-4xl md:text-5xl font-nunito font-headline text-on-background leading-tight tracking-tight">
               Camera Thông Minh
             </h1>
-            <p className="text-on-surface-variant font-medium font-body mt-[20px]">
+            <p className="text-3xl font-medium font-baloo font-bold mt-[20px]">
               Hướng camera vào bất kỳ vật thể — AI nhận diện và gợi ý từ tiếng Hàn ngay lập tức
             </p>
           </div>
@@ -207,15 +241,15 @@ export default function CameraPage() {
         </div>
 
         {/* ── Core layout: viewport left, sidebar right ── */}
-        <div className="flex gap-10 items-start">
+        <div className="flex flex-col xl:flex-row gap-10 items-start">
 
           {/* ── Camera block ── */}
-          <div style={{ flex: '0 0 960px' }}>
+          <div className="w-full xl:w-[960px] xl:flex-shrink-0">
             {/* viewport */}
             <div
-              className="relative rounded-[20px] overflow-hidden"
+              className="relative rounded-[20px] overflow-hidden w-full"
               style={{
-                height: '620px',
+                aspectRatio: '16/10',
                 background: '#141412',
                 boxShadow: '0 0 0 1px rgba(0,0,0,0.12), 0 24px 60px rgba(0,0,0,0.22)',
               }}
@@ -294,52 +328,38 @@ export default function CameraPage() {
           </div>
 
           {/* ── Sidebar ── */}
-          <div className="flex-1 flex flex-col gap-5" style={{ minWidth: 0 }}>
-
-            {/* stats strip */}
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { label: 'Frames xử lý', value: frameCount.toLocaleString(), mono: true },
-                { label: 'Vật thể nhận ra', value: String(detections.length), mono: false },
-              ].map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-2xl bg-white px-5 py-4"
-                  style={{ boxShadow: '0 2px 0 #e0d8d0, 0 0 0 1px #ede8e2' }}
-                >
-                  <p className="text-[9px] uppercase tracking-[0.22em] font-bold text-[#b89a8a] mb-1.5">{s.label}</p>
-                  <p className={`text-3xl font-black text-[#1a1c19] leading-none ${s.mono ? 'font-mono' : ''}`}>{s.value}</p>
-                </div>
-              ))}
-            </div>
-
+          <div className="w-full xl:flex-1 flex flex-col gap-5" style={{ minWidth: 0 }}>
             {/* detection list */}
             <div
               className="rounded-2xl bg-white flex flex-col overflow-hidden"
               style={{
                 flex: 1,
-                maxHeight: '490px',
+                maxHeight: '620px',
                 boxShadow: '0 2px 0 #e0d8d0, 0 0 0 1px #ede8e2',
               }}
             >
               {/* header */}
               <div className="px-5 pt-5 pb-4 flex items-center justify-between border-b border-[#f0ece6]">
-                <h2 className="text-sm font-black text-[#1a1c19] tracking-tight">Kết quả</h2>
-                {detections.length > 0 && (
-                  <span className="text-[11px] font-bold text-[#8d6e63] bg-[#f5ede9] px-2.5 py-0.5 rounded-full">
-                    {detections.length}
+                <h2 className="text-[30px] font-black font-nunito text-[#1a1c19] tracking-tight">Kết quả</h2>
+                <div className="flex items-center gap-2">
+                  <span className="text-[25px] font-bold font-baloo text-[#b89a8a]">
+                    Số vật thể đang nhận diện:
                   </span>
-                )}
+                  {detections.length > 0 && (
+                    <span className="text-[24px] font-bold font-baloo text-[#8d6e63] bg-[#f5ede9] px-2.5 py-0.5 rounded-full">
+                      {detections.length}
+                    </span>
+                  )}
+                </div>
               </div>
 
               {/* list */}
               <div className="flex-1 overflow-y-auto">
                 {detections.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center py-14 px-6 text-center">
-
-                    <p className="text-[#1a1c19]/30 text-sm font-semibold leading-snug">
+                    <p className="text-[30px] text-sm font-semibold leading-snug">
                       Chưa có gì ở đây<br />
-                      <span className="font-normal text-xs">Bắt đầu camera để nhận diện</span>
+                      <span className="font-normal text-[20px]">Hãy bắt đầu camera để nhận diện</span>
                     </p>
                   </div>
                 ) : (
@@ -352,12 +372,13 @@ export default function CameraPage() {
                         <li key={i} className="px-5 py-3.5 hover:bg-[#faf7f4] transition-colors duration-100">
                           <div className="flex items-start justify-between mb-1">
                             <div>
-                              <span className="font-bold text-[#1a1c19] text-sm leading-none block">{d.label}</span>
-                              <span className="text-[11px] text-[#8d6e63] mt-0.5 block">{vi}</span>
+                              <span className="font-bold text-[#1a1c19] text-[30px] leading-none block font-nunito">{d.label}</span>
+                              <span className="font-normal text-[20px] text-[#8d6e63] mt-0.5 block font-baloo">{vi}</span>
                             </div>
-                            <span className="text-[11px] font-black text-[#72564c] flex-shrink-0 ml-2 mt-0.5">{Math.round(d.confidence * 100)}%</span>
+                            <span className="text-[22px] font-black font-baloo text-[#72564c] flex-shrink-0 ml-2 mt-0.5">
+                              {Math.round(d.confidence * 100)}%
+                            </span>
                           </div>
-                          {/* confidence bar */}
                           <div className="h-[2px] bg-[#ede8e2] rounded-full mt-2 mb-3 overflow-hidden">
                             <div
                               className="h-full rounded-full"
@@ -371,7 +392,7 @@ export default function CameraPage() {
                           <button
                             onClick={() => handleSave(d.label)}
                             disabled={isSaved || isSaving}
-                            className={`w-full text-center text-[11px] font-bold py-1.5 rounded-lg transition-all duration-150 ${
+                            className={`w-full text-center text-[17px] font-bold font-baloo py-1.5 rounded-lg transition-all duration-150 ${
                               isSaved
                                 ? 'bg-[#eaf6ef] text-[#2d7a50] cursor-default'
                                 : isSaving

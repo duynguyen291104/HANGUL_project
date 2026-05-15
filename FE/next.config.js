@@ -14,6 +14,14 @@ const nextConfig = {
     // your project has ESLint errors.
     ignoreDuringBuilds: false,
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/yolo/:path*',
+        destination: `${process.env.NEXT_PUBLIC_FLASK_API_URL || 'http://localhost:5001'}/api/yolo/:path*`,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

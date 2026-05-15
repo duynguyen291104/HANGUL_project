@@ -71,7 +71,7 @@ services:
       BACKEND_URL: http://backend:5000
       BACKEND_API_KEY: ${BACKEND_API_KEY:-}
     ports:
-      - "5001:5001"
+      - "5001:5002"
     depends_on:
       postgres:
         condition: service_healthy

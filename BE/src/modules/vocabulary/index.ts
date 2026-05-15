@@ -425,10 +425,11 @@ router.post('/save', async (req: AuthRequest, res: Response) => {
     // Create saved vocabulary record
     const saved = await prisma.savedVocabulary.create({
       data: {
-        userId: req.user.id,
-        vocabularyId,
+        user: { connect: { id: req.user.id } },
+        vocabulary: { connect: { id: vocabularyId } },
         source,
         sourceId: sourceId || null,
+        type: source,
       },
       include: {
         vocabulary: { include: { topic: true } },
