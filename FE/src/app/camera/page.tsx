@@ -48,8 +48,8 @@ export default function CameraPage() {
   const router = useRouter();
   const [isStreamActive, setIsStreamActive] = useState(false);
   const [detections, setDetections] = useState<Detection[]>([
-    { id: 1, label: '고양이', confidence: 0.87, bbox: [], age: 0 },
-    { id: 2, label: '책', confidence: 0.76, bbox: [], age: 0 },
+    //{ id: 1, label: '고양이', confidence: 0.87, bbox: [], age: 0 },
+    //{ id: 2, label: '책', confidence: 0.76, bbox: [], age: 0 },
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
