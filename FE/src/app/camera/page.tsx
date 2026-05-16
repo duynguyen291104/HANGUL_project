@@ -48,39 +48,8 @@ export default function CameraPage() {
   const router = useRouter();
   const [isStreamActive, setIsStreamActive] = useState(false);
   const [detections, setDetections] = useState<Detection[]>([
-    // Mock data for dêtcions during development:
-    { id: 1,
-      label: '고양이',
-      confidence: 0.87,
-      bbox: [100, 150, 300, 400],
-      age: 0,
-    },
-    { id: 2,
-      label: '책',
-      confidence: 0.76,
-      bbox: [400, 200, 550, 350],
-      age: 0,
-    },
-    { id: 3,
-      label: '의자',
-      confidence: 0.65,
-      bbox: [600, 250, 750, 400],
-      age: 0,
-    },
-    {
-      id: 4,
-      label: '사람',
-      confidence: 0.92,
-      bbox: [200, 100, 350, 450],
-      age: 0,
-    },
-    {
-      id: 5,
-      label: '컵',
-      confidence: 0.78,
-      bbox: [500, 300, 650, 450],
-      age: 0,
-    },
+    { id: 1, label: '고양이', confidence: 0.87, bbox: [], age: 0 },
+    { id: 2, label: '책', confidence: 0.76, bbox: [], age: 0 },
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -204,39 +173,28 @@ export default function CameraPage() {
     }
   };
 
+  const speak = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ko-KR';
+    utterance.rate = 0.8;
+    window.speechSynthesis.speak(utterance);
+  };
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#f7f4ef' }}>
       <Header />
 
-      <main className="flex-1 px-4 md:px-10 xl:px-[100px] py-14 flex flex-col gap-12">
+      <main className="flex-1 px-4 md:px-6 xl:px-[100px] py-14 flex flex-col gap-12">
 
         {/* ── Title row ── */}
         <div className="flex items-end justify-between">
           <div>
-            <h1 className="text-4xl md:text-5xl font-nunito font-headline text-on-background leading-tight tracking-tight">
+            <h1 className="text-3xl md:text-5xl font-nunito font-headline text-on-background leading-tight tracking-tight">
               Camera Thông Minh
             </h1>
-            <p className="text-3xl font-medium font-baloo font-bold mt-[20px]">
+            <p className="text-2xl font-medium font-baloo font-bold mt-[20px]">
               Hướng camera vào bất kỳ vật thể — AI nhận diện và gợi ý từ tiếng Hàn ngay lập tức
             </p>
-          </div>
-
-          {/* server pill */}
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-wide border ${
-            serverStatus === 'connected'
-              ? 'border-[#a3cfb5] text-[#2d7a50] bg-[#eaf6ef]'
-              : serverStatus === 'checking'
-              ? 'border-[#e0c97a] text-[#8a6e18] bg-[#fdf8e3]'
-              : 'border-[#f0b8b8] text-[#b83232] bg-[#fdf0f0]'
-          }`}>
-            <span className={`w-1.5 h-1.5 rounded-full ${
-              serverStatus === 'connected' ? 'bg-[#2d7a50] live-dot'
-              : serverStatus === 'checking' ? 'bg-[#c9a020]'
-              : 'bg-[#b83232]'
-            }`} />
-            {serverStatus === 'connected' ? 'AI đang chạy'
-              : serverStatus === 'checking' ? 'Đang kết nối…'
-              : 'Server ngoại tuyến'}
           </div>
         </div>
 
@@ -244,7 +202,7 @@ export default function CameraPage() {
         <div className="flex flex-col xl:flex-row gap-10 items-start">
 
           {/* ── Camera block ── */}
-          <div className="w-full xl:w-[960px] xl:flex-shrink-0">
+          <div className="w-full xl:w-[860px] xl:flex-shrink-0">
             {/* viewport */}
             <div
               className="relative rounded-[20px] overflow-hidden w-full"
@@ -328,28 +286,26 @@ export default function CameraPage() {
           </div>
 
           {/* ── Sidebar ── */}
-          <div className="w-full xl:flex-1 flex flex-col gap-5" style={{ minWidth: 0 }}>
-            {/* detection list */}
+          <div className="w-full xl:flex-1 flex flex-col gap-5" style={{ minWidth: '280px' }}>
             <div
               className="rounded-2xl bg-white flex flex-col overflow-hidden"
               style={{
-                flex: 1,
                 maxHeight: '620px',
                 boxShadow: '0 2px 0 #e0d8d0, 0 0 0 1px #ede8e2',
               }}
             >
               {/* header */}
               <div className="px-5 pt-5 pb-4 flex items-center justify-between border-b border-[#f0ece6]">
-                <h2 className="text-[30px] font-black font-nunito text-[#1a1c19] tracking-tight">Kết quả</h2>
-                <div className="flex items-center gap-2">
-                  <span className="text-[25px] font-bold font-baloo text-[#b89a8a]">
-                    Số vật thể đang nhận diện:
+                <h2 className="text-[22px] font-black font-nunito text-[#1a1c19] tracking-tight whitespace-nowrap">
+                  Kết quả
+                </h2>
+                <div className="flex items-center gap-2 ml-3">
+                  <span className="text-[15px] font-bold font-baloo text-[#b89a8a] whitespace-nowrap">
+                    Số vật thể:
                   </span>
-                  {detections.length > 0 && (
-                    <span className="text-[24px] font-bold font-baloo text-[#8d6e63] bg-[#f5ede9] px-2.5 py-0.5 rounded-full">
-                      {detections.length}
-                    </span>
-                  )}
+                  <span className="text-[15px] font-bold font-baloo text-[#8d6e63] bg-[#f5ede9] px-2.5 py-0.5 rounded-full whitespace-nowrap">
+                    {detections.length}
+                  </span>
                 </div>
               </div>
 
@@ -357,10 +313,9 @@ export default function CameraPage() {
               <div className="flex-1 overflow-y-auto">
                 {detections.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center py-14 px-6 text-center">
-                    <p className="text-[30px] text-sm font-semibold leading-snug">
-                      Chưa có gì ở đây<br />
-                      <span className="font-normal text-[20px]">Hãy bắt đầu camera để nhận diện</span>
-                    </p>
+
+                      <span className="font-normal font-baloo text-[20px]">Hãy bắt đầu camera để nhận diện</span>
+
                   </div>
                 ) : (
                   <ul className="divide-y divide-[#f5f1ec]">
@@ -370,39 +325,48 @@ export default function CameraPage() {
                       const isSaving = savingWord === d.label;
                       return (
                         <li key={i} className="px-5 py-3.5 hover:bg-[#faf7f4] transition-colors duration-100">
-                          <div className="flex items-start justify-between mb-1">
-                            <div>
-                              <span className="font-bold text-[#1a1c19] text-[30px] leading-none block font-nunito">{d.label}</span>
-                              <span className="font-normal text-[20px] text-[#8d6e63] mt-0.5 block font-baloo">{vi}</span>
-                            </div>
-                            <span className="text-[22px] font-black font-baloo text-[#72564c] flex-shrink-0 ml-2 mt-0.5">
-                              {Math.round(d.confidence * 100)}%
-                            </span>
-                          </div>
-                          <div className="h-[2px] bg-[#ede8e2] rounded-full mt-2 mb-3 overflow-hidden">
-                            <div
-                              className="h-full rounded-full"
-                              style={{
-                                width: `${Math.round(d.confidence * 100)}%`,
-                                background: 'linear-gradient(90deg,#72564c,#c67230)',
-                                transition: 'width 0.6s ease',
-                              }}
-                            />
-                          </div>
-                          <button
-                            onClick={() => handleSave(d.label)}
-                            disabled={isSaved || isSaving}
-                            className={`w-full text-center text-[17px] font-bold font-baloo py-1.5 rounded-lg transition-all duration-150 ${
-                              isSaved
-                                ? 'bg-[#eaf6ef] text-[#2d7a50] cursor-default'
-                                : isSaving
-                                ? 'bg-[#f5ede9] text-[#b89a8a] cursor-wait'
-                                : 'bg-[#1a1c19] text-white hover:bg-[#72564c]'
-                            }`}
-                          >
-                            {isSaved ? 'Đã lưu' : isSaving ? 'Đang lưu…' : 'Lưu vào bộ sưu tập'}
-                          </button>
-                        </li>
+  <div className="flex items-start justify-between mb-1">
+    <div>
+      <div className="flex items-center gap-2">
+        <span className="font-bold text-[#1a1c19] text-[30px] leading-none font-nunito">{d.label}</span>
+        <button
+          onClick={() => speak(d.label)}
+          className="flex items-center justify-center w-8 h-8 rounded-full bg-[#f5ede9] hover:bg-[#72564c] hover:text-white text-[#72564c] transition-all active:scale-95"
+          title="Phát âm"
+        >
+          🔊
+        </button>
+      </div>
+      <span className="font-normal text-[20px] text-[#8d6e63] mt-0.5 block font-baloo">{vi}</span>
+    </div>
+    <span className="text-[22px] font-black font-baloo text-[#72564c] flex-shrink-0 ml-2 mt-0.5">
+      {Math.round(d.confidence * 100)}%
+    </span>
+  </div>
+  <div className="h-[2px] bg-[#ede8e2] rounded-full mt-2 mb-3 overflow-hidden">
+    <div
+      className="h-full rounded-full"
+      style={{
+        width: `${Math.round(d.confidence * 100)}%`,
+        background: 'linear-gradient(90deg,#72564c,#c67230)',
+        transition: 'width 0.6s ease',
+      }}
+    />
+  </div>
+  <button
+    onClick={() => handleSave(d.label)}
+    disabled={isSaved || isSaving}
+    className={`w-full text-center text-[17px] font-bold font-baloo py-1.5 rounded-lg transition-all duration-150 ${
+      isSaved
+        ? 'bg-[#eaf6ef] text-[#2d7a50] cursor-default'
+        : isSaving
+        ? 'bg-[#f5ede9] text-[#b89a8a] cursor-wait'
+        : 'bg-[#1a1c19] text-white hover:bg-[#72564c]'
+    }`}
+  >
+    {isSaved ? 'Đã lưu' : isSaving ? 'Đang lưu…' : 'Lưu vào bộ sưu tập'}
+  </button>
+</li>
                       );
                     })}
                   </ul>

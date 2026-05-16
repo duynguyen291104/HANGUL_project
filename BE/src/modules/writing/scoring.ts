@@ -711,13 +711,13 @@ const evaluateWithPixels = async (imageBase64: string): Promise<{ accuracy: numb
 
     const inkRatio = inkPixels / total;
 
-    if (ratio < 0.01) {
+    if (inkRatio < 0.01) {
       return { accuracy: 0, feedback: 'Canvas trắng, chưa viết gì cả' };
-    } else if (ratio < 0.03) {
+    } else if (inkRatio < 0.03) {
       return { accuracy: 30, feedback: 'Nét viết quá mờ hoặc thiếu nhiều nét' };
-    } else if (ratio < 0.07) {
+    } else if (inkRatio < 0.07) {
       return { accuracy: 55, feedback: 'Viết được nhưng cần luyện thêm độ đậm và đầy đủ nét' };
-    } else if (ratio < 0.15) {
+    } else if (inkRatio < 0.15) {
       return { accuracy: 72, feedback: 'Viết ổn, tiếp tục luyện tập để chuẩn hơn' };
     } else {
       return { accuracy: 85, feedback: 'Nét viết đầy đặn, rất tốt!' };
