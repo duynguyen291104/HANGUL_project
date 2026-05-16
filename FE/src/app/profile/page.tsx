@@ -422,7 +422,7 @@ export default function ProfilePage() {
               )}
 
               {!achievementsLoaded ? (
-                <p className="text-[#8d6e63] text-center py-12" style={{ fontSize: '16px' }}>Đang tải thành tích...</p>
+                <p className="text-[#8d6e63] font-baloo text-center py-12" style={{ fontSize: '16px' }}>Đang tải thành tích...</p>
               ) : achievements.length === 0 ? (
                 <p className="text-[#8d6e63] font-baloo text-center py-12" style={{ fontSize: '16px' }}>
                   Chưa có thành tựu nào. Hãy bắt đầu học để mở khóa!

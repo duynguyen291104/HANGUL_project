@@ -36,7 +36,7 @@ function GoogleLoginButtonInner({ redirectTo }: { redirectTo: string }) {
         type="button"
         onClick={() => login()}
         disabled={loading}
-        className="w-full flex items-center justify-center gap-3 py-3.5 px-4 bg-white border border-[#d4c3be] rounded-full shadow-sm hover:shadow-md hover:bg-gray-50 active:scale-95 transition-all disabled:opacity-50 font-semibold text-[#504441]"
+        className="w-full flex items-center font-baloo justify-center gap-3 py-3.5 px-4 bg-white border border-[#d4c3be] rounded-full shadow-sm hover:shadow-md hover:bg-gray-50 active:scale-95 transition-all disabled:opacity-50 font-semibold text-[#504441]"
       >
         {loading ? (
           <span className="w-5 h-5 border-2 border-[#72564c]/30 border-t-[#72564c] rounded-full animate-spin" />

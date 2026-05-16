@@ -172,10 +172,10 @@ export default function LoginPage() {
               alt="HANGUL Mascot"
               className="w-20 h-20 mx-auto mb-4 object-contain"
             />
-            <h1 className="font-black tracking-tighter text-[#72564c] uppercase mb-2" style={{ fontSize: '40px' }}>
+            <h1 className="font-black font-nunito tracking-tighter text-[#72564c] uppercase mb-2" style={{ fontSize: '40px' }}>
               HANGUL
             </h1>
-            <p className="text-[#504441] font-medium">Hành trình thành thạo tiếng Hàn bắt đầu từ đây.</p>
+            <p className="text-[#504441] font-baloo font-medium">Hành trình thành thạo tiếng Hàn bắt đầu từ đây.</p>
           </div>
 
           {/* Success Message */}
@@ -196,7 +196,7 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-sm font-bold text-[#72564c] px-1">
+              <label className="block font-baloo text-sm font-bold text-[#72564c] px-1">
                 Email
               </label>
               <input
@@ -206,21 +206,16 @@ export default function LoginPage() {
                 onChange={handleChange}
                 placeholder="hello@otter.edu"
                 autoComplete="email"
-                className={`w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50 ${fieldErrors.email ? 'ring-2 ring-red-400' : ''}`}
+                className={`w-full px-4 py-4 bg-[#e8e8e3] font-baloo rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50 ${fieldErrors.email ? 'ring-2 ring-red-400' : ''}`}
               />
               {fieldErrors.email && <p className="text-[#93000a] text-xs px-1">{fieldErrors.email}</p>}
             </div>
 
             {/* Password Field */}
             <div className="space-y-2">
-              <div className="flex justify-between items-center px-1">
-                <label className="block text-sm font-bold text-[#72564c]">
-                  Mật khẩu
-                </label>
-                <Link className="text-xs font-bold text-[#815300] hover:underline" href="/forgot-password">
-                  Quên mật khẩu?
-                </Link>
-              </div>
+              <label className="block font-baloo text-sm font-bold text-[#72564c]">
+                Mật khẩu
+              </label>
               <input
                 type="password"
                 name="password"
@@ -228,8 +223,13 @@ export default function LoginPage() {
                 onChange={handleChange}
                 placeholder="••••••••"
                 autoComplete="current-password"
-                className={`w-full px-4 py-4 bg-[#e8e8e3] rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50 ${fieldErrors.password ? 'ring-2 ring-red-400' : ''}`}
+                className={`w-full px-4 py-4 bg-[#e8e8e3] font-baloo rounded-lg border-none focus:ring-2 focus:ring-[#72564c]/20 focus:bg-white transition-all placeholder:text-[#827470]/50 ${fieldErrors.password ? 'ring-2 ring-red-400' : ''}`}
               />
+              <div className="flex justify-end px-1">
+                <Link className="text-small font-bold font-baloo text-[#815300] hover:underline" href="/forgot-password">
+                  Quên mật khẩu?
+                </Link>
+              </div>
               {/* Lỗi để trống */}
               {fieldErrors.password && (
                 <p className="text-[#93000a] text-xs px-1">{fieldErrors.password}</p>
@@ -260,7 +260,7 @@ export default function LoginPage() {
                 onChange={handleChange}
                 className="w-4 h-4 accent-[#72564c] cursor-pointer"
               />
-              <label htmlFor="rememberMe" className="text-sm text-[#504441] cursor-pointer select-none">
+              <label htmlFor="rememberMe" className="text-sm font-nunito text-[#504441] cursor-pointer select-none">
                 Ghi nhớ đăng nhập
               </label>
             </div>
@@ -269,7 +269,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading || submittingRef.current}
-              className="w-full py-4 bg-gradient-to-r from-[#72564c] to-[#8d6e63] text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl active:scale-95 transition-all disabled:opacity-50"
+              className="w-full py-4 bg-gradient-to-r font-nunito from-[#72564c] to-[#8d6e63] text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl active:scale-95 transition-all disabled:opacity-50"
             >
               {loading ? 'Đang đăng nhập...' : 'Đăng nhập'}
             </button>
@@ -278,16 +278,16 @@ export default function LoginPage() {
           {/* Google Login Divider */}
           <div className="relative my-6 flex items-center gap-3">
             <div className="flex-1 h-px bg-[#d4c3be]" />
-            <span className="text-xs text-[#827470] font-medium">hoặc</span>
+            <span className="text-xs font-nunito text-[#827470] font-medium">hoặc</span>
             <div className="flex-1 h-px bg-[#d4c3be]" />
           </div>
 
           <GoogleLoginButton redirectTo="/level-selection" />
 
           {/* Footer Link */}
-          <p className="mt-10 text-center text-[#504441] text-sm font-medium">
+          <p className="mt-10 font-nunito text-center text-[#504441] text-sm font-medium">
             Chưa có tài khoản?{' '}
-            <Link className="text-[#72564c] font-bold hover:underline" href="/register">
+            <Link className="text-[#72564c] font-bold font-nunito hover:underline" href="/register">
               Đăng ký ngay
             </Link>
           </p>
